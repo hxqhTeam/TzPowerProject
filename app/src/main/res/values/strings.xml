@@ -90,4 +90,15 @@
     <string name="createtime_text">申请日期:</string>
     <string name="requiretime_text">需求日期:</string>
     <string name="xq_title">详情</string>
+    <string name="paynum_text">审批单号:</string>
+    <string name="ponum_text">采购单编号:</string>
+    <string name="podesc_text">采购单描述</string>
+    <string name="contractnum_num">合同编号</string>
+    <string name="contractdesc_name">合同名称</string>
+    <string name="financial_text">财务经办人</string>
+    <string name="receipts_text">验收情况</string>
+    <string name="displayname_text">创建人</string>
+    <string name="createdate_text">创建时间</string>
+    <string name="paytype_text">付款类型</string>
+    <string name="payapprovetype_text">付款性质</string>
 </resources>
