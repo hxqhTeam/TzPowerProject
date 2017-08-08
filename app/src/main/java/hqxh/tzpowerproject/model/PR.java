@@ -2,7 +2,7 @@ package hqxh.tzpowerproject.model;
 
 /**
  * Created by think on 2016/7/1.
- *采购申请
+ *采购申请／工程采购申请
  */
 public class PR extends Entity{
     public String PRNUM;//申请编号
@@ -20,6 +20,12 @@ public class PR extends Entity{
     public String DEPARTMENT;//部门名称
     public String ISSUEDATE;//请求日期
     public String REQUIREDDATE;//要求的日期
+    public String PRTYPE;//计划类型
+    public String PROJECT_PROJECTEC;//预算额度
+    public String PROJECT_PROJECTSC;//预算剩余
+    public String REQUIREPLANNUM;//需求计划申请单编号
+    public String PRGQYQ;//工期要求
+    public String REMARK;//备注
 
     public String getPRNUM() {
         return PRNUM;
@@ -139,5 +145,53 @@ public class PR extends Entity{
 
     public void setREQUIREDDATE(String REQUIREDDATE) {
         this.REQUIREDDATE = REQUIREDDATE;
+    }
+
+    public String getPRTYPE() {
+        return PRTYPE;
+    }
+
+    public void setPRTYPE(String PRTYPE) {
+        this.PRTYPE = PRTYPE;
+    }
+
+    public String getPROJECT_PROJECTEC() {
+        return PROJECT_PROJECTEC;
+    }
+
+    public void setPROJECT_PROJECTEC(String PROJECT_PROJECTEC) {
+        this.PROJECT_PROJECTEC = PROJECT_PROJECTEC;
+    }
+
+    public String getPROJECT_PROJECTSC() {
+        return PROJECT_PROJECTSC;
+    }
+
+    public void setPROJECT_PROJECTSC(String PROJECT_PROJECTSC) {
+        this.PROJECT_PROJECTSC = PROJECT_PROJECTSC;
+    }
+
+    public String getREQUIREPLANNUM() {
+        return REQUIREPLANNUM;
+    }
+
+    public void setREQUIREPLANNUM(String REQUIREPLANNUM) {
+        this.REQUIREPLANNUM = REQUIREPLANNUM;
+    }
+
+    public String getPRGQYQ() {
+        return PRGQYQ;
+    }
+
+    public void setPRGQYQ(String PRGQYQ) {
+        this.PRGQYQ = PRGQYQ;
+    }
+
+    public String getREMARK() {
+        return REMARK;
+    }
+
+    public void setREMARK(String REMARK) {
+        this.REMARK = REMARK;
     }
 }

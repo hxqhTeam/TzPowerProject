@@ -17,4 +17,6 @@
     <color name="text_color">#ffffff00</color>
     <color name="light_gray">#EEEEEE</color><!--淡灰色 -->
     <color name="gray">#EEEEEE</color><!--淡灰色 -->
+
+    <color name="light_black">#393d3f</color><!--浅黑色 -->
 </resources>

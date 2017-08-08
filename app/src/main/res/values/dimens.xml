@@ -11,4 +11,5 @@
     <dimen name="dimens_30dp">30dp</dimen>
     <dimen name="dimens_20sp">20sp</dimen>
     <dimen name="title_heiht_size">50dp</dimen>
+    <dimen name="dimens_line">0.5dp</dimen>
 </resources>

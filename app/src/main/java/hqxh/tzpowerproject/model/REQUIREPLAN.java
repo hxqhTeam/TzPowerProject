@@ -14,7 +14,7 @@ public class REQUIREPLAN extends Entity{
     public String PROJECTNUM;//项目编号
     public String PROJECTNAME;//项目名称
     public String CREATETIME;//申请日期
-    public String ZTDESCRIPTION;//帐套信息
+    public String ZTDESCRIPTION;//帐套信息描述
     public String PLANTYPE;//计划类型
     public String REMAINCOST;//预算剩余
     public String ZHANGTAO;//帐套信息

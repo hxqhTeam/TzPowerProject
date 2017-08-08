@@ -2,127 +2,61 @@ package hqxh.tzpowerproject.model;
 
 /**
  * Created by think on 2016/7/1.
- *采购单
+ *物资合同付款审批表/工程验收
  */
-public class PO extends Entity{
-    public String PONUM;//采购单编号
+public class PAYAPPROVE extends Entity{
+    public String PAYAPPROVETYPE;//付款性质
+    public String POTOTALCOST;//采购单金额
+    public String TOTALCOST;//合同金额
+    public String FINALCOST;//合同结算金额
+    public String PAYCOST;//本次付款金额
+    public String PAYPROPORTION;//本次付款比例
+    public String PAIDCOST;//累计付款金额
+    public String PAIDPROPORTION;//累计付款比例
+    public String LASTRECALT;//最后到货日期
+    public String GUARANTEE;//预留质保金
+    public String PERIOD;//质保期
+    public String EXPIRATIONALT;//质保到期日期
+    public String VENDORNUM;//供应商编号
+    public String VENDOR;//供应商
+    public String COMPANIES_DUNSNUM;//组织机构代码
+    public String TAXNUM;//税号
+    public String BANKNUM;//开户银行
+    public String BANKACCOUNT;//银行帐号
+    public String INVOICENUM;//登记发票号
+    public String VENDORINVNUM;//供应商发票号
+    public String ADDALT;//登记日期
+    public String NEWALT;//开票日期
+    public String INVOICE_TOTALCOST;//发票总金额
+    public String PAYNUM;//付款审批单号
     public String DESCRIPTION;//描述
-    public String POGENRE;//采购单类型
-    public String ZHANGTAO;//帐套信息
-    public String ALNDOMAIN_ZT_DESCRIPTION;//帐套信息描述
-    public String ISHTBH;//有合同编号？
-    public String CONNUM;//合同编号
-    public String CONTRACTSTATUS;//合同备注
-    public String YTQK;//委托情况
+    public String PONUM;//采购单编号
+    public String PODESC;//采购单描述
+    public String CONTRACTNUM;//合同编号
+    public String CONTRACTDESC;//合同名称
     public String STATUS;//状态
-    public String PRETAXTOTAL;//税前总计
-    public String TOTALTAX1;//税款总计
-    public String TOTALCOST;//成本总计
-    public String RECEIPTS;//入库情况
-    public String VENDOR;//公司代码
-    public String PO_VENDOR_NAME;//公司描述
-    public String VENDOR_CONTACT_CONTACT;//联系人
-    public String VENDOR_CONTACT_VOICEPHONE;//办公室电话
-    public String VENDOR_CONTACT_FAXPHONE;//传真
-    public String VENDOR_CONTACT_CELLPHONE;//手机号码
-    public String VENDOR_CONTACT_EMAIL;//邮箱地址
-    public String MEMO;//询比价情况
+    public String ZHANGTAO;//帐套信息
+    public String DOMAIN_DESCRIPTION;//单位名称
+    public String PAYPO_RECEIPTS;//入库情况
+    public String CREATEBY;//创建人
+    public String CREATEALT;//创建时间
+    public String PAYTYPE;//付款类型
 
 
-    public String getPONUM() {
-        return PONUM;
+    public String getPAYAPPROVETYPE() {
+        return PAYAPPROVETYPE;
     }
 
-    public void setPONUM(String PONUM) {
-        this.PONUM = PONUM;
+    public void setPAYAPPROVETYPE(String PAYAPPROVETYPE) {
+        this.PAYAPPROVETYPE = PAYAPPROVETYPE;
     }
 
-    public String getDESCRIPTION() {
-        return DESCRIPTION;
+    public String getPOTOTALCOST() {
+        return POTOTALCOST;
     }
 
-    public void setDESCRIPTION(String DESCRIPTION) {
-        this.DESCRIPTION = DESCRIPTION;
-    }
-
-    public String getPOGENRE() {
-        return POGENRE;
-    }
-
-    public void setPOGENRE(String POGENRE) {
-        this.POGENRE = POGENRE;
-    }
-
-    public String getZHANGTAO() {
-        return ZHANGTAO;
-    }
-
-    public void setZHANGTAO(String ZHANGTAO) {
-        this.ZHANGTAO = ZHANGTAO;
-    }
-
-    public String getALNDOMAIN_ZT_DESCRIPTION() {
-        return ALNDOMAIN_ZT_DESCRIPTION;
-    }
-
-    public void setALNDOMAIN_ZT_DESCRIPTION(String ALNDOMAIN_ZT_DESCRIPTION) {
-        this.ALNDOMAIN_ZT_DESCRIPTION = ALNDOMAIN_ZT_DESCRIPTION;
-    }
-
-    public String getISHTBH() {
-        return ISHTBH;
-    }
-
-    public void setISHTBH(String ISHTBH) {
-        this.ISHTBH = ISHTBH;
-    }
-
-    public String getCONNUM() {
-        return CONNUM;
-    }
-
-    public void setCONNUM(String CONNUM) {
-        this.CONNUM = CONNUM;
-    }
-
-    public String getCONTRACTSTATUS() {
-        return CONTRACTSTATUS;
-    }
-
-    public void setCONTRACTSTATUS(String CONTRACTSTATUS) {
-        this.CONTRACTSTATUS = CONTRACTSTATUS;
-    }
-
-    public String getYTQK() {
-        return YTQK;
-    }
-
-    public void setYTQK(String YTQK) {
-        this.YTQK = YTQK;
-    }
-
-    public String getSTATUS() {
-        return STATUS;
-    }
-
-    public void setSTATUS(String STATUS) {
-        this.STATUS = STATUS;
-    }
-
-    public String getPRETAXTOTAL() {
-        return PRETAXTOTAL;
-    }
-
-    public void setPRETAXTOTAL(String PRETAXTOTAL) {
-        this.PRETAXTOTAL = PRETAXTOTAL;
-    }
-
-    public String getTOTALTAX1() {
-        return TOTALTAX1;
-    }
-
-    public void setTOTALTAX1(String TOTALTAX1) {
-        this.TOTALTAX1 = TOTALTAX1;
+    public void setPOTOTALCOST(String POTOTALCOST) {
+        this.POTOTALCOST = POTOTALCOST;
     }
 
     public String getTOTALCOST() {
@@ -133,12 +67,84 @@ public class PO extends Entity{
         this.TOTALCOST = TOTALCOST;
     }
 
-    public String getRECEIPTS() {
-        return RECEIPTS;
+    public String getFINALCOST() {
+        return FINALCOST;
     }
 
-    public void setRECEIPTS(String RECEIPTS) {
-        this.RECEIPTS = RECEIPTS;
+    public void setFINALCOST(String FINALCOST) {
+        this.FINALCOST = FINALCOST;
+    }
+
+    public String getPAYCOST() {
+        return PAYCOST;
+    }
+
+    public void setPAYCOST(String PAYCOST) {
+        this.PAYCOST = PAYCOST;
+    }
+
+    public String getPAYPROPORTION() {
+        return PAYPROPORTION;
+    }
+
+    public void setPAYPROPORTION(String PAYPROPORTION) {
+        this.PAYPROPORTION = PAYPROPORTION;
+    }
+
+    public String getPAIDCOST() {
+        return PAIDCOST;
+    }
+
+    public void setPAIDCOST(String PAIDCOST) {
+        this.PAIDCOST = PAIDCOST;
+    }
+
+    public String getPAIDPROPORTION() {
+        return PAIDPROPORTION;
+    }
+
+    public void setPAIDPROPORTION(String PAIDPROPORTION) {
+        this.PAIDPROPORTION = PAIDPROPORTION;
+    }
+
+    public String getLASTRECALT() {
+        return LASTRECALT;
+    }
+
+    public void setLASTRECALT(String LASTRECALT) {
+        this.LASTRECALT = LASTRECALT;
+    }
+
+    public String getGUARANTEE() {
+        return GUARANTEE;
+    }
+
+    public void setGUARANTEE(String GUARANTEE) {
+        this.GUARANTEE = GUARANTEE;
+    }
+
+    public String getPERIOD() {
+        return PERIOD;
+    }
+
+    public void setPERIOD(String PERIOD) {
+        this.PERIOD = PERIOD;
+    }
+
+    public String getEXPIRATIONALT() {
+        return EXPIRATIONALT;
+    }
+
+    public void setEXPIRATIONALT(String EXPIRATIONALT) {
+        this.EXPIRATIONALT = EXPIRATIONALT;
+    }
+
+    public String getVENDORNUM() {
+        return VENDORNUM;
+    }
+
+    public void setVENDORNUM(String VENDORNUM) {
+        this.VENDORNUM = VENDORNUM;
     }
 
     public String getVENDOR() {
@@ -149,59 +155,179 @@ public class PO extends Entity{
         this.VENDOR = VENDOR;
     }
 
-    public String getPO_VENDOR_NAME() {
-        return PO_VENDOR_NAME;
+    public String getCOMPANIES_DUNSNUM() {
+        return COMPANIES_DUNSNUM;
     }
 
-    public void setPO_VENDOR_NAME(String PO_VENDOR_NAME) {
-        this.PO_VENDOR_NAME = PO_VENDOR_NAME;
+    public void setCOMPANIES_DUNSNUM(String COMPANIES_DUNSNUM) {
+        this.COMPANIES_DUNSNUM = COMPANIES_DUNSNUM;
     }
 
-    public String getVENDOR_CONTACT_CONTACT() {
-        return VENDOR_CONTACT_CONTACT;
+    public String getTAXNUM() {
+        return TAXNUM;
     }
 
-    public void setVENDOR_CONTACT_CONTACT(String VENDOR_CONTACT_CONTACT) {
-        this.VENDOR_CONTACT_CONTACT = VENDOR_CONTACT_CONTACT;
+    public void setTAXNUM(String TAXNUM) {
+        this.TAXNUM = TAXNUM;
     }
 
-    public String getVENDOR_CONTACT_VOICEPHONE() {
-        return VENDOR_CONTACT_VOICEPHONE;
+    public String getBANKNUM() {
+        return BANKNUM;
     }
 
-    public void setVENDOR_CONTACT_VOICEPHONE(String VENDOR_CONTACT_VOICEPHONE) {
-        this.VENDOR_CONTACT_VOICEPHONE = VENDOR_CONTACT_VOICEPHONE;
+    public void setBANKNUM(String BANKNUM) {
+        this.BANKNUM = BANKNUM;
     }
 
-    public String getVENDOR_CONTACT_FAXPHONE() {
-        return VENDOR_CONTACT_FAXPHONE;
+    public String getBANKACCOUNT() {
+        return BANKACCOUNT;
     }
 
-    public void setVENDOR_CONTACT_FAXPHONE(String VENDOR_CONTACT_FAXPHONE) {
-        this.VENDOR_CONTACT_FAXPHONE = VENDOR_CONTACT_FAXPHONE;
+    public void setBANKACCOUNT(String BANKACCOUNT) {
+        this.BANKACCOUNT = BANKACCOUNT;
     }
 
-    public String getVENDOR_CONTACT_CELLPHONE() {
-        return VENDOR_CONTACT_CELLPHONE;
+    public String getINVOICENUM() {
+        return INVOICENUM;
     }
 
-    public void setVENDOR_CONTACT_CELLPHONE(String VENDOR_CONTACT_CELLPHONE) {
-        this.VENDOR_CONTACT_CELLPHONE = VENDOR_CONTACT_CELLPHONE;
+    public void setINVOICENUM(String INVOICENUM) {
+        this.INVOICENUM = INVOICENUM;
     }
 
-    public String getVENDOR_CONTACT_EMAIL() {
-        return VENDOR_CONTACT_EMAIL;
+    public String getVENDORINVNUM() {
+        return VENDORINVNUM;
     }
 
-    public void setVENDOR_CONTACT_EMAIL(String VENDOR_CONTACT_EMAIL) {
-        this.VENDOR_CONTACT_EMAIL = VENDOR_CONTACT_EMAIL;
+    public void setVENDORINVNUM(String VENDORINVNUM) {
+        this.VENDORINVNUM = VENDORINVNUM;
     }
 
-    public String getMEMO() {
-        return MEMO;
+    public String getADDALT() {
+        return ADDALT;
     }
 
-    public void setMEMO(String MEMO) {
-        this.MEMO = MEMO;
+    public void setADDALT(String ADDALT) {
+        this.ADDALT = ADDALT;
+    }
+
+    public String getNEWALT() {
+        return NEWALT;
+    }
+
+    public void setNEWALT(String NEWALT) {
+        this.NEWALT = NEWALT;
+    }
+
+    public String getINVOICE_TOTALCOST() {
+        return INVOICE_TOTALCOST;
+    }
+
+    public void setINVOICE_TOTALCOST(String INVOICE_TOTALCOST) {
+        this.INVOICE_TOTALCOST = INVOICE_TOTALCOST;
+    }
+
+    public String getPAYNUM() {
+        return PAYNUM;
+    }
+
+    public void setPAYNUM(String PAYNUM) {
+        this.PAYNUM = PAYNUM;
+    }
+
+    public String getDESCRIPTION() {
+        return DESCRIPTION;
+    }
+
+    public void setDESCRIPTION(String DESCRIPTION) {
+        this.DESCRIPTION = DESCRIPTION;
+    }
+
+    public String getPONUM() {
+        return PONUM;
+    }
+
+    public void setPONUM(String PONUM) {
+        this.PONUM = PONUM;
+    }
+
+    public String getPODESC() {
+        return PODESC;
+    }
+
+    public void setPODESC(String PODESC) {
+        this.PODESC = PODESC;
+    }
+
+    public String getCONTRACTNUM() {
+        return CONTRACTNUM;
+    }
+
+    public void setCONTRACTNUM(String CONTRACTNUM) {
+        this.CONTRACTNUM = CONTRACTNUM;
+    }
+
+    public String getCONTRACTDESC() {
+        return CONTRACTDESC;
+    }
+
+    public void setCONTRACTDESC(String CONTRACTDESC) {
+        this.CONTRACTDESC = CONTRACTDESC;
+    }
+
+    public String getSTATUS() {
+        return STATUS;
+    }
+
+    public void setSTATUS(String STATUS) {
+        this.STATUS = STATUS;
+    }
+
+    public String getZHANGTAO() {
+        return ZHANGTAO;
+    }
+
+    public void setZHANGTAO(String ZHANGTAO) {
+        this.ZHANGTAO = ZHANGTAO;
+    }
+
+    public String getDOMAIN_DESCRIPTION() {
+        return DOMAIN_DESCRIPTION;
+    }
+
+    public void setDOMAIN_DESCRIPTION(String DOMAIN_DESCRIPTION) {
+        this.DOMAIN_DESCRIPTION = DOMAIN_DESCRIPTION;
+    }
+
+    public String getPAYPO_RECEIPTS() {
+        return PAYPO_RECEIPTS;
+    }
+
+    public void setPAYPO_RECEIPTS(String PAYPO_RECEIPTS) {
+        this.PAYPO_RECEIPTS = PAYPO_RECEIPTS;
+    }
+
+    public String getCREATEBY() {
+        return CREATEBY;
+    }
+
+    public void setCREATEBY(String CREATEBY) {
+        this.CREATEBY = CREATEBY;
+    }
+
+    public String getCREATEALT() {
+        return CREATEALT;
+    }
+
+    public void setCREATEALT(String CREATEALT) {
+        this.CREATEALT = CREATEALT;
+    }
+
+    public String getPAYTYPE() {
+        return PAYTYPE;
+    }
+
+    public void setPAYTYPE(String PAYTYPE) {
+        this.PAYTYPE = PAYTYPE;
     }
 }
