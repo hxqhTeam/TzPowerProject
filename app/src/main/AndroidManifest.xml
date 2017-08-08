@@ -65,6 +65,30 @@
             android:name=".view.activity.XqjhListActivity"
             android:label="XqjhListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PrListActivity"
+            android:label="PrListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RfqListActivity"
+            android:label="RfqListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PoListActivity"
+            android:label="PoListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PayapproveListActivity"
+            android:label="PayapproveListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MatecodeListActivity"
+            android:label="MatecodeListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.CompaniesListActivity"
+            android:label="CompaniesListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
