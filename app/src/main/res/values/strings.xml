@@ -72,6 +72,8 @@
     <string name="gys_text">供应商</string>
     <string name="gcys_text">工程验收</string>
     <string name="gcfk_text">工程付款</string>
+
+    <!--需求计划-->
     <string name="requireplannum_text">申请单号:</string>
     <string name="description_text">描述:</string>
     <string name="zhangtao_text">帐套信息:</string>
@@ -83,4 +85,9 @@
     <string name="department_text">部门专业:</string>
     <string name="projectnum_text">项目编号:</string>
     <string name="projectname_text">项目名称:</string>
+    <string name="plancost_text">项目预算:</string>
+    <string name="remaincost_text">预算剩余:</string>
+    <string name="createtime_text">申请日期:</string>
+    <string name="requiretime_text">需求日期:</string>
+    <string name="xq_title">详情</string>
 </resources>

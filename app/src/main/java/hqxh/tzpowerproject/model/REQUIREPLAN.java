@@ -2,7 +2,7 @@ package hqxh.tzpowerproject.model;
 
 /**
  * Created by think on 2016/7/1.
- *需款计划
+ *需求计划
  */
 public class REQUIREPLAN extends Entity{
     public String REQUIREPLANNUM;//需求申请单编号

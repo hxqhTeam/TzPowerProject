@@ -89,6 +89,10 @@
             android:name=".view.activity.CompaniesListActivity"
             android:label="CompaniesListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RequireplandetailsActivity"
+            android:label="RequireplandetailsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

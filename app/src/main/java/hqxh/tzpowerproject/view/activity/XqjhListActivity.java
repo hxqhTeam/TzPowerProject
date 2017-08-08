@@ -22,6 +22,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -246,12 +247,11 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
         requireplanListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(N_grainjcListActivity.this, N_grainjcDetailsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("worktype", worktype);
-//                bundle.putSerializable("n_grainjc", items.get(position));
-//                intent.putExtras(bundle);
-//                startActivityForResult(intent, 0);
+                Intent intent = new Intent(XqjhListActivity.this, RequireplandetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("requireplan", (Serializable) requireplanListAdapter.getData().get(position));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 0);
             }
         });
     }

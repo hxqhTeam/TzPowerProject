@@ -18,7 +18,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import hqxh.tzpowerproject.R;
+import hqxh.tzpowerproject.model.REQUIREPLAN;
 
 
 /**
@@ -35,96 +38,91 @@ public class RequireplandetailsActivity extends BaseActivity {
     @Bind(R.id.title_name)
     TextView titleTextView;
 
-//    @Bind()
-//    private TextView sb;//设备
-//    private TextView sbwz;//设备位置
-//    private ImageView photoImg;//拍照
-//    private EditText description;//缺陷描述
-//    private TextView fxbm;//发现部门
-//    private ImageView fxbm_img;//
-//    private TextView fxr;//发现人
-//    private TextView reportdate;//发现时间
-//    private TextView zrr;//责任人
-//    private TextView schedfinish;//整改期限
-//    private EditText n_recreq;//整改要求
-//    private CheckBox worktype;//是否排查
-//    private EditText remarkdesc;//备注
-//
-//
-//    private WORKORDER workorder;
-//
-//
-//    /**界面信息**/
-//
-//    /**
-//     * 时间选择器
-//     **/
-//    private DatePickerDialog datePickerDialog;
-//    StringBuffer stringBuffer;
-//    private int layoutnum;
-//
-//    private ArrayAdapter<String> adapter;
-//
-//
-//    //弹出框
-//    private ArrayList<DialogMenuItem> mMenuItems = new ArrayList<>();
-//
-//
-//    private BaseAnimatorSet mBasIn;
-//    private BaseAnimatorSet mBasOut;
-//
-//
-//    protected FlippingLoadingDialog mLoadingDialog;
+    @Bind(R.id.requireplannum_text_id)
+    TextView requireplannumText;//申请单号
+    @Bind(R.id.description_text_id)
+    TextView descriptionText;//描述
+    @Bind(R.id.zhangtao_text_id)
+    TextView zhangtaoText;//账套信息
+    @Bind(R.id.ztdescription_text_id)
+    TextView ztdescriptionText;//账套描述
+    @Bind(R.id.status_text_id)
+    TextView statusText;//审批状态
+    @Bind(R.id.itemtype_text_id)
+    TextView itemtypeText;//需求计划类型
+    @Bind(R.id.plantype_text_id)
+    TextView plantypeText;//计划类型
+    @Bind(R.id.requireperson_text_id)
+    TextView requirepersonText;//需求人员
+    @Bind(R.id.department_text_id)
+    TextView departmentText;//部门专业
+    @Bind(R.id.projectnum_text_id)
+    TextView projectnumText;//项目编号
+    @Bind(R.id.projectname_text_id)
+    TextView projectnameText;//项目名称
+    @Bind(R.id.plancost_text_id)
+    TextView plancostText;//项目预算
+    @Bind(R.id.remaincost_text_id)
+    TextView remaincostText;//预算剩余
+    @Bind(R.id.createtime_text_id)
+    TextView createtimeText;//申请日期
+    @Bind(R.id.requiretime_text_id)
+    TextView requiretimeText;//需求日期
+
+
+    private REQUIREPLAN requireplan;
+
+
+    /**
+     * 界面信息
+     **/
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_requireplan_details);
-//        geiIntentData();
+        ButterKnife.bind(RequireplandetailsActivity.this);
+        geiIntentData();
         findViewById();
         initView();
 
-//        mBasIn = new BounceTopEnter();
-//        mBasOut = new SlideBottomExit();
     }
 
-//    private void geiIntentData() {
-//        workorder = (WORKORDER) getIntent().getSerializableExtra("workorder");
-//    }
+    private void geiIntentData() {
+        requireplan = (REQUIREPLAN) getIntent().getSerializableExtra("requireplan");
+    }
 
     @Override
     protected void findViewById() {
-        backImageView = (ImageView) findViewById(R.id.title_back_id);
-        titleTextView = (TextView) findViewById(R.id.title_name);
-//        submitBtn = (Button) findViewById(R.id.sbmit_id);
-//
-//        sb = (TextView) findViewById(R.id.workorder_sb);
-//        sbwz = (TextView) findViewById(R.id.workorder_sbwz);
-//        photoImg = (ImageView) findViewById(R.id.photo_image);
-//        description = (EditText) findViewById(R.id.workorder_description);
-//        fxbm = (TextView) findViewById(R.id.workorder_fxbm);
-//        fxbm_img = (ImageView) findViewById(R.id.fxbm_img);
-//        fxr = (TextView) findViewById(R.id.workorder_fxr);
-//        reportdate = (TextView) findViewById(R.id.workorder_reportdate);
-//        zrr = (TextView) findViewById(R.id.workorder_zrr);
-//        schedfinish = (TextView) findViewById(R.id.workorder_schedfinish);
-//        n_recreq = (EditText) findViewById(R.id.workorder_n_recreq);
-//        worktype = (CheckBox) findViewById(R.id.workorder_worktype);
-//        remarkdesc = (EditText) findViewById(R.id.workorder_remarkdesc);
-//
-//        ViewGroup container = (ViewGroup) findViewById(R.id.container);
-//        LayoutTransition transition = new LayoutTransition();
-//        container.setLayoutTransition(transition);
+        titleTextView.setText(R.string.xq_title);
     }
 
 
     @Override
     protected void initView() {
-//        backImageView.setOnClickListener(backImageViewOnClickListener);
-//        titleTextView.setText(R.string.workorder_details_title);
+        requireplannumText.setText(requireplan.getREQUIREPLANNUM());
+        descriptionText.setText(requireplan.getDESCRIPTION());
+        zhangtaoText.setText(requireplan.getZHANGTAO());
+        ztdescriptionText.setText(requireplan.getZTDESCRIPTION());
+        statusText.setText(requireplan.getSTATUS());
+        itemtypeText.setText(requireplan.getITEMTYPE());
+        plantypeText.setText(requireplan.getPLANTYPE());
+        requirepersonText.setText(requireplan.getREQUIREPERSON());
+        departmentText.setText(requireplan.getDEPARTMENT());
+        projectnumText.setText(requireplan.getPROJECTNUM());
+        projectnameText.setText(requireplan.getPROJECTNAME());
+        plancostText.setText(requireplan.getPLANCOST());
+        remaincostText.setText(requireplan.getREMAINCOST());
+        createtimeText.setText(requireplan.getCREATETIME());
+        requiretimeText.setText(requireplan.getREQUIRETIME());
 
     }
 
+    //返回按钮
+    @OnClick(R.id.title_back_id)
+    void setBackImageView() {
+        finish();
+    }
 
 }
