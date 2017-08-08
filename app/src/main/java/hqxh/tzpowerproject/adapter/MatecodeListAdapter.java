@@ -7,17 +7,17 @@ import android.support.v7.widget.CardView;
 import java.util.List;
 
 import hqxh.tzpowerproject.R;
+import hqxh.tzpowerproject.model.MATECODE;
 import hqxh.tzpowerproject.model.PO;
-import hqxh.tzpowerproject.model.RFQ;
 import hqxh.tzpowerproject.view.widght.BaseViewHolder;
 
 
 /**
  * Created by apple on 15/10/26
- * 采购单
+ * 物资编码
  */
-public class PoListAdapter extends BaseQuickAdapter<PO> {
-    public PoListAdapter(Context context, int layoutResId, List data) {
+public class MatecodeListAdapter extends BaseQuickAdapter<MATECODE> {
+    public MatecodeListAdapter(Context context, int layoutResId, List data) {
         super(context, layoutResId, data);
     }
 
@@ -31,12 +31,12 @@ public class PoListAdapter extends BaseQuickAdapter<PO> {
 
 
     @Override
-    protected void convert(BaseViewHolder helper, PO item) {
+    protected void convert(BaseViewHolder helper, MATECODE item) {
         CardView cardView = helper.getView(R.id.card_container);
-        helper.setText(R.id.num_text_id, item.getPONUM());
+        helper.setText(R.id.num_text_id, item.getMC_MATERIALCODENUM());
         helper.setText(R.id.item_desc_text, item.getDESCRIPTION());
-        helper.setText(R.id.reportdate_text_id, item.getSTATUS());
-        helper.setText(R.id.persion_text_id, item.getVENDOR_CONTACT_CONTACT());
+        helper.setText(R.id.reportdate_text_id, item.getMC_CREATETIME());
+        helper.setText(R.id.persion_text_id, item.getMC_CREATEDBY());
     }
 
 

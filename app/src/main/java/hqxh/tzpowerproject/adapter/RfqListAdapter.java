@@ -8,16 +8,16 @@ import java.util.List;
 
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.model.PR;
-import hqxh.tzpowerproject.model.REQUIREPLAN;
+import hqxh.tzpowerproject.model.RFQ;
 import hqxh.tzpowerproject.view.widght.BaseViewHolder;
 
 
 /**
  * Created by apple on 15/10/26
- * 采购申请
+ * 询价单
  */
-public class PRListAdapter extends BaseQuickAdapter<PR> {
-    public PRListAdapter(Context context, int layoutResId, List data) {
+public class RfqListAdapter extends BaseQuickAdapter<RFQ> {
+    public RfqListAdapter(Context context, int layoutResId, List data) {
         super(context, layoutResId, data);
     }
 
@@ -31,12 +31,12 @@ public class PRListAdapter extends BaseQuickAdapter<PR> {
 
 
     @Override
-    protected void convert(BaseViewHolder helper, PR item) {
+    protected void convert(BaseViewHolder helper, RFQ item) {
         CardView cardView = helper.getView(R.id.card_container);
-        helper.setText(R.id.num_text_id, item.getPRNUM());
+        helper.setText(R.id.num_text_id, item.getRFQNUM());
         helper.setText(R.id.item_desc_text, item.getDESCRIPTION());
-        helper.setText(R.id.reportdate_text_id, item.getISSUEDATE());
-        helper.setText(R.id.persion_text_id, item.getREQUESTEDBYNAME());
+        helper.setText(R.id.reportdate_text_id, item.getSTATUS());
+        helper.setText(R.id.persion_text_id, item.getPERSON_DISPLAYNAME());
     }
 
 

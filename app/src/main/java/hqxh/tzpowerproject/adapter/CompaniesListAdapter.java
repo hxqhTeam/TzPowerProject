@@ -7,17 +7,17 @@ import android.support.v7.widget.CardView;
 import java.util.List;
 
 import hqxh.tzpowerproject.R;
+import hqxh.tzpowerproject.model.COMPANIES;
 import hqxh.tzpowerproject.model.PO;
-import hqxh.tzpowerproject.model.RFQ;
 import hqxh.tzpowerproject.view.widght.BaseViewHolder;
 
 
 /**
  * Created by apple on 15/10/26
- * 采购单
+ * 供应商
  */
-public class PoListAdapter extends BaseQuickAdapter<PO> {
-    public PoListAdapter(Context context, int layoutResId, List data) {
+public class CompaniesListAdapter extends BaseQuickAdapter<COMPANIES> {
+    public CompaniesListAdapter(Context context, int layoutResId, List data) {
         super(context, layoutResId, data);
     }
 
@@ -31,12 +31,12 @@ public class PoListAdapter extends BaseQuickAdapter<PO> {
 
 
     @Override
-    protected void convert(BaseViewHolder helper, PO item) {
+    protected void convert(BaseViewHolder helper, COMPANIES item) {
         CardView cardView = helper.getView(R.id.card_container);
-        helper.setText(R.id.num_text_id, item.getPONUM());
-        helper.setText(R.id.item_desc_text, item.getDESCRIPTION());
+        helper.setText(R.id.num_text_id, item.getCOMPANY());
+        helper.setText(R.id.item_desc_text, item.getNAME());
         helper.setText(R.id.reportdate_text_id, item.getSTATUS());
-        helper.setText(R.id.persion_text_id, item.getPERSON_DISPLAYNAME());
+        helper.setText(R.id.persion_text_id, "类型:"+item.getPRODUCTTYPE());
     }
 
 
