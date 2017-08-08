@@ -17,7 +17,13 @@ import java.util.List;
 import hqxh.tzpowerproject.bean.LoginResults;
 import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.constants.Constants;
+import hqxh.tzpowerproject.model.COMPANIES;
+import hqxh.tzpowerproject.model.MATECODE;
+import hqxh.tzpowerproject.model.PAYAPPROVE;
+import hqxh.tzpowerproject.model.PO;
+import hqxh.tzpowerproject.model.PR;
 import hqxh.tzpowerproject.model.REQUIREPLAN;
+import hqxh.tzpowerproject.model.RFQ;
 import hqxh.tzpowerproject.model.WFASSIGNMENT;
 
 /**
@@ -218,6 +224,283 @@ public class JsonUtils {
 
     }
 
+
+    /**
+     * PR主表
+     */
+    public static ArrayList<PR> parsingPR(String data) {
+        ArrayList<PR> list = null;
+        PR pr = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<PR>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                pr = new PR();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = pr.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = pr.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(pr);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = pr.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(pr, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(pr);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * RFQ主表
+     */
+    public static ArrayList<RFQ> parsingRFQ(String data) {
+        ArrayList<RFQ> list = null;
+        RFQ rfq = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<RFQ>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                rfq = new RFQ();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = rfq.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = rfq.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(rfq);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = rfq.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(rfq, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(rfq);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * PAYAPPROVE主表
+     */
+    public static ArrayList<PAYAPPROVE> parsingPAYAPPROVE(String data) {
+        ArrayList<PAYAPPROVE> list = null;
+        PAYAPPROVE payapprove = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<PAYAPPROVE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                payapprove = new PAYAPPROVE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = payapprove.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = payapprove.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(payapprove);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = payapprove.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(payapprove, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(payapprove);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * PO主表
+     */
+    public static ArrayList<PO> parsingPO(String data) {
+        ArrayList<PO> list = null;
+        PO po = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<PO>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                po = new PO();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = po.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = po.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(po);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = po.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(po, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(po);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    /**
+     * 物资编码主表
+     */
+    public static ArrayList<MATECODE> parsingMATECODE(String data) {
+        ArrayList<MATECODE> list = null;
+        MATECODE matecode = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<MATECODE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                matecode = new MATECODE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = matecode.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = matecode.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(matecode);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = matecode.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(matecode, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(matecode);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+    /**
+     * 供应商主表
+     */
+    public static ArrayList<COMPANIES> parsingCOMPANIES(String data) {
+        ArrayList<COMPANIES> list = null;
+        COMPANIES companies = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<COMPANIES>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                companies = new COMPANIES();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = companies.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = companies.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(companies);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = companies.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(companies, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(companies);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
 
 
     /**解析获取的权限**/

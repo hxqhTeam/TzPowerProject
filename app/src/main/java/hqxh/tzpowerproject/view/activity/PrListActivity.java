@@ -2,7 +2,6 @@ package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -21,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,11 +27,13 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
+import hqxh.tzpowerproject.adapter.PRListAdapter;
 import hqxh.tzpowerproject.adapter.RequireplanListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
+import hqxh.tzpowerproject.model.PR;
 import hqxh.tzpowerproject.model.REQUIREPLAN;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
@@ -41,12 +41,15 @@ import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 需求计划Activity
+ * 采购申请Activity
  */
-public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "XqjhListActivity";
+    private static final String TAG = "PrListActivity";
+
+    public static final int PR_CG=1000; //采购申请
+    public static final int PR_GC=1001; //工程采购
 
     /**
      * 返回按钮
@@ -81,7 +84,7 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
     /**
      * 适配器*
      */
-    private RequireplanListAdapter requireplanListAdapter;
+    private PRListAdapter prlistadapter;
     /**
      * 编辑框*
      */
@@ -96,14 +99,22 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
 
     private ProgressDialog mProgressDialog;
 
+    private int mark;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(XqjhListActivity.this);
+        ButterKnife.bind(PrListActivity.this);
+        initData();
         findViewById();
         initView();
+    }
+
+    /**获取标识**/
+    private void initData() {
+
     }
 
 
@@ -113,6 +124,7 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
 
     @Override
     protected void findViewById() {
+        mark=getIntent().getExtras().getInt("mark");
     }
 
 
@@ -126,11 +138,16 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
                 finish();
             }
         });
-        titleTextView.setText(R.string.xkjh_text);
+        if(mark==PR_CG){
+            titleTextView.setText(R.string.cgsq_text);
+        }else if(mark==PR_GC){
+            titleTextView.setText(R.string.gccg_text);
+        }
+
 
         setSearchEdit();
 
-        layoutManager = new LinearLayoutManager(XqjhListActivity.this);
+        layoutManager = new LinearLayoutManager(PrListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -143,7 +160,7 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
 
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
-        initAdapter(new ArrayList<REQUIREPLAN>());
+        initAdapter(new ArrayList<PR>());
         getData(searchText);
 
     }
@@ -181,7 +198,7 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
                                             .getWindowToken(),
                                     InputMethodManager.HIDE_NOT_ALWAYS);
                     searchText = search.getText().toString();
-                    requireplanListAdapter.removeAll(requireplanListAdapter.getData());
+                    prlistadapter.removeAll(prlistadapter.getData());
                     nodatalayout.setVisibility(View.GONE);
                     refresh_layout.setRefreshing(true);
                     page = 1;
@@ -198,7 +215,13 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
      * 获取数据*
      */
     private void getData(String search) {
-        HttpManager.getDataPagingInfo(XqjhListActivity.this, HttpManager.getREQUIREPLAN(search, AccountUtils.getPersionId(this),page, 20), new HttpRequestHandler<Results>() {
+        String url=null;
+        if(mark==PR_CG){
+            url=HttpManager.getPR(search, AccountUtils.getPersionId(this),page, 20);
+        }else if(mark==PR_GC){
+            url=HttpManager.getPRSER(search, AccountUtils.getPersionId(this),page, 20);
+        }
+        HttpManager.getDataPagingInfo(PrListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -206,7 +229,7 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<REQUIREPLAN> item = JsonUtils.parsingREQUIREPLAN(results.getResultlist());
+                ArrayList<PR> item = JsonUtils.parsingPR(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {
@@ -215,10 +238,10 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
 
                     if (item != null || item.size() != 0) {
                         if (page == 1) {
-                            initAdapter(new ArrayList<REQUIREPLAN>());
+                            initAdapter(new ArrayList<PR>());
                         }
                         if(page>totalPages){
-                            MessageUtils.showMiddleToast(XqjhListActivity.this,getString(R.string.have_all_data_text));
+                            MessageUtils.showMiddleToast(PrListActivity.this,getString(R.string.have_all_data_text));
                         }else{
                             addData(item);
                         }
@@ -240,10 +263,10 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
     /**
      * 获取数据*
      */
-    private void initAdapter(final List<REQUIREPLAN> list) {
-        requireplanListAdapter = new RequireplanListAdapter(XqjhListActivity.this, R.layout.list_item, list);
-        recyclerView.setAdapter(requireplanListAdapter);
-        requireplanListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private void initAdapter(final List<PR> list) {
+        prlistadapter = new PRListAdapter(PrListActivity.this, R.layout.list_item, list);
+        recyclerView.setAdapter(prlistadapter);
+        prlistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 //                Intent intent = new Intent(N_grainjcListActivity.this, N_grainjcDetailsActivity.class);
@@ -259,8 +282,8 @@ public class XqjhListActivity extends BaseActivity implements SwipeRefreshLayout
     /**
      * 添加数据*
      */
-    private void addData(final List<REQUIREPLAN> list) {
-        requireplanListAdapter.addData(list);
+    private void addData(final List<PR> list) {
+        prlistadapter.addData(list);
     }
 
 

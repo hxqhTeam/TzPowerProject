@@ -35,10 +35,129 @@ public class HttpManager {
      */
     public static String getREQUIREPLAN(String value, String persionid,int curpage, int showcount) {
         if (value.equals("")) {
-            return "{'appid':'" + Constants.PR_APPID + "','objectname':'" + Constants.REQUIREPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'REQUIREPLANNUM DESC'}";
+            return "{'appid':'" + Constants.RP_APPID + "','objectname':'" + Constants.REQUIREPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'REQUIREPLANNUM DESC'}";
         }
-        return "{'appid':'" + Constants.PR_APPID + "','objectname':'" + Constants.REQUIREPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'REQUIREPLANNUM DESC','sinorsearch':{'REQUIREPLANNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+        return "{'appid':'" + Constants.RP_APPID + "','objectname':'" + Constants.REQUIREPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'REQUIREPLANNUM DESC','sinorsearch':{'REQUIREPLANNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
     }
+
+    /**
+     * 设置采购申请的接口
+     */
+    public static String getPR(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.PR_APPID + "','objectname':'" + Constants.PR_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'PRNUM DESC'}";
+        }
+        return "{'appid':'" + Constants.PR_APPID + "','objectname':'" + Constants.PR_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'PRNUM DESC','sinorsearch':{'PRNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+    /**
+     * 设置工程采购申请的接口
+     */
+    public static String getPRSER(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.PRSER_APPID + "','objectname':'" + Constants.PR_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'PRNUM DESC'}";
+        }
+        return "{'appid':'" + Constants.PRSER_APPID + "','objectname':'" + Constants.PR_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'PRNUM DESC','sinorsearch':{'PRNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+
+
+    /**
+     * 设置询价单的接口
+     */
+    public static String getRFQ(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.RFQ_APPID + "','objectname':'" + Constants.RFQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'RFQNUM DESC'}";
+        }
+        return "{'appid':'" + Constants.RFQ_APPID + "','objectname':'" + Constants.RFQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'RFQNUM DESC','sinorsearch':{'RFQNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+
+
+    /**
+     * 设置工程询价单的接口
+     */
+    public static String getRFQSER(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.RFQSER_APPID + "','objectname':'" + Constants.RFQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"'}";
+        }
+        return "{'appid':'" + Constants.RFQSER_APPID + "','objectname':'" + Constants.RFQ_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','sinorsearch':{'RFQNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+    /**
+     * 设置采购单的接口
+     */
+    public static String getRO(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'POID DESC'}";
+        }
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'POID DESC','sinorsearch':{'PONUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+    /**
+     * 设置工程服务采购单的接口
+     */
+    public static String getPOSER(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.POSER_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'POID DESC'}";
+        }
+        return "{'appid':'" + Constants.POSER_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'POID DESC','sinorsearch':{'PONUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+    /**
+     * 设置工程验收的接口
+     */
+    public static String getSERREC(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.SERREC_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +"','orderby':'POID DESC'}";
+        }
+        return "{'appid':'" + Constants.SERREC_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','orderby':'POID DESC','sinorsearch':{'PONUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+
+
+    /**
+     * 设置物资采购付款的接口
+     */
+    public static String getPAYAPPROVE(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.PAYAPPROVE_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+ "'}";
+        }
+        return "{'appid':'" + Constants.PAYAPPROVE_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','sinorsearch':{'PAYNUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+
+    /**
+     * 设置物资编码的接口
+     */
+    public static String getMATECODE(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.MATECODE_APPID + "','objectname':'" + Constants.MATECODE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+ "'}";
+        }
+        return "{'appid':'" + Constants.MATECODE_APPID + "','objectname':'" + Constants.MATECODE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','sinorsearch':{'MC_MATERIALCODENUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
+    }
+
+
+    /**
+     * 设置供应商的接口
+     */
+    public static String getCOMPANY(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.COMPANY_APPID + "','objectname':'" + Constants.COMPANIES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+ "'}";
+        }
+        return "{'appid':'" + Constants.COMPANY_APPID + "','objectname':'" + Constants.COMPANIES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','sinorsearch':{'COMPANY':'" + value + "','NAME':'" + value + "'}}";
+    }
+
+    /**
+     * 设置工程付款的接口
+     */
+    public static String getGCPAYAPP(String value, String persionid,int curpage, int showcount) {
+        if (value.equals("")) {
+            return "{'appid':'" + Constants.GCPAYAPP_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+ "'}";
+        }
+        return "{'appid':'" + Constants.GCPAYAPP_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid+"','sinorsearch':{'COMPANY':'" + value + "','NAME':'" + value + "'}}";
+    }
+
+
 
     /**
      * 使用用户名密码登录

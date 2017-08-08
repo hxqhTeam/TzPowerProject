@@ -27,26 +27,28 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
-import hqxh.tzpowerproject.adapter.PRListAdapter;
+import hqxh.tzpowerproject.adapter.PayapproveListAdapter;
 import hqxh.tzpowerproject.adapter.PoListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
+import hqxh.tzpowerproject.model.PAYAPPROVE;
 import hqxh.tzpowerproject.model.PO;
-import hqxh.tzpowerproject.model.PR;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
 import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 采购单Activity
+ * 物资合同付款审批表Activity
  */
-public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class PayapproveListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "PoListActivity";
+    private static final String TAG = "PayapproveListActivity";
+    public static final int PAYAPPROVE=1000; //物资合同付款
+    public static final int GCPAYAPP=1001; //物资合同付款
 
     /**
      * 返回按钮
@@ -81,7 +83,7 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
     /**
      * 适配器*
      */
-    private PoListAdapter poListAdapter;
+    private PayapproveListAdapter payapproveListAdapter;
     /**
      * 编辑框*
      */
@@ -96,14 +98,22 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     private ProgressDialog mProgressDialog;
 
+    private int mark;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(PoListActivity.this);
+        ButterKnife.bind(PayapproveListActivity.this);
+        initData();
         findViewById();
         initView();
+    }
+
+    /**初始化界面数据**/
+    private void initData() {
+        mark=getIntent().getExtras().getInt("mark");
     }
 
 
@@ -126,11 +136,16 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
                 finish();
             }
         });
-        titleTextView.setText(R.string.cgd_text);
+        if(mark==PAYAPPROVE){
+            titleTextView.setText(R.string.wzcgfk_text);
+        }else if(mark==GCPAYAPP){
+            titleTextView.setText(R.string.gcfk_text);
+        }
+
 
         setSearchEdit();
 
-        layoutManager = new LinearLayoutManager(PoListActivity.this);
+        layoutManager = new LinearLayoutManager(PayapproveListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -143,7 +158,7 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
 
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
-        initAdapter(new ArrayList<PO>());
+        initAdapter(new ArrayList<PAYAPPROVE>());
         getData(searchText);
 
     }
@@ -181,7 +196,7 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
                                             .getWindowToken(),
                                     InputMethodManager.HIDE_NOT_ALWAYS);
                     searchText = search.getText().toString();
-                    poListAdapter.removeAll(poListAdapter.getData());
+                    payapproveListAdapter.removeAll(payapproveListAdapter.getData());
                     nodatalayout.setVisibility(View.GONE);
                     refresh_layout.setRefreshing(true);
                     page = 1;
@@ -198,7 +213,13 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
      * 获取数据*
      */
     private void getData(String search) {
-        HttpManager.getDataPagingInfo(PoListActivity.this, HttpManager.getRO(search, AccountUtils.getPersionId(this),page, 20), new HttpRequestHandler<Results>() {
+        String url=null;
+        if(mark==PAYAPPROVE){
+            url=HttpManager.getPAYAPPROVE(search, AccountUtils.getPersionId(this),page, 20);
+        }else if(mark==GCPAYAPP){
+            url=HttpManager.getGCPAYAPP(search, AccountUtils.getPersionId(this),page, 20);
+        }
+        HttpManager.getDataPagingInfo(PayapproveListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -206,7 +227,7 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<PO> item = JsonUtils.parsingPO(results.getResultlist());
+                ArrayList<PAYAPPROVE> item = JsonUtils.parsingPAYAPPROVE(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {
@@ -215,10 +236,10 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
 
                     if (item != null || item.size() != 0) {
                         if (page == 1) {
-                            initAdapter(new ArrayList<PO>());
+                            initAdapter(new ArrayList<PAYAPPROVE>());
                         }
                         if(page>totalPages){
-                            MessageUtils.showMiddleToast(PoListActivity.this,getString(R.string.have_all_data_text));
+                            MessageUtils.showMiddleToast(PayapproveListActivity.this,getString(R.string.have_all_data_text));
                         }else{
                             addData(item);
                         }
@@ -240,10 +261,10 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
     /**
      * 获取数据*
      */
-    private void initAdapter(final List<PO> list) {
-        poListAdapter = new PoListAdapter(PoListActivity.this, R.layout.list_item_1, list);
-        recyclerView.setAdapter(poListAdapter);
-        poListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private void initAdapter(final List<PAYAPPROVE> list) {
+        payapproveListAdapter = new PayapproveListAdapter(PayapproveListActivity.this, R.layout.list_item_1, list);
+        recyclerView.setAdapter(payapproveListAdapter);
+        payapproveListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
 //                Intent intent = new Intent(N_grainjcListActivity.this, N_grainjcDetailsActivity.class);
@@ -259,8 +280,8 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
     /**
      * 添加数据*
      */
-    private void addData(final List<PO> list) {
-        poListAdapter.addData(list);
+    private void addData(final List<PAYAPPROVE> list) {
+        payapproveListAdapter.addData(list);
     }
 
 

@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -121,8 +122,8 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
         getData();
         listDatas = new ArrayList<ProdctBean>();
         if (list != null && list.size() != 0) {
-            if (list.contains(Constants.PR_APPID)) {//需款计划
-                listDatas.add(new ProdctBean(proName[0], Constants.PR_APPID, R.drawable.ic_xkji));
+            if (list.contains(Constants.RP_APPID)) {//需款计划
+                listDatas.add(new ProdctBean(proName[0], Constants.RP_APPID, R.drawable.ic_xkji));
             }
             if (list.contains(Constants.PR_NAME)) {//采购申请
                 listDatas.add(new ProdctBean(proName[1], Constants.PR_NAME, R.drawable.ic_cgsq));
@@ -173,14 +174,70 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 @Override
                 public void onItemClick(AdapterView<?> arg0, View arg1,
                                         int position, long arg3) {
+                    Log.e("TAG","position="+position);
                     // TODO Auto-generated method stub
                     Object obj = gridView.getItemAtPosition(position);
                     if (obj != null && obj instanceof ProdctBean) {
                         ProdctBean prodctBean = (ProdctBean) obj;
                         Intent intent;
+                        Log.e("TAG","appid="+prodctBean.getAppid());
                         switch (prodctBean.getAppid()) {
-                            case Constants.PR_APPID:
+
+                            case Constants.RP_APPID: //需款计划
                                 intent = new Intent(MainActivity.this, XqjhListActivity.class);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.PR_APPID: //采购申请
+                                intent = new Intent(MainActivity.this, PrListActivity.class);
+                                intent.putExtra("mark",PrListActivity.PR_CG);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.RFQ_APPID: //询价单
+                                intent = new Intent(MainActivity.this, RfqListActivity.class);
+                                intent.putExtra("mark",RfqListActivity.XJD_CG);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.PO_APPID: //采购单
+                                intent = new Intent(MainActivity.this, PoListActivity.class);
+                                intent.putExtra("mark",PoListActivity.PO_CG);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.PAYAPPROVE_APPID: //物资采购付款
+                                intent = new Intent(MainActivity.this, PayapproveListActivity.class);
+                                intent.putExtra("mark",PayapproveListActivity.PAYAPPROVE);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.MATECODE_APPID: //物资编码
+                                intent = new Intent(MainActivity.this, MatecodeListActivity.class);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.PRSER_APPID: //工程采购
+                                intent = new Intent(MainActivity.this, PrListActivity.class);
+                                intent.putExtra("mark",PrListActivity.PR_GC);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.RFQSER_APPID: //工程询价单
+                                intent = new Intent(MainActivity.this, RfqListActivity.class);
+                                intent.putExtra("mark",RfqListActivity.XJD_GC);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.POSER_APPID: //工程服务采购单
+                                intent = new Intent(MainActivity.this, PoListActivity.class);
+                                intent.putExtra("mark",PoListActivity.PO_GC);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.COMPANY_APPID: //供应商
+                                intent = new Intent(MainActivity.this, CompaniesListActivity.class);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.SERREC_APPID: //工程验收
+                                intent = new Intent(MainActivity.this, PoListActivity.class);
+                                intent.putExtra("mark",PoListActivity.PO_GCYS);
+                                startActivityForResult(intent,0);
+                                break;
+                            case Constants.GCPAYAPP_APPID: //合同付款
+                                intent = new Intent(MainActivity.this, PayapproveListActivity.class);
+                                intent.putExtra("mark",PayapproveListActivity.GCPAYAPP);
                                 startActivityForResult(intent,0);
                                 break;
 
