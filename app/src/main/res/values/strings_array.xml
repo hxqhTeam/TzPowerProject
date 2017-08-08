@@ -1,0 +1,19 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+    <string-array name="main_text">
+        <item>需求计划</item>
+        <item>采购申请</item>
+        <item>询价单</item>
+        <item>采购单</item>
+        <item>物资采购付款</item>
+        <item>物资编码</item>
+        <item>工程采购</item>
+        <item>工程询价</item>
+        <item>工程服务采购</item>
+        <item>供应商</item>
+        <item>工程验收</item>
+        <item>工程付款</item>
+    </string-array>
+
+
+</resources>

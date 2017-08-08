@@ -1,0 +1,64 @@
+<resources>
+    <string name="app_name">泰州电厂</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="settings">设置</string>
+    <string name="help">帮助</string>
+    <string name="string_help_text">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。\n\n最后点击两次后退按钮，即可返回。</string>
+    <string name="quit">退出</string>
+
+    <string name="prompt_user">请输入用户名</string>
+    <string name="prompt_password">请输入密码</string>
+    <string name="rember_password">记住账号</string>
+
+    <string name="logined_member_username">logined_member_username</string>
+    <string name="logined_member_password">logined_member_password</string>
+    <string name="logined_member_ischeck">logined_member_ischeck</string>
+    <string name="ip_address">ip_address</string>
+
+    <string name="login_defsite">login_defsite</string>
+    <string name="login_displayname">login_displayname</string>
+    <string name="login_emailaddress">login_emailaddress</string>
+    <string name="login_myapps">login_myapps</string>
+    <string name="login_userName">login_userName</string>
+    <string name="login_personid">login_personid</string>
+    <string name="login_UserName">loginUserName</string>
+    <string name="login_department">login_department</string>
+    <string name="login_error_empty_user">用户名不能为空</string>
+    <string name="login_error_empty_passwd">密码不能为空</string>
+
+    <string name="error_title">错误</string>
+    <string name="error_obtain_once">无法获取ONCE</string>
+    <string name="error_network_exception">网络通信异常，请稍后重试</string>
+    <string name="error_network_disconnect">网络不可达,请开启Wifi或者移动数据网络</string>
+    <string name="error_reply">提交失败</string>
+    <string name="error_create_topic">无法创建新话题</string>
+    <string name="error_login">无法登录</string>
+    <string name="error_fav_nodes">收藏节点错误</string>
+    <string name="error_fav_topic">收藏话题错误</string>
+    <string name="error_get_profile">无法获取用户个人资料</string>
+    <string name="error_unknown">未知错误</string>
+    <string name="connect_setting_title">服务器连接设置</string>
+
+    <string name="login_successful_hint">登陆成功</string>
+    <string name="get_data_info_fail">获取信息失败</string>
+    <string name="have_not_data_txt">暂无相关数据</string>
+    <string name="loading_data_fail">加载数据失败...</string>
+
+    <!--正在加载中-->
+    <string name="loading">正在加载中...</string>
+
+    <!-- hint -->
+
+    <string name="have_all_data_text">已加载出全部数据...</string>
+
+    <!-- hint -->
+    <string name="hint_item_num_title">暂无编号</string>
+    <string name="hint_item_desc_title">暂无描述</string>
+    <string name="hint_item_date_title">暂无日期</string>
+    <string name="have_not_data">暂无数据</string>
+
+
+    <!--模块名称-->
+    <string name="xkjh_text">需款计划</string>
+</resources>
