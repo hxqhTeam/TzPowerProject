@@ -2,6 +2,7 @@ package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +50,7 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
 
     private static final String TAG = "PayapproveListActivity";
     public static final int PAYAPPROVE=1000; //物资合同付款
-    public static final int GCPAYAPP=1001; //物资合同付款
+    public static final int GCPAYAPP=1001; //工程合同付款
 
     /**
      * 返回按钮
@@ -267,12 +269,11 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
         payapproveListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(N_grainjcListActivity.this, N_grainjcDetailsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("worktype", worktype);
-//                bundle.putSerializable("n_grainjc", items.get(position));
-//                intent.putExtras(bundle);
-//                startActivityForResult(intent, 0);
+                Intent intent = new Intent(PayapproveListActivity.this, PayapprovedetailsActivity.class);
+              Bundle bundle = new Bundle();
+                bundle.putSerializable("payapprove", (Serializable) payapproveListAdapter.getData().get(position));
+               intent.putExtras(bundle);
+               startActivityForResult(intent, 0);
             }
         });
     }
