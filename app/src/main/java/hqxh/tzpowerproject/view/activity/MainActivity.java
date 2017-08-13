@@ -235,7 +235,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                                 intent.putExtra("mark",PoListActivity.PO_GCYS);
                                 startActivityForResult(intent,0);
                                 break;
-                            case Constants.GCPAYAPP_APPID: //合同付款
+                            case Constants.GCPAYAPP_APPID: //工程付款
                                 intent = new Intent(MainActivity.this, PayapproveListActivity.class);
                                 intent.putExtra("mark",PayapproveListActivity.GCPAYAPP);
                                 startActivityForResult(intent,0);
