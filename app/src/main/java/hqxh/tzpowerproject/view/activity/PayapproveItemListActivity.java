@@ -1,21 +1,13 @@
 package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -30,27 +22,27 @@ import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
 import hqxh.tzpowerproject.adapter.PayapproveListAdapter;
-import hqxh.tzpowerproject.adapter.PoListAdapter;
+import hqxh.tzpowerproject.adapter.PaymentplanListAdapter;
+import hqxh.tzpowerproject.adapter.PolineListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.model.PAYAPPROVE;
-import hqxh.tzpowerproject.model.PO;
+import hqxh.tzpowerproject.model.POLINE;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
 import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 物资合同付款审批表Activity
+ *  付款执行情况Activity
  */
-public class PayapproveListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class PayapproveItemListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "PayapproveListActivity";
-    public static final int PAYAPPROVE=1000; //物资合同付款
-    public static final int GCPAYAPP=1001; //工程合同付款
+    private static final String TAG = "PayapproveItemListActivity";
+
 
     /**
      * 返回按钮
@@ -85,7 +77,7 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
     /**
      * 适配器*
      */
-    private PayapproveListAdapter payapproveListAdapter;
+    private PayapproveListAdapter payapprovelistadapter;
     /**
      * 编辑框*
      */
@@ -94,28 +86,27 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
     /**
      * 查询条件*
      */
-    private String searchText = "";
     private int page = 1;
 
 
     private ProgressDialog mProgressDialog;
 
-    private int mark;
+    private String  ponum;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(PayapproveListActivity.this);
+        ButterKnife.bind(PayapproveItemListActivity.this);
         initData();
         findViewById();
         initView();
     }
 
-    /**初始化界面数据**/
+    /**获取标识**/
     private void initData() {
-        mark=getIntent().getExtras().getInt("mark");
+        ponum=getIntent().getExtras().getString("ponum");
     }
 
 
@@ -138,16 +129,10 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
                 finish();
             }
         });
-        if(mark==PAYAPPROVE){
-            titleTextView.setText(R.string.wzcgfk_text);
-        }else if(mark==GCPAYAPP){
-            titleTextView.setText(R.string.gcfk_text);
-        }
+            titleTextView.setText(R.string.fkzxqk_text);
+        search.setVisibility(View.GONE);
 
-
-        setSearchEdit();
-
-        layoutManager = new LinearLayoutManager(PayapproveListActivity.this);
+        layoutManager = new LinearLayoutManager(PayapproveItemListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -161,7 +146,7 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
         initAdapter(new ArrayList<PAYAPPROVE>());
-        getData(searchText);
+        getData();
 
     }
 
@@ -170,61 +155,26 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
     public void onLoad() {
         page++;
 
-        getData(searchText);
+        getData();
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        getData(searchText);
+        getData();
     }
 
 
-    private void setSearchEdit() {
-        SpannableString msp = new SpannableString("XX搜索");
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_search);
-        msp.setSpan(new ImageSpan(drawable), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        search.setHint(msp);
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 先隐藏键盘
-                    ((InputMethodManager) search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(
-                                    getCurrentFocus()
-                                            .getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                    searchText = search.getText().toString();
-                    payapproveListAdapter.removeAll(payapproveListAdapter.getData());
-                    nodatalayout.setVisibility(View.GONE);
-                    refresh_layout.setRefreshing(true);
-                    page = 1;
-                    getData(searchText);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
 
     /**
      * 获取数据*
      */
-    private void getData(String search) {
-        String url=null;
-        if(mark==PAYAPPROVE){
-            url=HttpManager.getPAYAPPROVE(search, AccountUtils.getPersionId(this),page, 20);
-        }else if(mark==GCPAYAPP){
-            url=HttpManager.getGCPAYAPP(search, AccountUtils.getPersionId(this),page, 20);
-        }
-        HttpManager.getDataPagingInfo(PayapproveListActivity.this, url, new HttpRequestHandler<Results>() {
+    private void getData() {
+        String url=HttpManager.getPAYAPPROVE1(ponum, AccountUtils.getPersionId(this),page, 20);
+        HttpManager.getDataPagingInfo(PayapproveItemListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
-                Log.i(TAG, "data=" + results);
             }
 
             @Override
@@ -241,7 +191,7 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
                             initAdapter(new ArrayList<PAYAPPROVE>());
                         }
                         if(page>totalPages){
-                            MessageUtils.showMiddleToast(PayapproveListActivity.this,getString(R.string.have_all_data_text));
+                            MessageUtils.showMiddleToast(PayapproveItemListActivity.this,getString(R.string.have_all_data_text));
                         }else{
                             addData(item);
                         }
@@ -264,16 +214,16 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
      * 获取数据*
      */
     private void initAdapter(final List<PAYAPPROVE> list) {
-        payapproveListAdapter = new PayapproveListAdapter(PayapproveListActivity.this, R.layout.list_item_1, list,0);
-        recyclerView.setAdapter(payapproveListAdapter);
-        payapproveListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+        payapprovelistadapter = new PayapproveListAdapter(PayapproveItemListActivity.this, R.layout.list_itempayapprove, list,1);
+        recyclerView.setAdapter(payapprovelistadapter);
+        payapprovelistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(PayapproveListActivity.this, PayapprovedetailsActivity.class);
-              Bundle bundle = new Bundle();
-                bundle.putSerializable("payapprove", (Serializable) payapproveListAdapter.getData().get(position));
-               intent.putExtras(bundle);
-               startActivityForResult(intent, 0);
+//                Intent intent = new Intent(PayapproveItemListActivity.this, PolinedetailsActivity.class);
+//                Bundle bundle = new Bundle();
+//                bundle.putSerializable("poline", (Serializable) polineListAdapter.getData().get(position));
+//                intent.putExtras(bundle);
+//                startActivityForResult(intent, 0);
             }
         });
     }
@@ -282,7 +232,7 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
      * 添加数据*
      */
     private void addData(final List<PAYAPPROVE> list) {
-        payapproveListAdapter.addData(list);
+        payapprovelistadapter.addData(list);
     }
 
 

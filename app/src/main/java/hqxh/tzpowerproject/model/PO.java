@@ -5,6 +5,7 @@ package hqxh.tzpowerproject.model;
  *采购单／工程服务采购单
  */
 public class PO extends Entity{
+    public String POID;//POID
     public String PONUM;//采购单编号
     public String DESCRIPTION;//描述
     public String POGENRE;//采购单类型
@@ -36,6 +37,14 @@ public class PO extends Entity{
     public String VENDOR_NAME;//公司描述
     public String RECMEMO;//本次验收情况
 
+
+    public String getPOID() {
+        return POID;
+    }
+
+    public void setPOID(String POID) {
+        this.POID = POID;
+    }
 
     public String getPONUM() {
         return PONUM;

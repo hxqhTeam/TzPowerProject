@@ -87,6 +87,19 @@ public class Constants {
     public static final String PO_APPID = "PO";
     //采购单的表名
     public static final String PO_NAME = "PO";
+    //采购单行的表名
+    public static final String POLINE_NAME = "POLINE";
+
+
+    //附件的appid
+    public static final String CYDOCLI_NAME = "CYDOCLI";
+    //附件的表名
+    public static final String DOCLINKS_NAME = "DOCLINKS";
+
+    //付款计划的表名
+    public static final String PAYMENTPLAN_NAME = "PAYMENTPLAN";
+
+
 
     //物资采购付款的appid
     public static final String PAYAPPROVE_APPID = "PAYAPPROVE";

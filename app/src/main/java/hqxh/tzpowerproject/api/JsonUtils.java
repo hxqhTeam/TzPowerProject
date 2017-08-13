@@ -18,9 +18,12 @@ import hqxh.tzpowerproject.bean.LoginResults;
 import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.constants.Constants;
 import hqxh.tzpowerproject.model.COMPANIES;
+import hqxh.tzpowerproject.model.DOCLINKS;
 import hqxh.tzpowerproject.model.MATECODE;
 import hqxh.tzpowerproject.model.PAYAPPROVE;
+import hqxh.tzpowerproject.model.PAYMENTPLAN;
 import hqxh.tzpowerproject.model.PO;
+import hqxh.tzpowerproject.model.POLINE;
 import hqxh.tzpowerproject.model.PR;
 import hqxh.tzpowerproject.model.PRLINE;
 import hqxh.tzpowerproject.model.REQUIREPLAN;
@@ -652,6 +655,149 @@ public class JsonUtils {
         }
 
     }
+
+
+    /**
+     * POLINE表
+     */
+    public static ArrayList<POLINE> parsingPOLINE(String data) {
+        ArrayList<POLINE> list = null;
+        POLINE poline = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<POLINE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                poline = new POLINE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = poline.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = poline.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(poline);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = poline.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(poline, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(poline);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+
+    /**
+     * PAYMENTPLAN
+     */
+    public static ArrayList<PAYMENTPLAN> parsingPAYMENTPLAN(String data) {
+        ArrayList<PAYMENTPLAN> list = null;
+        PAYMENTPLAN paymentplan = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<PAYMENTPLAN>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                paymentplan = new PAYMENTPLAN();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = paymentplan.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = paymentplan.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(paymentplan);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = paymentplan.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(paymentplan, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(paymentplan);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * DOCLINKS
+     */
+    public static ArrayList<DOCLINKS> parsingDOCLINKS(String data) {
+        ArrayList<DOCLINKS> list = null;
+        DOCLINKS doclinks = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<DOCLINKS>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                doclinks = new DOCLINKS();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = doclinks.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = doclinks.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(doclinks);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = doclinks.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(doclinks, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(doclinks);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
     /**
      * 物资编码主表
      */
