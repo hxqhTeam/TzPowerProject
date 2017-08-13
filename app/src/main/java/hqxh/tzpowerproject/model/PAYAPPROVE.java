@@ -41,6 +41,59 @@ public class PAYAPPROVE extends Entity{
     public String CREATEBY;//创建人
     public String CREATEALT;//创建时间
     public String PAYTYPE;//付款类型
+    public String DIFFERENCE;//差异情况
+    public String PRETAXCOST;//合同累计付款比例
+    public String AGENCYFUND;//代收款
+    public String FINANCIAL;//财务经办人
+    public String  RECEIPTS;//验收情况
+    public String getRECEIPTS() {
+        return RECEIPTS;
+    }
+
+    public void setRECEIPTS(String RECEIPTS) {
+        this.RECEIPTS = RECEIPTS;
+    }
+
+
+    public String getFINANCIAL() {
+        return FINANCIAL;
+    }
+
+    public void setFINANCIAL(String FINANCIAL) {
+        this.FINANCIAL = FINANCIAL;
+    }
+
+
+
+
+    public String getAGENCYFUND() {
+        return AGENCYFUND;
+    }
+
+    public void setAGENCYFUND(String AGENCYFUND) {
+        this.AGENCYFUND = AGENCYFUND;
+    }
+
+
+    public String getPRETAXCOST() {
+        return PRETAXCOST;
+    }
+
+    public void setPRETAXCOST(String PRETAXCOST) {
+        this.PRETAXCOST = PRETAXCOST;
+    }
+
+
+
+
+    public String getDIFFERENCE() {
+        return DIFFERENCE;
+    }
+
+    public void setDIFFERENCE(String DIFFERENCE) {
+        this.DIFFERENCE = DIFFERENCE;
+    }
+
 
 
     public String getPAYAPPROVETYPE() {

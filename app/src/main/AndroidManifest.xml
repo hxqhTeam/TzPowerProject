@@ -80,7 +80,9 @@
         <activity
             android:name=".view.activity.PayapproveListActivity"
             android:label="PayapproveListActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+        </activity>
         <activity
             android:name=".view.activity.MatecodeListActivity"
             android:label="MatecodeListActivity"
@@ -92,6 +94,10 @@
         <activity
             android:name=".view.activity.RequireplandetailsActivity"
             android:label="RequireplandetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PayapprovedetailsActivity"
+            android:label="PayapprovedetailsActivity"
             android:screenOrientation="portrait" />
     </application>
 
