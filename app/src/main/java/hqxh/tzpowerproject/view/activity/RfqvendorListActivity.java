@@ -1,21 +1,13 @@
 package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,29 +21,28 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
-import hqxh.tzpowerproject.adapter.PRListAdapter;
-import hqxh.tzpowerproject.adapter.RfqListAdapter;
+import hqxh.tzpowerproject.adapter.RfqlineListAdapter;
+import hqxh.tzpowerproject.adapter.RfqvendorListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
-import hqxh.tzpowerproject.model.PR;
 import hqxh.tzpowerproject.model.RFQ;
+import hqxh.tzpowerproject.model.RFQLINE;
+import hqxh.tzpowerproject.model.RFQVENDOR;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
 import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 询价单Activity
+ * 供应商Activity
  */
-public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class RfqvendorListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "RfqListActivity";
+    private static final String TAG = "RfqvendorListActivity";
 
-    public static final int XJD_CG=1000; //询价单
-    public static final int XJD_GC=10001; //工程询价单
 
     /**
      * 返回按钮
@@ -86,7 +77,7 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     /**
      * 适配器*
      */
-    private RfqListAdapter rfqListAdapter;
+    private RfqvendorListAdapter rfqvendorlistadapter;
     /**
      * 编辑框*
      */
@@ -100,22 +91,29 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
 
 
     private ProgressDialog mProgressDialog;
-    private int mark;
+
+    private String title;
+    private String rfqnum;
+    private String appid;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(RfqListActivity.this);
+        ButterKnife.bind(RfqvendorListActivity.this);
         initData();
         findViewById();
         initView();
     }
 
-    /**初始化数据**/
+    /**
+     * 初始化数据
+     **/
     private void initData() {
-        mark=getIntent().getExtras().getInt("mark");
+        title = getIntent().getExtras().getString("title");
+        rfqnum = getIntent().getExtras().getString("rfqnum");
+        appid = getIntent().getExtras().getString("appid");
 
     }
 
@@ -139,16 +137,11 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
                 finish();
             }
         });
-        if(mark==XJD_CG){
-            titleTextView.setText(R.string.xjd_text);
-        }else if(mark==XJD_GC){
-            titleTextView.setText(R.string.gcxjd_text);
-        }
+        titleTextView.setText(title);
+        search.setVisibility(View.GONE);
 
 
-        setSearchEdit();
-
-        layoutManager = new LinearLayoutManager(RfqListActivity.this);
+        layoutManager = new LinearLayoutManager(RfqvendorListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -161,8 +154,8 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
 
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
-        initAdapter(new ArrayList<RFQ>());
-        getData(searchText);
+        initAdapter(new ArrayList<RFQVENDOR>());
+        getData();
 
     }
 
@@ -171,60 +164,23 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     public void onLoad() {
         page++;
 
-        getData(searchText);
+        getData();
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        getData(searchText);
-    }
-
-
-    private void setSearchEdit() {
-        SpannableString msp = new SpannableString("XX搜索");
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_search);
-        msp.setSpan(new ImageSpan(drawable), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        search.setHint(msp);
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 先隐藏键盘
-                    ((InputMethodManager) search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(
-                                    getCurrentFocus()
-                                            .getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                    searchText = search.getText().toString();
-                    rfqListAdapter.removeAll(rfqListAdapter.getData());
-                    nodatalayout.setVisibility(View.GONE);
-                    refresh_layout.setRefreshing(true);
-                    page = 1;
-                    getData(searchText);
-                    return true;
-                }
-                return false;
-            }
-        });
+        getData();
     }
 
 
     /**
      * 获取数据*
      */
-    private void getData(String search) {
-        String url=null;
-        if(mark==XJD_CG){
-            url=HttpManager.getRFQ(search, AccountUtils.getPersionId(this),page, 20);
-        }else if(mark==XJD_GC){
-            url=HttpManager.getRFQSER(search, AccountUtils.getPersionId(this),page, 20);
+    private void getData() {
+        String url = HttpManager.getRFQVENDOR(appid, rfqnum, AccountUtils.getPersionId(this), page, 20);
 
-        }
-
-        HttpManager.getDataPagingInfo(RfqListActivity.this, url, new HttpRequestHandler<Results>() {
+        HttpManager.getDataPagingInfo(RfqvendorListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -232,7 +188,7 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<RFQ> item = JsonUtils.parsingRFQ(results.getResultlist());
+                ArrayList<RFQVENDOR> item = JsonUtils.parsingRFQVENDOR(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {
@@ -241,11 +197,11 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
 
                     if (item != null || item.size() != 0) {
                         if (page == 1) {
-                            initAdapter(new ArrayList<RFQ>());
+                            initAdapter(new ArrayList<RFQVENDOR>());
                         }
-                        if(page>totalPages){
-                            MessageUtils.showMiddleToast(RfqListActivity.this,getString(R.string.have_all_data_text));
-                        }else{
+                        if (page > totalPages) {
+                            MessageUtils.showMiddleToast(RfqvendorListActivity.this, getString(R.string.have_all_data_text));
+                        } else {
                             addData(item);
                         }
 
@@ -266,17 +222,12 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     /**
      * 获取数据*
      */
-    private void initAdapter(final List<RFQ> list) {
-        rfqListAdapter = new RfqListAdapter(RfqListActivity.this, R.layout.list_item_2, list);
-        recyclerView.setAdapter(rfqListAdapter);
-        rfqListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private void initAdapter(final List<RFQVENDOR> list) {
+        rfqvendorlistadapter = new RfqvendorListAdapter(RfqvendorListActivity.this, R.layout.list_itemrfqvendor, list);
+        recyclerView.setAdapter(rfqvendorlistadapter);
+        rfqvendorlistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(RfqListActivity.this, RfqdetailsActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("rfq", (Serializable) rfqListAdapter.getData().get(position));
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
             }
         });
     }
@@ -284,8 +235,8 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     /**
      * 添加数据*
      */
-    private void addData(final List<RFQ> list) {
-        rfqListAdapter.addData(list);
+    private void addData(final List<RFQVENDOR> list) {
+        rfqvendorlistadapter.addData(list);
     }
 
 

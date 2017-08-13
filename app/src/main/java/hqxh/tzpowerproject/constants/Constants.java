@@ -48,6 +48,10 @@ public class Constants {
 
     //收件箱appid
     public static final String WFASSIGNMENT_APPID = "WFDESIGN" ;
+    //审批记录appid
+    public static final String WFADMIN_APPID = "WFADMIN" ;
+    //审批记录的表名
+    public static final String WFTRANSACTION_NAME = "WFTRANSACTION" ;
 
     //收件箱的表名
     public static final String WFASSIGNMENT_NAME = "WFASSIGNMENT";
@@ -57,11 +61,15 @@ public class Constants {
 
     //需款计划的表名
     public static final String REQUIREPLAN_NAME = "REQUIREPLAN";
+    //需款计划申请行的表名
+    public static final String REQUIREPLANLINE_NAME = "REQUIREPLANLINE";
 
     //采购申请的appid
     public static final String PR_APPID = "PR";
     //采购申请的表名
     public static final String PR_NAME = "PR";
+    //采购申请的表名
+    public static final String PRLINE_NAME = "PRLINE";
 
 
     //询价单的appid
@@ -69,6 +77,11 @@ public class Constants {
 
     //询价单的表名
     public static final String RFQ_NAME = "RFQ";
+
+    //询价单行的表名
+    public static final String RFQLINE_NAME = "RFQLINE";
+    //供应商的表名
+    public static final String RFQVENDOR_NAME = "RFQVENDOR";
 
     //采购单的appid
     public static final String PO_APPID = "PO";

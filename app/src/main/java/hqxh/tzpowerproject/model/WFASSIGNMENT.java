@@ -4,31 +4,37 @@ package hqxh.tzpowerproject.model;
  * Created by think on 2016/7/1.
  * 收件箱
  */
+
 public class WFASSIGNMENT extends Entity{
-    public String APP;//
-    public String ASSIGNSTATUS;//
-    public String DESCRIPTION;//
-    public String OWNERTABLE;//
-    public String PROCESSNAME;//
-    public String STARTDATE;//
-    public String UDASSIGN01;//
-    public String UDASSIGN02;//
-    public String WFASSIGNMENTID;//
+    public String OWNERTABLE;//对象名
+    public String OWNERID;//唯一标识
+    public String DESCRIPTION;//主题
+    public String PROCESSNAME;//流程
+    public String PROCESSREV;//版本
+    public String APP;//应用程序
+    public String ASSIGNCODE;//人员
+    public String ASSIGNSTATUS;//状态
+    public String DUEDATE;//日期
+    public String ASSIGNEE_DEPT_DESCRIPTION;//岗位职能
+    public String ASSIGNEE_DISPLAYNAME;//经办人审核人
+    public String STARTDATE;//开始时间
+    public String LASTMEMO_TRANSDATE;//审核时间
+    public String LASTMEMO_MEDO;//审核意见
 
-    public String getAPP() {
-        return APP;
+    public String getOWNERTABLE() {
+        return OWNERTABLE;
     }
 
-    public void setAPP(String APP) {
-        this.APP = APP;
+    public void setOWNERTABLE(String OWNERTABLE) {
+        this.OWNERTABLE = OWNERTABLE;
     }
 
-    public String getASSIGNSTATUS() {
-        return ASSIGNSTATUS;
+    public String getOWNERID() {
+        return OWNERID;
     }
 
-    public void setASSIGNSTATUS(String ASSIGNSTATUS) {
-        this.ASSIGNSTATUS = ASSIGNSTATUS;
+    public void setOWNERID(String OWNERID) {
+        this.OWNERID = OWNERID;
     }
 
     public String getDESCRIPTION() {
@@ -39,20 +45,68 @@ public class WFASSIGNMENT extends Entity{
         this.DESCRIPTION = DESCRIPTION;
     }
 
-    public String getOWNERTABLE() {
-        return OWNERTABLE;
-    }
-
-    public void setOWNERTABLE(String OWNERTABLE) {
-        this.OWNERTABLE = OWNERTABLE;
-    }
-
     public String getPROCESSNAME() {
         return PROCESSNAME;
     }
 
     public void setPROCESSNAME(String PROCESSNAME) {
         this.PROCESSNAME = PROCESSNAME;
+    }
+
+    public String getPROCESSREV() {
+        return PROCESSREV;
+    }
+
+    public void setPROCESSREV(String PROCESSREV) {
+        this.PROCESSREV = PROCESSREV;
+    }
+
+    public String getAPP() {
+        return APP;
+    }
+
+    public void setAPP(String APP) {
+        this.APP = APP;
+    }
+
+    public String getASSIGNCODE() {
+        return ASSIGNCODE;
+    }
+
+    public void setASSIGNCODE(String ASSIGNCODE) {
+        this.ASSIGNCODE = ASSIGNCODE;
+    }
+
+    public String getASSIGNSTATUS() {
+        return ASSIGNSTATUS;
+    }
+
+    public void setASSIGNSTATUS(String ASSIGNSTATUS) {
+        this.ASSIGNSTATUS = ASSIGNSTATUS;
+    }
+
+    public String getDUEDATE() {
+        return DUEDATE;
+    }
+
+    public void setDUEDATE(String DUEDATE) {
+        this.DUEDATE = DUEDATE;
+    }
+
+    public String getASSIGNEE_DEPT_DESCRIPTION() {
+        return ASSIGNEE_DEPT_DESCRIPTION;
+    }
+
+    public void setASSIGNEE_DEPT_DESCRIPTION(String ASSIGNEE_DEPT_DESCRIPTION) {
+        this.ASSIGNEE_DEPT_DESCRIPTION = ASSIGNEE_DEPT_DESCRIPTION;
+    }
+
+    public String getASSIGNEE_DISPLAYNAME() {
+        return ASSIGNEE_DISPLAYNAME;
+    }
+
+    public void setASSIGNEE_DISPLAYNAME(String ASSIGNEE_DISPLAYNAME) {
+        this.ASSIGNEE_DISPLAYNAME = ASSIGNEE_DISPLAYNAME;
     }
 
     public String getSTARTDATE() {
@@ -63,27 +117,19 @@ public class WFASSIGNMENT extends Entity{
         this.STARTDATE = STARTDATE;
     }
 
-    public String getUDASSIGN01() {
-        return UDASSIGN01;
+    public String getLASTMEMO_TRANSDATE() {
+        return LASTMEMO_TRANSDATE;
     }
 
-    public void setUDASSIGN01(String UDASSIGN01) {
-        this.UDASSIGN01 = UDASSIGN01;
+    public void setLASTMEMO_TRANSDATE(String LASTMEMO_TRANSDATE) {
+        this.LASTMEMO_TRANSDATE = LASTMEMO_TRANSDATE;
     }
 
-    public String getUDASSIGN02() {
-        return UDASSIGN02;
+    public String getLASTMEMO_MEDO() {
+        return LASTMEMO_MEDO;
     }
 
-    public void setUDASSIGN02(String UDASSIGN02) {
-        this.UDASSIGN02 = UDASSIGN02;
-    }
-
-    public String getWFASSIGNMENTID() {
-        return WFASSIGNMENTID;
-    }
-
-    public void setWFASSIGNMENTID(String WFASSIGNMENTID) {
-        this.WFASSIGNMENTID = WFASSIGNMENTID;
+    public void setLASTMEMO_MEDO(String LASTMEMO_MEDO) {
+        this.LASTMEMO_MEDO = LASTMEMO_MEDO;
     }
 }

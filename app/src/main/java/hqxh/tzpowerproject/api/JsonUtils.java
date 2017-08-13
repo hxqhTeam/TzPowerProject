@@ -22,9 +22,14 @@ import hqxh.tzpowerproject.model.MATECODE;
 import hqxh.tzpowerproject.model.PAYAPPROVE;
 import hqxh.tzpowerproject.model.PO;
 import hqxh.tzpowerproject.model.PR;
+import hqxh.tzpowerproject.model.PRLINE;
 import hqxh.tzpowerproject.model.REQUIREPLAN;
+import hqxh.tzpowerproject.model.REQUIREPLANLINE;
 import hqxh.tzpowerproject.model.RFQ;
+import hqxh.tzpowerproject.model.RFQLINE;
+import hqxh.tzpowerproject.model.RFQVENDOR;
 import hqxh.tzpowerproject.model.WFASSIGNMENT;
+import hqxh.tzpowerproject.model.WFTRANSACTION;
 
 /**
  * Json数据解析类
@@ -133,7 +138,7 @@ public class JsonUtils {
     /**
      * 收件箱
      */
-    public static ArrayList<WFASSIGNMENT> parsingWFASSIGNMENT(Context ctx, String data) {
+    public static ArrayList<WFASSIGNMENT> parsingWFASSIGNMENT(String data) {
         ArrayList<WFASSIGNMENT> list = null;
         WFASSIGNMENT wfassignment = null;
         try {
@@ -225,6 +230,55 @@ public class JsonUtils {
     }
 
 
+
+    /**
+     * 需求计划行表
+     */
+    public static ArrayList<REQUIREPLANLINE> parsingREQUIREPLANLINE(String data) {
+        ArrayList<REQUIREPLANLINE> list = null;
+        REQUIREPLANLINE requireplanline = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<REQUIREPLANLINE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                requireplanline = new REQUIREPLANLINE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = requireplanline.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = requireplanline.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(requireplanline);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = requireplanline.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(requireplanline, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(requireplanline);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+
     /**
      * PR主表
      */
@@ -273,6 +327,99 @@ public class JsonUtils {
 
 
     /**
+     * PRLINE主表
+     */
+    public static ArrayList<PRLINE> parsingPRLINE(String data) {
+        ArrayList<PRLINE> list = null;
+        PRLINE prline = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<PRLINE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                prline = new PRLINE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = prline.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = prline.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(prline);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = prline.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(prline, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(prline);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * 审批流程
+     */
+    public static ArrayList<WFTRANSACTION> parsingWFTRANSACTION(String data) {
+        ArrayList<WFTRANSACTION> list = null;
+        WFTRANSACTION wftransaction = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<WFTRANSACTION>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                wftransaction = new WFTRANSACTION();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = wftransaction.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = wftransaction.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(wftransaction);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = wftransaction.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(wftransaction, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(wftransaction);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+    /**
      * RFQ主表
      */
     public static ArrayList<RFQ> parsingRFQ(String data) {
@@ -309,6 +456,100 @@ public class JsonUtils {
 
                 }
                 list.add(rfq);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * RFQLINE
+     */
+    public static ArrayList<RFQLINE> parsingRFQLINE(String data) {
+        ArrayList<RFQLINE> list = null;
+        RFQLINE rfqline = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<RFQLINE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                rfqline = new RFQLINE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = rfqline.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = rfqline.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(rfqline);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = rfqline.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(rfqline, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(rfqline);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * RFQLINE
+     */
+    public static ArrayList<RFQVENDOR> parsingRFQVENDOR(String data) {
+        ArrayList<RFQVENDOR> list = null;
+        RFQVENDOR rfqvendor = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<RFQVENDOR>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                rfqvendor = new RFQVENDOR();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = rfqvendor.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = rfqvendor.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(rfqvendor);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = rfqvendor.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(rfqvendor, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(rfqvendor);
             }
             return list;
         } catch (JSONException e) {

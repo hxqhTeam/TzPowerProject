@@ -2,6 +2,7 @@ package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -275,10 +277,10 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
     private void initAdapter(final List<PO> list) {
         int layoutResId=0;
         if(mark==PO_GCYS){
-            layoutResId=R.layout.list_item_2;
+            layoutResId=R.layout.list_item_3;
 
         }else{
-            layoutResId=R.layout.list_item_1;
+            layoutResId=R.layout.list_item_2;
         }
         poListAdapter = new PoListAdapter(PoListActivity.this, layoutResId, list);
         poListAdapter.setMark(mark);
@@ -286,12 +288,11 @@ public class PoListActivity extends BaseActivity implements SwipeRefreshLayout.O
         poListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(N_grainjcListActivity.this, N_grainjcDetailsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("worktype", worktype);
-//                bundle.putSerializable("n_grainjc", items.get(position));
-//                intent.putExtras(bundle);
-//                startActivityForResult(intent, 0);
+                Intent intent = new Intent(PoListActivity.this, PodetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("po", (Serializable) poListAdapter.getData().get(position));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 0);
             }
         });
     }

@@ -296,7 +296,7 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<WFASSIGNMENT> item = JsonUtils.parsingWFASSIGNMENT(MainActivity.this, results.getResultlist());
+                ArrayList<WFASSIGNMENT> item = JsonUtils.parsingWFASSIGNMENT(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {

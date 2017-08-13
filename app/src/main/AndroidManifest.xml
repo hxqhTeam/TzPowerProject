@@ -93,6 +93,46 @@
             android:name=".view.activity.RequireplandetailsActivity"
             android:label="RequireplandetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RequireplanlineListActivity"
+            android:label="RequireplanlineListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RequireplanlinedetailsActivity"
+            android:label="RequireplanlinedetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PrdetailsActivity"
+            android:label="PrdetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PrLineListActivity"
+            android:label="PrLineListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.WftransactionListActivity"
+            android:label="WftransactionListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RfqdetailsActivity"
+            android:label="WftransactionListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RfqlineListActivity"
+            android:label="RfqlineListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RfqlineDetailsActivity"
+            android:label="RfqlineDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.RfqvendorListActivity"
+            android:label="RfqvendorListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PodetailsActivity"
+            android:label="PodetailsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

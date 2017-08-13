@@ -4,6 +4,7 @@ package hqxh.tzpowerproject.model;
  *询价单
  */
 public class RFQ extends Entity{
+    public String RFQID;//RFQID
     public String RFQNUM;//RFQ
     public String DESCRIPTION;//描述
     public String QUOTATIONTYPE;//报价方式
@@ -11,7 +12,15 @@ public class RFQ extends Entity{
     public String ALNDOMAIN_ZT_DESCRIPTION;//帐套信息描述
     public String STATUS;//状态
     public String PERSON_DISPLAYNAME;//输入人
-    public String CLOSEONALT;//截止日期
+    public String CLOSEONDATE;//截止日期
+
+    public String getRFQID() {
+        return RFQID;
+    }
+
+    public void setRFQID(String RFQID) {
+        this.RFQID = RFQID;
+    }
 
     public String getRFQNUM() {
         return RFQNUM;
@@ -69,11 +78,11 @@ public class RFQ extends Entity{
         this.PERSON_DISPLAYNAME = PERSON_DISPLAYNAME;
     }
 
-    public String getCLOSEONALT() {
-        return CLOSEONALT;
+    public String getCLOSEONDATE() {
+        return CLOSEONDATE;
     }
 
-    public void setCLOSEONALT(String CLOSEONALT) {
-        this.CLOSEONALT = CLOSEONALT;
+    public void setCLOSEONDATE(String CLOSEONDATE) {
+        this.CLOSEONDATE = CLOSEONDATE;
     }
 }

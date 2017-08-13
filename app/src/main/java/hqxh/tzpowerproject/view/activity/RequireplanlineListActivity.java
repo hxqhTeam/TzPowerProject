@@ -30,28 +30,26 @@ import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
 import hqxh.tzpowerproject.adapter.PRListAdapter;
-import hqxh.tzpowerproject.adapter.RfqListAdapter;
+import hqxh.tzpowerproject.adapter.RequireplanlineListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.model.PR;
-import hqxh.tzpowerproject.model.RFQ;
+import hqxh.tzpowerproject.model.REQUIREPLANLINE;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
 import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 询价单Activity
+ * 需求计划申请行Activity
  */
-public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class RequireplanlineListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "RfqListActivity";
+    private static final String TAG = "RequireplanlineListActivity";
 
-    public static final int XJD_CG=1000; //询价单
-    public static final int XJD_GC=10001; //工程询价单
 
     /**
      * 返回按钮
@@ -86,7 +84,7 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     /**
      * 适配器*
      */
-    private RfqListAdapter rfqListAdapter;
+    private RequireplanlineListAdapter requireplanlinelistadapter;
     /**
      * 编辑框*
      */
@@ -99,23 +97,25 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     private int page = 1;
 
 
-    private ProgressDialog mProgressDialog;
-    private int mark;
 
+
+    private String requireplannum; //计划申请行
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(RfqListActivity.this);
+        ButterKnife.bind(RequireplanlineListActivity.this);
         initData();
         findViewById();
         initView();
     }
 
-    /**初始化数据**/
+    /**
+     * 获取标识
+     **/
     private void initData() {
-        mark=getIntent().getExtras().getInt("mark");
+        requireplannum=getIntent().getExtras().getString("requireplannum");
 
     }
 
@@ -139,16 +139,12 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
                 finish();
             }
         });
-        if(mark==XJD_CG){
-            titleTextView.setText(R.string.xjd_text);
-        }else if(mark==XJD_GC){
-            titleTextView.setText(R.string.gcxjd_text);
-        }
+        titleTextView.setText(R.string.jhsqh_text);
+        search.setVisibility(View.GONE);
 
+//        setSearchEdit();
 
-        setSearchEdit();
-
-        layoutManager = new LinearLayoutManager(RfqListActivity.this);
+        layoutManager = new LinearLayoutManager(RequireplanlineListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -161,7 +157,7 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
 
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
-        initAdapter(new ArrayList<RFQ>());
+        initAdapter(new ArrayList<REQUIREPLANLINE>());
         getData(searchText);
 
     }
@@ -181,58 +177,21 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     }
 
 
-    private void setSearchEdit() {
-        SpannableString msp = new SpannableString("XX搜索");
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_search);
-        msp.setSpan(new ImageSpan(drawable), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        search.setHint(msp);
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 先隐藏键盘
-                    ((InputMethodManager) search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(
-                                    getCurrentFocus()
-                                            .getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                    searchText = search.getText().toString();
-                    rfqListAdapter.removeAll(rfqListAdapter.getData());
-                    nodatalayout.setVisibility(View.GONE);
-                    refresh_layout.setRefreshing(true);
-                    page = 1;
-                    getData(searchText);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
 
     /**
      * 获取数据*
      */
     private void getData(String search) {
-        String url=null;
-        if(mark==XJD_CG){
-            url=HttpManager.getRFQ(search, AccountUtils.getPersionId(this),page, 20);
-        }else if(mark==XJD_GC){
-            url=HttpManager.getRFQSER(search, AccountUtils.getPersionId(this),page, 20);
-
-        }
-
-        HttpManager.getDataPagingInfo(RfqListActivity.this, url, new HttpRequestHandler<Results>() {
+        String url = HttpManager.getREQUIREPLANLINE(requireplannum, AccountUtils.getPersionId(this), page, 20);
+        HttpManager.getDataPagingInfo(RequireplanlineListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
-                Log.i(TAG, "data=" + results);
             }
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<RFQ> item = JsonUtils.parsingRFQ(results.getResultlist());
+                ArrayList<REQUIREPLANLINE> item = JsonUtils.parsingREQUIREPLANLINE(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {
@@ -241,11 +200,11 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
 
                     if (item != null || item.size() != 0) {
                         if (page == 1) {
-                            initAdapter(new ArrayList<RFQ>());
+                            initAdapter(new ArrayList<REQUIREPLANLINE>());
                         }
-                        if(page>totalPages){
-                            MessageUtils.showMiddleToast(RfqListActivity.this,getString(R.string.have_all_data_text));
-                        }else{
+                        if (page > totalPages) {
+                            MessageUtils.showMiddleToast(RequireplanlineListActivity.this, getString(R.string.have_all_data_text));
+                        } else {
                             addData(item);
                         }
 
@@ -266,15 +225,15 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     /**
      * 获取数据*
      */
-    private void initAdapter(final List<RFQ> list) {
-        rfqListAdapter = new RfqListAdapter(RfqListActivity.this, R.layout.list_item_2, list);
-        recyclerView.setAdapter(rfqListAdapter);
-        rfqListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private void initAdapter(final List<REQUIREPLANLINE> list) {
+        requireplanlinelistadapter = new RequireplanlineListAdapter(RequireplanlineListActivity.this, R.layout.list_itemline, list);
+        recyclerView.setAdapter(requireplanlinelistadapter);
+        requireplanlinelistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(RfqListActivity.this, RfqdetailsActivity.class);
+                Intent intent = new Intent(RequireplanlineListActivity.this, RequireplanlinedetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("rfq", (Serializable) rfqListAdapter.getData().get(position));
+                bundle.putSerializable("requireplanline", (Serializable) requireplanlinelistadapter.getData().get(position));
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 0);
             }
@@ -284,8 +243,8 @@ public class RfqListActivity extends BaseActivity implements SwipeRefreshLayout.
     /**
      * 添加数据*
      */
-    private void addData(final List<RFQ> list) {
-        rfqListAdapter.addData(list);
+    private void addData(final List<REQUIREPLANLINE> list) {
+        requireplanlinelistadapter.addData(list);
     }
 
 

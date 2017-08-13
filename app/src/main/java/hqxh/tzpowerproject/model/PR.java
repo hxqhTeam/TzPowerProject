@@ -5,6 +5,7 @@ package hqxh.tzpowerproject.model;
  *采购申请／工程采购申请
  */
 public class PR extends Entity{
+    public String PRID;//PRID
     public String PRNUM;//申请编号
     public String DESCRIPTION;//描述
     public String ZHANGTAO;//帐套
@@ -193,5 +194,13 @@ public class PR extends Entity{
 
     public void setREMARK(String REMARK) {
         this.REMARK = REMARK;
+    }
+
+    public String getPRID() {
+        return PRID;
+    }
+
+    public void setPRID(String PRID) {
+        this.PRID = PRID;
     }
 }

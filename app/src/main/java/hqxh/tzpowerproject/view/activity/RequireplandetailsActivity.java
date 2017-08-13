@@ -4,6 +4,8 @@ import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -12,6 +14,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 
@@ -37,6 +41,12 @@ public class RequireplandetailsActivity extends BaseActivity {
      */
     @Bind(R.id.title_name)
     TextView titleTextView;
+
+    /**菜单按钮**/
+    @Bind(R.id.title_add)
+    ImageView menuImageView;
+
+    private PopupWindow popupWindow;
 
     @Bind(R.id.requireplannum_text_id)
     TextView requireplannumText;//申请单号
@@ -72,6 +82,8 @@ public class RequireplandetailsActivity extends BaseActivity {
 
     private REQUIREPLAN requireplan;
 
+    private LinearLayout xqjhLinearLayout; //需求计划
+
 
     /**
      * 界面信息
@@ -96,6 +108,7 @@ public class RequireplandetailsActivity extends BaseActivity {
     @Override
     protected void findViewById() {
         titleTextView.setText(R.string.xq_title);
+        menuImageView.setVisibility(View.VISIBLE);
     }
 
 
@@ -124,5 +137,58 @@ public class RequireplandetailsActivity extends BaseActivity {
     void setBackImageView() {
         finish();
     }
+
+    //菜单按钮
+    @OnClick(R.id.title_add)
+    void setMenuImageView(){
+        showPopupWindow(menuImageView);
+    }
+
+
+    /**
+     * 初始化showPopupWindow*
+     */
+    private void showPopupWindow(View view) {
+
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(RequireplandetailsActivity.this).inflate(
+                R.layout.xqjh_popup_window, null);
+
+
+        popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+
+                return false;
+            }
+        });
+
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(
+                R.drawable.popup_background_mtrl_mult));
+
+        // 设置好参数之后再show
+        popupWindow.showAsDropDown(view);
+
+        xqjhLinearLayout = (LinearLayout) contentView.findViewById(R.id.plan_text_id);
+        xqjhLinearLayout.setOnClickListener(xqjhLinearLayoutOnClickListener);
+    }
+
+    private View.OnClickListener xqjhLinearLayoutOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            popupWindow.dismiss();
+            Intent intent =new Intent(RequireplandetailsActivity.this,RequireplanlineListActivity.class);
+            intent.putExtra("requireplannum",requireplan.getREQUIREPLANNUM());
+            startActivityForResult(intent,0);
+        }
+    };
 
 }
