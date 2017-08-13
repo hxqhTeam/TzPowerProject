@@ -34,6 +34,7 @@ import hqxh.tzpowerproject.model.REQUIREPLAN;
 public class RequireplandetailsActivity extends BaseActivity {
     private static String TAG = "RequireplandetailsActivity";
 
+
     @Bind(R.id.title_back_id)
     ImageView backImageView;//返回按钮
     /**
