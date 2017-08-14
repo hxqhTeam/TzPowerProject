@@ -2,7 +2,7 @@ package hqxh.tzpowerproject.model;
 
 /**
  * Created by think on 2016/7/1.
- *物资合同付款审批表/工程验收
+ *物资合同付款审批表/工程验收／付款执行情况
  */
 public class PAYAPPROVE extends Entity{
     public String PAYAPPROVETYPE;//付款性质
@@ -46,6 +46,15 @@ public class PAYAPPROVE extends Entity{
     public String AGENCYFUND;//代收款
     public String FINANCIAL;//财务经办人
     public String  RECEIPTS;//验收情况
+
+
+    //付款执行历史
+    public String  CREATEDATE;//输入日期
+    public String  ACTUALPAYCOST;//本次付款金额
+    public String  ACTUALPAYDATE;//实际支付日期
+    public String  REMARKS;//备注
+
+
     public String getRECEIPTS() {
         return RECEIPTS;
     }
@@ -382,5 +391,38 @@ public class PAYAPPROVE extends Entity{
 
     public void setPAYTYPE(String PAYTYPE) {
         this.PAYTYPE = PAYTYPE;
+    }
+
+
+    public String getCREATEDATE() {
+        return CREATEDATE;
+    }
+
+    public void setCREATEDATE(String CREATEDATE) {
+        this.CREATEDATE = CREATEDATE;
+    }
+
+    public String getACTUALPAYCOST() {
+        return ACTUALPAYCOST;
+    }
+
+    public void setACTUALPAYCOST(String ACTUALPAYCOST) {
+        this.ACTUALPAYCOST = ACTUALPAYCOST;
+    }
+
+    public String getACTUALPAYDATE() {
+        return ACTUALPAYDATE;
+    }
+
+    public void setACTUALPAYDATE(String ACTUALPAYDATE) {
+        this.ACTUALPAYDATE = ACTUALPAYDATE;
+    }
+
+    public String getREMARKS() {
+        return REMARKS;
+    }
+
+    public void setREMARKS(String REMARKS) {
+        this.REMARKS = REMARKS;
     }
 }

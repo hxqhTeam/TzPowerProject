@@ -15,11 +15,13 @@ import hqxh.tzpowerproject.view.widght.BaseViewHolder;
 
 /**
  * Created by apple on 15/10/26
- * 物资合同付款审批表
+ * 物资合同付款审批表/付款执行情况
  */
 public class PayapproveListAdapter extends BaseQuickAdapter<PAYAPPROVE> {
-    public PayapproveListAdapter(Context context, int layoutResId, List data) {
+    private int mark;
+    public PayapproveListAdapter(Context context, int layoutResId, List data,int mark) {
         super(context, layoutResId, data);
+        this.mark=mark;
     }
 
     @Override
@@ -34,10 +36,16 @@ public class PayapproveListAdapter extends BaseQuickAdapter<PAYAPPROVE> {
     @Override
     protected void convert(BaseViewHolder helper, PAYAPPROVE item) {
         CardView cardView = helper.getView(R.id.card_container);
-        helper.setText(R.id.num_text_id, item.getPAYNUM());
-        helper.setText(R.id.item_desc_text, item.getDESCRIPTION());
-        helper.setText(R.id.reportdate_text_id, item.getSTATUS());
-        helper.setText(R.id.persion_text_id, item.getCREATEBY());
+        if(mark==0) {
+            helper.setText(R.id.num_text_id, item.getPAYNUM());
+            helper.setText(R.id.item_desc_text, item.getDESCRIPTION());
+            helper.setText(R.id.reportdate_text_id, item.getSTATUS());
+            helper.setText(R.id.persion_text_id, item.getCREATEBY());
+        }else if(mark==1){
+            helper.setText(R.id.dh_text_id, item.getPAYNUM());
+            helper.setText(R.id.fk_description_text_id, item.getDESCRIPTION());
+            helper.setText(R.id.status_text_id, item.getSTATUS());
+        }
     }
 
 

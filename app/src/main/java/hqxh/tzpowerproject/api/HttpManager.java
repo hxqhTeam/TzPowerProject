@@ -133,6 +133,36 @@ public class HttpManager {
         return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PO_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','orderby':'POID DESC','sinorsearch':{'PONUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
     }
 
+
+    /**
+     * 设置采购申请行的接口
+     */
+    public static String getPOLINE(String ponum, String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.POLINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum + "'}}";
+    }
+
+    /**
+     * 设置附件的接口
+     */
+    public static String getDOCLINKS(String ownertable,String ownerid,String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.CYDOCLI_NAME + "','objectname':'" + Constants.DOCLINKS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'OWNERTABLE':'=" + ownertable + "','OWNERID':'="+ownerid+"'}}";
+    }
+
+    /**
+     * 设置付款计划的接口
+     */
+    public static String getPAYMENTPLAN(String ponum,String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYMENTPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum +"'}}";
+    }
+
+    /**
+     * 设置付款执行情况的接口
+     */
+    public static String getPAYAPPROVE1(String ponum,String persionid, int curpage, int showcount) {
+//        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum +"'}}";
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "'}";
+    }
+
     /**
      * 设置工程服务采购单的接口
      */

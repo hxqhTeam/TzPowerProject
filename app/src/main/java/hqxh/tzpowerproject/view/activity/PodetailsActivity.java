@@ -93,7 +93,7 @@ public class PodetailsActivity extends BaseActivity {
 
     private PO po;
 
-    private TextView xjdhText; //采购单行
+    private TextView cgdText; //采购单行
     private TextView htwbText; //合同文本
     private TextView fkjhText; //付款计划
     private TextView fkzxqkText; //付款执行情况
@@ -205,44 +205,53 @@ public class PodetailsActivity extends BaseActivity {
         // 设置好参数之后再show
         popupWindow.showAsDropDown(view);
 
-        xjdhText = (TextView) contentView.findViewById(R.id.cgdh_text_id);
+        cgdText = (TextView) contentView.findViewById(R.id.cgdh_text_id);
         htwbText = (TextView) contentView.findViewById(R.id.htwb_text_id);
         fkjhText = (TextView) contentView.findViewById(R.id.fkjh_text_id);
         fkzxqkText = (TextView) contentView.findViewById(R.id.fkzxqk_text_id);
         spjlText = (TextView) contentView.findViewById(R.id.spjl_text_id);
-        xjdhText.setOnClickListener(xjdhTextOnClickListener);
+        cgdText.setOnClickListener(cgdTextOnClickListener);
+        htwbText.setOnClickListener(htwbTextOnClickListener);
+        fkjhText.setOnClickListener(fkjhTextOnClickListener);
+        fkzxqkText.setOnClickListener(fkzxqkTextOnClickListener);
     }
 
-    private View.OnClickListener xjdhTextOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener cgdTextOnClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-//            Intent intent =new Intent(PodetailsActivity.this,RfqlineListActivity.class);
-//            intent.putExtra("title",getResources().getString(R.string.xjdh_text));
-//            intent.putExtra("rfqnum",rfq.getRFQNUM());
-//            intent.putExtra("appid",Constants.RFQ_APPID);
-//            startActivityForResult(intent,0);
+            Intent intent =new Intent(PodetailsActivity.this,PoLineListActivity.class);
+            intent.putExtra("ponum",po.getPONUM());
+            startActivityForResult(intent,0);
         }
     };
-    private View.OnClickListener gysLayoutOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener htwbTextOnClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-//            Intent intent =new Intent(PodetailsActivity.this,RfqvendorListActivity.class);
-//            intent.putExtra("title",getResources().getString(R.string.gys_text));
-//            intent.putExtra("rfqnum",rfq.getRFQNUM());
-//            intent.putExtra("appid",Constants.RFQ_APPID);
-//            startActivityForResult(intent,0);
+            Intent intent =new Intent(PodetailsActivity.this,DoclinksListActivity.class);
+            intent.putExtra("title",getResources().getString(R.string.htwb_text));
+            intent.putExtra("ownertable",Constants.PO_NAME);
+            intent.putExtra("ownerid",po.getPOID());
+            startActivityForResult(intent,0);
         }
     };
-    private View.OnClickListener spjlLayoutOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener fkjhTextOnClickListener=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-//            Intent intent =new Intent(PodetailsActivity.this,WftransactionListActivity.class);
-//            intent.putExtra("ownertable", Constants.RFQ_NAME);
-//            intent.putExtra("ownerid",rfq.getRFQID());
-//            startActivityForResult(intent,0);
+            Intent intent =new Intent(PodetailsActivity.this,PaymentplanListActivity.class);
+            intent.putExtra("ponum", po.getPONUM());
+            startActivityForResult(intent,0);
+        }
+    };
+    private View.OnClickListener fkzxqkTextOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            popupWindow.dismiss();
+            Intent intent =new Intent(PodetailsActivity.this,PayapproveItemListActivity.class);
+            intent.putExtra("ponum", po.getPONUM());
+            startActivityForResult(intent,0);
         }
     };
 

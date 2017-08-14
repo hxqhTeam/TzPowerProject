@@ -139,6 +139,30 @@
             android:name=".view.activity.PodetailsActivity"
             android:label="PodetailsActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PoLineListActivity"
+            android:label="PoLineListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PolinedetailsActivity"
+            android:label="PolinedetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.DoclinksListActivity"
+            android:label="DoclinksListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PaymentplanListActivity"
+            android:label="PaymentplanListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PaymentplanDetailsActivity"
+            android:label="PaymentplanDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PayapproveItemListActivity"
+            android:label="PayapproveItemListActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
