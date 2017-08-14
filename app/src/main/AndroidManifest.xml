@@ -140,6 +140,10 @@
             android:label="PodetailsActivity"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".view.activity.CompaniesdetailsActivity"
+            android:label="CompaniesdetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".view.activity.PoLineListActivity"
             android:label="PoLineListActivity"
             android:screenOrientation="portrait" />

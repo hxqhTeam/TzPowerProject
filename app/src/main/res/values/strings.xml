@@ -95,6 +95,8 @@
     <string name="contractnum_text">合同编号</string>
     <string name="contractdesc_text">合同名称</string>
     <string name="financial_text">财务经办人</string>
+
+    <string name="displayname_text">创建人</string>
     <string name="createdate_text">创建时间</string>
     <string name="paytype_text">付款类型</string>
     <string name="payapprovetype_text">付款性质</string>
@@ -128,7 +130,7 @@
     <string name="prnum_text">采购申请:</string>
     <string name="materialsec_text">物资费用预算:</string>
     <string name="materialssc_text">物资费用剩余:</string>
-    <string name="totalcost_text">预估总价:</string>
+
     <string name="zt_text">状态:</string>
     <string name="requireplannum1_text_">需求计划申请编号:</string>
     <string name="requestedbyname_text">需求人:</string>
@@ -138,7 +140,7 @@
     <string name="cgsqh_text">采购申请行</string>
     <string name="spgc_text">审批记录</string>
     <string name="maxrole_text">审批记录</string>
-    <string name="displayname_text">审批人:</string>
+
     <string name="transdate_text">审批日期:</string>
     <string name="node_text">标题:</string>
     <string name="memo_text">意见:</string>
@@ -155,13 +157,13 @@
     <string name="unitcost_text">最近一次报价:</string>
     <string name="enterdate_text">最近一次报价时间:</string>
     <string name="name_text">最近报价供应商:</string>
-    <string name="vendor_text">供应商:</string>
+
     <string name="contact_text">联系人:</string>
     <string name="phone_text">电话:</string>
     <string name="email_text">电子邮件:</string>
     <string name="ztrq_text">状态日期:</string>
     <!--采购单-->
-    <string name="ponum_text">采购单编号:</string>
+
     <string name="podescription_text">采购单描述:</string>
     <string name="pogenre_text">采购单类型:</string>
     <string name="ishtbh_text">合同编号?</string>
@@ -209,4 +211,8 @@
     <string name="lastmodtime_text">最后修改日期:</string>
     <string name="dh_text">单号:</string>
     <string name="fk_description_text">付款内容:</string>
+    <string name="annex_text">附件</string>
+    <string name="company_text">供应商</string>
+    <string name="producttype_text">供货类型</string>
+    <string name="cptype_text">供货商类型</string>
 </resources>

@@ -12,8 +12,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -38,6 +41,11 @@ public class PayapprovedetailsActivity extends BaseActivity {
      */
     @Bind(R.id.title_name)
     TextView titleTextView;
+   /*菜单按钮* */
+    @Bind(R.id.title_add)
+   ImageView menuImageView;
+
+    private PopupWindow popupWindow;
 
     @Bind(R.id.paynum_text_id)
     TextView paynumText;//审批单号
@@ -99,6 +107,8 @@ public class PayapprovedetailsActivity extends BaseActivity {
 
 
     private PAYAPPROVE payapprove;
+    private TextView annexText;
+    private TextView shjlText;
 
 
     /**
@@ -124,6 +134,7 @@ public class PayapprovedetailsActivity extends BaseActivity {
     @Override
     protected void findViewById() {
         titleTextView.setText(R.string.xq_title);
+        menuImageView.setVisibility(View.VISIBLE);
     }
 
 
@@ -167,5 +178,14 @@ public class PayapprovedetailsActivity extends BaseActivity {
     void setBackImageView() {
         finish();
     }
+    //菜单按钮
+    @OnClick(R.id.title_add)
+    void setMenuImageView(){
+        showPopupwidow(menuImageView);
+    }
 
+    private void showPopupwidow(View view) {
+
+
+    }
 }

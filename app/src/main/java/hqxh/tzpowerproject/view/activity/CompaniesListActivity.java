@@ -2,6 +2,7 @@ package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,6 +21,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -252,12 +254,13 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
         companiesListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(N_grainjcListActivity.this, N_grainjcDetailsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putString("worktype", worktype);
-//                bundle.putSerializable("n_grainjc", items.get(position));
-//                intent.putExtras(bundle);
-//                startActivityForResult(intent, 0);
+              Intent intent = new Intent(CompaniesListActivity.this, CompaniesdetailsActivity.class);
+               Bundle bundle = new Bundle();
+         //      bundle.putString("worktype", worktype);
+          //      bundle.putSerializable("n_grainjc", items.get(position));
+                bundle.putSerializable("COMPANIES", (Serializable) companiesListAdapter.getData().get(position));
+                intent.putExtras(bundle);
+               startActivityForResult(intent, 0);
             }
         });
     }

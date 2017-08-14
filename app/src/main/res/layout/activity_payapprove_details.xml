@@ -887,6 +887,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dimens_line"
                 android:background="@drawable/line"></View>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/dimen_10">
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:background="@drawable/button_selector"
+                    android:text="@string/sp_btn_text"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp" />
+
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>
