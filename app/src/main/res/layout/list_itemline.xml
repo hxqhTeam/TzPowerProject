@@ -21,6 +21,7 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/line_title_id"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="@string/line_text"
@@ -45,6 +46,7 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/itemnum_title_id"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="@string/itemnum_text"
@@ -69,6 +71,7 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/description_title_id"
                 android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:text="@string/description_text"

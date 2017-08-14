@@ -7,7 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -16,15 +15,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.constants.Constants;
+import hqxh.tzpowerproject.model.MATECODE;
 import hqxh.tzpowerproject.model.PR;
-import hqxh.tzpowerproject.model.REQUIREPLAN;
 
 
 /**
- * 采购申请详情
+ * 物资编码
  */
-public class PrdetailsActivity extends BaseActivity {
-    private static String TAG = "PrdetailsActivity";
+public class MatecodeDetailsActivity extends BaseActivity {
+    private static String TAG = "MatecodeDetailsActivity";
 
     @Bind(R.id.title_back_id)
     ImageView backImageView;//返回按钮
@@ -40,56 +39,37 @@ public class PrdetailsActivity extends BaseActivity {
 
     private PopupWindow popupWindow;
 
-    @Bind(R.id.prnum_text_id)
-    TextView prnumText;//采购申请
+    @Bind(R.id.mc_materialcodenum_text_id)
+    TextView mc_materialcodenumText;//单号
     @Bind(R.id.description_text_id)
     TextView descriptionText;//描述
+    @Bind(R.id.mc_createdby_text_id)
+    TextView mc_createdbyText;//申请人
+    @Bind(R.id.mc_department_text_id)
+    TextView mc_departmentText;//申请部门
     @Bind(R.id.zhangtao_text_id)
-    TextView zhangtaoText;//账套信息
-    @Bind(R.id.ztdescription_text_id)
-    TextView ztdescriptionText;//账套描述
-    @Bind(R.id.materialsec_text_id)
-    TextView materialsecText;//物资费用预算
-    @Bind(R.id.materialssc_text_id)
-    TextView materialsscText;//物资费用剩余
-    @Bind(R.id.totalcost_text_id)
-    TextView totalcostText;//预估总价
+    TextView zhangtaoText;//套帐信息
+    @Bind(R.id.alndomain_zt_description_text_id)
+    TextView alndomain_zt_descriptionText;//帐套描述
     @Bind(R.id.status_text_id)
     TextView statusText;//状态
-    @Bind(R.id.plantype_text_id)
-    TextView plantypeText;//计划类型
-    @Bind(R.id.projectnum_text_id)
-    TextView projectnumText;//项目编号
-    @Bind(R.id.projectname_text_id)
-    TextView projectnameText;//项目名称
-    @Bind(R.id.requireplannum_text_id)
-    TextView requireplannumText;//需求计划申请编号
-    @Bind(R.id.requestedbyname_text_id)
-    TextView requestedbynameText;//需求人
-    @Bind(R.id.department1_text_id)
-    TextView departmentText;//申请人部门
-    @Bind(R.id.issuedate_text_id)
-    TextView issuedateText;//请求日期
-    @Bind(R.id.requireddate_text_id)
-    TextView requireddateText;//要求的日期
+    @Bind(R.id.mc_createtime_text_id)
+    TextView mc_createtimeText;//申请时间
 
 
-    private PR pr;
+    private MATECODE matecode;
 
-    private TextView cgsqhLinearLayout; //采购申请行
+    private TextView cgsqhLinearLayout; //申请物资编码
     private TextView spgcLinearLayout; //审批过程
 
 
-    /**
-     * 界面信息
-     **/
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pr_details);
-        ButterKnife.bind(PrdetailsActivity.this);
+        setContentView(R.layout.activity_matecode_details);
+        ButterKnife.bind(MatecodeDetailsActivity.this);
         geiIntentData();
         findViewById();
         initView();
@@ -97,7 +77,7 @@ public class PrdetailsActivity extends BaseActivity {
     }
 
     private void geiIntentData() {
-        pr = (PR) getIntent().getSerializableExtra("pr");
+        matecode = (MATECODE) getIntent().getSerializableExtra("matecode");
     }
 
     @Override
@@ -109,22 +89,14 @@ public class PrdetailsActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        prnumText.setText(pr.getPRNUM());
-        descriptionText.setText(pr.getDESCRIPTION());
-        zhangtaoText.setText(pr.getZHANGTAO());
-        ztdescriptionText.setText(pr.getALNDOMAIN_ZT_DESCRIPTION());
-        materialsecText.setText(pr.getPLANCOST());
-        materialsscText.setText(pr.getREMAINCOST());
-        totalcostText.setText(pr.getTOTALCOST());
-        statusText.setText(pr.getSTATUS());
-        plantypeText.setText(pr.getPRTYPE());
-        projectnumText.setText(pr.getPROJECTNUM());
-        projectnameText.setText(pr.getPROJECTDESC());
-        requireplannumText.setText(pr.getREQUIREPLANNUM());
-        requestedbynameText.setText(pr.getREQUESTEDBYNAME());
-        departmentText.setText(pr.getDEPARTMENT());
-        issuedateText.setText(pr.getISSUEDATE());
-        requireddateText.setText(pr.getREQUIREDDATE());
+        mc_materialcodenumText.setText(matecode.getMC_MATERIALCODENUM());
+        descriptionText.setText(matecode.getDESCRIPTION());
+        mc_createdbyText.setText(matecode.getMC_CREATEDBY());
+        mc_departmentText.setText(matecode.getMC_DEPARTMENT());
+        zhangtaoText.setText(matecode.getZHANGTAO());
+        alndomain_zt_descriptionText.setText(matecode.getALNDOMAIN_ZT_DESCRIPTION());
+        statusText.setText(matecode.getSTATUS());
+        mc_createtimeText.setText(matecode.getMC_CREATETIME());
 
     }
 
@@ -147,7 +119,7 @@ public class PrdetailsActivity extends BaseActivity {
     private void showPopupWindow(View view) {
 
         // 一个自定义的布局，作为显示的内容
-        View contentView = LayoutInflater.from(PrdetailsActivity.this).inflate(
+        View contentView = LayoutInflater.from(MatecodeDetailsActivity.this).inflate(
                 R.layout.cgsq_popup_window, null);
 
 
@@ -176,6 +148,7 @@ public class PrdetailsActivity extends BaseActivity {
         cgsqhLinearLayout = (TextView) contentView.findViewById(R.id.cgsqh_text_id);
         spgcLinearLayout = (TextView) contentView.findViewById(R.id.spjl_text_id);
         cgsqhLinearLayout.setVisibility(View.VISIBLE);
+        cgsqhLinearLayout.setText(R.string.sqwzbm_text);
         cgsqhLinearLayout.setOnClickListener(cgsqhLinearLayoutOnClickListener);
         spgcLinearLayout.setOnClickListener(spgcLinearLayoutOnClickListener);
     }
@@ -184,8 +157,8 @@ public class PrdetailsActivity extends BaseActivity {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-            Intent intent =new Intent(PrdetailsActivity.this,PrLineListActivity.class);
-            intent.putExtra("prnum",pr.getPRNUM());
+            Intent intent =new Intent(MatecodeDetailsActivity.this,MatecodeLineListActivity.class);
+            intent.putExtra("mc_materialinfonum",matecode.getMC_MATERIALCODENUM());
             startActivityForResult(intent,0);
         }
     };
@@ -194,9 +167,9 @@ public class PrdetailsActivity extends BaseActivity {
         public void onClick(View view) {
             popupWindow.dismiss();
 
-            Intent intent =new Intent(PrdetailsActivity.this,WftransactionListActivity.class);
-            intent.putExtra("ownertable", Constants.PR_NAME);
-            intent.putExtra("ownerid",pr.getPRID());
+            Intent intent =new Intent(MatecodeDetailsActivity.this,WftransactionListActivity.class);
+            intent.putExtra("ownertable", Constants.MATECODE_NAME);
+            intent.putExtra("ownerid",matecode.getMATECODEID());
             startActivityForResult(intent,0);
 
         }

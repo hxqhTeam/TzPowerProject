@@ -5,6 +5,7 @@ package hqxh.tzpowerproject.model;
  *物资合同付款审批表/工程验收／付款执行情况
  */
 public class PAYAPPROVE extends Entity{
+    public String PAYAPPROVEID;//PAYAPPROVEID
     public String PAYAPPROVETYPE;//付款性质
     public String POTOTALCOST;//采购单金额
     public String TOTALCOST;//合同金额
@@ -424,5 +425,13 @@ public class PAYAPPROVE extends Entity{
 
     public void setREMARKS(String REMARKS) {
         this.REMARKS = REMARKS;
+    }
+
+    public String getPAYAPPROVEID() {
+        return PAYAPPROVEID;
+    }
+
+    public void setPAYAPPROVEID(String PAYAPPROVEID) {
+        this.PAYAPPROVEID = PAYAPPROVEID;
     }
 }

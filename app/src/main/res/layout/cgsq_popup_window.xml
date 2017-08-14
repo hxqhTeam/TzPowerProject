@@ -6,27 +6,21 @@
 
     <LinearLayout
 
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/plan_text_id"
+
+        <TextView
+            android:id="@+id/cgsqh_text_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/size_10dp">
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:text="@string/cgsqh_text"
+            android:padding="@dimen/dimen_5"
+            android:visibility="gone"
+            android:textSize="@dimen/dimens_16sp" />
 
-
-            <TextView
-                android:id="@+id/cgsqh_text_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_5"
-                android:text="@string/cgsqh_text"
-                android:textSize="@dimen/dimens_16sp" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
@@ -34,28 +28,16 @@
             android:background="@drawable/line"></View>
 
 
-        <LinearLayout
-            android:id="@+id/maxrole_text_id"
+        <TextView
+            android:id="@+id/spjl_text_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/size_10dp">
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:padding="@dimen/dimen_5"
+            android:text="@string/maxrole_text"
+            android:textSize="@dimen/dimens_16sp" />
 
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/dimen_5"
-                android:text="@string/maxrole_text"
-                android:textSize="@dimen/dimens_16sp" />
-
-        </LinearLayout>
-
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dimens_line"
-            android:background="@drawable/line" />
     </LinearLayout>
 
 

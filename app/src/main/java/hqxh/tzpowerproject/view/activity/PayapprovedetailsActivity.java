@@ -4,6 +4,9 @@ import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -16,24 +19,24 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hqxh.tzpowerproject.R;
+import hqxh.tzpowerproject.constants.Constants;
 import hqxh.tzpowerproject.model.PAYAPPROVE;
 import hqxh.tzpowerproject.model.REQUIREPLAN;
 
 
 /**
- *  工程付款actvity
+ * 物资编码付款／工程付款actvity
  */
 public class PayapprovedetailsActivity extends BaseActivity {
     private static String TAG = "PayapprovedetailsActivity";
-
+    private static int WZ_CODE = 1000; //物资
+    private static int GC_CODE = 1001; //物资
     @Bind(R.id.title_back_id)
     ImageView backImageView;//返回按钮
     /**
@@ -41,12 +44,14 @@ public class PayapprovedetailsActivity extends BaseActivity {
      */
     @Bind(R.id.title_name)
     TextView titleTextView;
-   /*菜单按钮* */
-    @Bind(R.id.title_add)
-   ImageView menuImageView;
 
+    /**菜单按钮**/
+    @Bind(R.id.title_add)
+    ImageView menuImageView;
     private PopupWindow popupWindow;
 
+
+    //工程付款
     @Bind(R.id.paynum_text_id)
     TextView paynumText;//审批单号
     @Bind(R.id.description_text_id)
@@ -63,8 +68,8 @@ public class PayapprovedetailsActivity extends BaseActivity {
     TextView statuseText;//审批状态
     @Bind(R.id.zhangtao_text_id)
     TextView zhangtaoText;//账套信息
-    @Bind(R.id.financial_text_id)
-    TextView financialText;//财务经办人
+//    @Bind(R.id.financial_text_id)
+//    TextView financialText;//财务经办人
     @Bind(R.id.receipts_text_id)
     TextView receiptsText;//验收情况
     @Bind(R.id.displayname_text_id)
@@ -104,30 +109,37 @@ public class PayapprovedetailsActivity extends BaseActivity {
     @Bind(R.id.vendor_text_id)
     TextView vendorText;//供应商描述
 
+    //物资采购采购付款
+    @Bind(R.id.domain_description_text_id)
+    TextView domain_descriptionText;//单位名称
+    @Bind(R.id.payapprovetype_text_id)
+    TextView payapprovetypeText;//付款性质
 
 
     private PAYAPPROVE payapprove;
-    private TextView annexText;
-    private TextView shjlText;
 
 
-    /**
-     * 界面信息
-     **/
+    private int mark;
+
+
+    private  TextView spjlText;//审批记录
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_payapprove_details);
-        ButterKnife.bind(PayapprovedetailsActivity.this);
         geiIntentData();
+        Log.i(TAG,"mark="+mark);
+        setContentView(R.layout.activity_payapprove1_details);
+        ButterKnife.bind(this);
+
         findViewById();
         initView();
 
     }
 
     private void geiIntentData() {
+        mark = getIntent().getExtras().getInt("mark");
         payapprove = (PAYAPPROVE) getIntent().getSerializableExtra("payapprove");
     }
 
@@ -148,7 +160,7 @@ public class PayapprovedetailsActivity extends BaseActivity {
         contractdescText.setText(payapprove.getCONTRACTDESC());
         statuseText.setText(payapprove.getSTATUS());
         zhangtaoText.setText(payapprove.getZHANGTAO());
-        financialText.setText(payapprove.getFINANCIAL());
+
         receiptsText.setText(payapprove.getRECEIPTS());
         displaynameText.setText(payapprove.getCREATEBY());
         createdateText.setText(payapprove.getCREATEALT());
@@ -168,7 +180,12 @@ public class PayapprovedetailsActivity extends BaseActivity {
         expirationdateText.setText(payapprove.getEXPIRATIONALT());
         differenceText.setText(payapprove.getDIFFERENCE());
         vendorText.setText(payapprove.getVENDOR());
-
+        if(mark==WZ_CODE){
+            domain_descriptionText.setText(payapprove.getDOMAIN_DESCRIPTION());
+            payapprovetypeText.setText(payapprove.getPAYAPPROVETYPE());
+        }else{
+//            financialText.setText(payapprove.getFINANCIAL());
+        }
 
 
     }
@@ -178,14 +195,62 @@ public class PayapprovedetailsActivity extends BaseActivity {
     void setBackImageView() {
         finish();
     }
+
+
     //菜单按钮
     @OnClick(R.id.title_add)
     void setMenuImageView(){
-        showPopupwidow(menuImageView);
+        showPopupWindow(menuImageView);
     }
 
-    private void showPopupwidow(View view) {
+
+    /**
+     * 初始化showPopupWindow*
+     */
+    private void showPopupWindow(View view) {
+
+        // 一个自定义的布局，作为显示的内容
+        View contentView = LayoutInflater.from(PayapprovedetailsActivity.this).inflate(
+                R.layout.cgsq_popup_window, null);
 
 
+        popupWindow = new PopupWindow(contentView,
+                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setTouchable(true);
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchInterceptor(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+
+                return false;
+            }
+        });
+
+        // 如果不设置PopupWindow的背景，无论是点击外部区域还是Back键都无法dismiss弹框
+        // 我觉得这里是API的一个bug
+        popupWindow.setBackgroundDrawable(getResources().getDrawable(
+                R.drawable.popup_background_mtrl_mult));
+
+        // 设置好参数之后再show
+        popupWindow.showAsDropDown(view);
+
+        spjlText = (TextView) contentView.findViewById(R.id.spjl_text_id);
+        spjlText.setOnClickListener(spjlTextOnClickListener);
     }
+
+    private View.OnClickListener spjlTextOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            popupWindow.dismiss();
+
+            Intent intent =new Intent(PayapprovedetailsActivity.this,WftransactionListActivity.class);
+            intent.putExtra("ownertable", Constants.PAYAPPROVE_NAME);
+            intent.putExtra("ownerid",payapprove.getPAYAPPROVEID());
+            startActivityForResult(intent,0);
+
+        }
+    };
+
 }

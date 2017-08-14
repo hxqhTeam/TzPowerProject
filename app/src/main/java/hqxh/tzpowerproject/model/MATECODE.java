@@ -5,6 +5,7 @@ package hqxh.tzpowerproject.model;
  *物资编码
  */
 public class MATECODE extends Entity{
+    public String MATECODEID;//MATECODEID
     public String MC_MATERIALCODENUM;//物资表单编号
     public String DESCRIPTION;//描述
     public String MC_CREATEDBY;//申请人
@@ -14,6 +15,13 @@ public class MATECODE extends Entity{
     public String STATUS;//状态
     public String MC_CREATETIME;//申请时间
 
+    public String getMATECODEID() {
+        return MATECODEID;
+    }
+
+    public void setMATECODEID(String MATECODEID) {
+        this.MATECODEID = MATECODEID;
+    }
 
     public String getMC_MATERIALCODENUM() {
         return MC_MATERIALCODENUM;

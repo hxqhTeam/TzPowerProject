@@ -214,6 +214,7 @@ public class PodetailsActivity extends BaseActivity {
         htwbText.setOnClickListener(htwbTextOnClickListener);
         fkjhText.setOnClickListener(fkjhTextOnClickListener);
         fkzxqkText.setOnClickListener(fkzxqkTextOnClickListener);
+        spjlText.setOnClickListener(spjlTextOnClickListener);
     }
 
     private View.OnClickListener cgdTextOnClickListener=new View.OnClickListener() {
@@ -251,6 +252,17 @@ public class PodetailsActivity extends BaseActivity {
             popupWindow.dismiss();
             Intent intent =new Intent(PodetailsActivity.this,PayapproveItemListActivity.class);
             intent.putExtra("ponum", po.getPONUM());
+            startActivityForResult(intent,0);
+        }
+    };
+
+    private View.OnClickListener spjlTextOnClickListener=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            popupWindow.dismiss();
+            Intent intent =new Intent(PodetailsActivity.this,WftransactionListActivity.class);
+            intent.putExtra("ownertable",Constants.PO_NAME);
+            intent.putExtra("ownerid",po.getPOID());
             startActivityForResult(intent,0);
         }
     };

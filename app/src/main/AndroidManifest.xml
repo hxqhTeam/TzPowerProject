@@ -167,6 +167,22 @@
             android:name=".view.activity.PayapproveItemListActivity"
             android:label="PayapproveItemListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.PayapproveItemDetailsActivity"
+            android:label="PayapproveItemDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MatecodeDetailsActivity"
+            android:label="MatecodeDetailsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MatecodeLineListActivity"
+            android:label="MatecodeLineListActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.activity.MatecodelineDetailsActivity"
+            android:label="MatecodelineDetailsActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

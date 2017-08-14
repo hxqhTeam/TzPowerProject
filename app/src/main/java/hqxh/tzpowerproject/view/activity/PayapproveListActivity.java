@@ -272,6 +272,7 @@ public class PayapproveListActivity extends BaseActivity implements SwipeRefresh
                 Intent intent = new Intent(PayapproveListActivity.this, PayapprovedetailsActivity.class);
               Bundle bundle = new Bundle();
                 bundle.putSerializable("payapprove", (Serializable) payapproveListAdapter.getData().get(position));
+                bundle.putInt("mark",mark);
                intent.putExtras(bundle);
                startActivityForResult(intent, 0);
             }

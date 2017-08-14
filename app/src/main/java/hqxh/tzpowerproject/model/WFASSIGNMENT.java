@@ -18,8 +18,8 @@ public class WFASSIGNMENT extends Entity{
     public String ASSIGNEE_DEPT_DESCRIPTION;//岗位职能
     public String ASSIGNEE_DISPLAYNAME;//经办人审核人
     public String STARTDATE;//开始时间
-    public String LASTMEMO_TRANSDATE;//审核时间
-    public String LASTMEMO_MEDO;//审核意见
+    public String TRANS_TRANSDATE;//审核时间
+    public String TRANS_MEMO;//审核意见
 
     public String getOWNERTABLE() {
         return OWNERTABLE;
@@ -117,19 +117,19 @@ public class WFASSIGNMENT extends Entity{
         this.STARTDATE = STARTDATE;
     }
 
-    public String getLASTMEMO_TRANSDATE() {
-        return LASTMEMO_TRANSDATE;
+    public String getTRANS_TRANSDATE() {
+        return TRANS_TRANSDATE;
     }
 
-    public void setLASTMEMO_TRANSDATE(String LASTMEMO_TRANSDATE) {
-        this.LASTMEMO_TRANSDATE = LASTMEMO_TRANSDATE;
+    public void setTRANS_TRANSDATE(String TRANS_TRANSDATE) {
+        this.TRANS_TRANSDATE = TRANS_TRANSDATE;
     }
 
-    public String getLASTMEMO_MEDO() {
-        return LASTMEMO_MEDO;
+    public String getTRANS_MEMO() {
+        return TRANS_MEMO;
     }
 
-    public void setLASTMEMO_MEDO(String LASTMEMO_MEDO) {
-        this.LASTMEMO_MEDO = LASTMEMO_MEDO;
+    public void setTRANS_MEMO(String TRANS_MEMO) {
+        this.TRANS_MEMO = TRANS_MEMO;
     }
 }

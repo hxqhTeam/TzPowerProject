@@ -35,9 +35,9 @@ public class WftransactionListAdapter extends BaseQuickAdapter<WFASSIGNMENT> {
     protected void convert(BaseViewHolder helper, WFASSIGNMENT item) {
         CardView cardView = helper.getView(R.id.card_container);
         helper.setText(R.id.displayname_text_id, item.getASSIGNEE_DISPLAYNAME());
-        helper.setText(R.id.transdate_text_id, item.getLASTMEMO_TRANSDATE());
+        helper.setText(R.id.transdate_text_id, item.getTRANS_TRANSDATE());
         helper.setText(R.id.node_text_id, item.getSTARTDATE());
-        helper.setText(R.id.memo_text_id, item.getLASTMEMO_MEDO());
+        helper.setText(R.id.memo_text_id, item.getTRANS_MEMO());
     }
 
 

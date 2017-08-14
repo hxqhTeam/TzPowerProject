@@ -159,8 +159,8 @@ public class HttpManager {
      * 设置付款执行情况的接口
      */
     public static String getPAYAPPROVE1(String ponum,String persionid, int curpage, int showcount) {
-//        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum +"'}}";
-        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "'}";
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum +"'}}";
+//        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "'}";
     }
 
     /**
@@ -205,6 +205,13 @@ public class HttpManager {
         return "{'appid':'" + Constants.MATECODE_APPID + "','objectname':'" + Constants.MATECODE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','sinorsearch':{'MC_MATERIALCODENUM':'" + value + "','DESCRIPTION':'" + value + "'}}";
     }
 
+
+    /**
+     * 设置物资编码行的接口
+     */
+    public static String getMATECODELINE(String mc_materialinfonum, String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.MATECODE_APPID + "','objectname':'" + Constants.MATECODELINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'MC_MATERIALCODENUM':'=" + mc_materialinfonum + "'}}";
+    }
 
     /**
      * 设置供应商的接口

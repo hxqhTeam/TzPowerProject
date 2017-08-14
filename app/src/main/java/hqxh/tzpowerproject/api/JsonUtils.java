@@ -20,6 +20,7 @@ import hqxh.tzpowerproject.constants.Constants;
 import hqxh.tzpowerproject.model.COMPANIES;
 import hqxh.tzpowerproject.model.DOCLINKS;
 import hqxh.tzpowerproject.model.MATECODE;
+import hqxh.tzpowerproject.model.MATECODELINE;
 import hqxh.tzpowerproject.model.PAYAPPROVE;
 import hqxh.tzpowerproject.model.PAYMENTPLAN;
 import hqxh.tzpowerproject.model.PO;
@@ -843,6 +844,54 @@ public class JsonUtils {
         }
 
     }
+
+    /**
+     * 物资编码主表
+     */
+    public static ArrayList<MATECODELINE> parsingMATECODELINE(String data) {
+        ArrayList<MATECODELINE> list = null;
+        MATECODELINE matecodeline = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<MATECODELINE>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                matecodeline = new MATECODELINE();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = matecodeline.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = matecodeline.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(matecodeline);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = matecodeline.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(matecodeline, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(matecodeline);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
     /**
      * 供应商主表
      */

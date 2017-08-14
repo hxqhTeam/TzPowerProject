@@ -110,6 +110,8 @@ public class Constants {
     public static final String MATECODE_APPID = "MATECODE";
     //物资编码的表名
     public static final String MATECODE_NAME = "MATECODE";
+    //物资编码行的表名
+    public static final String MATECODELINE_NAME = "MATECODELINE";
 
     //工程采购申请的appid
     public static final String PRSER_APPID = "PRSER";

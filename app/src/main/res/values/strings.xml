@@ -53,7 +53,7 @@
     <string name="have_all_data_text">已加载出全部数据...</string>
 
     <!-- hint -->
-    <string name="hint_item_num_title">暂无编号</string>
+    <string name="hint_item_num_title">暂无数据</string>
     <string name="hint_item_desc_title">暂无描述</string>
     <string name="hint_item_date_title">暂无日期</string>
     <string name="have_not_data">暂无数据</string>
@@ -157,13 +157,13 @@
     <string name="unitcost_text">最近一次报价:</string>
     <string name="enterdate_text">最近一次报价时间:</string>
     <string name="name_text">最近报价供应商:</string>
-
+    <string name="vendor_text">供应商:</string>
     <string name="contact_text">联系人:</string>
     <string name="phone_text">电话:</string>
     <string name="email_text">电子邮件:</string>
     <string name="ztrq_text">状态日期:</string>
     <!--采购单-->
-
+    <string name="ponum_text">采购单编号:</string>
     <string name="podescription_text">采购单描述:</string>
     <string name="pogenre_text">采购单类型:</string>
     <string name="ishtbh_text">合同编号?</string>
@@ -215,4 +215,21 @@
     <string name="company_text">供应商</string>
     <string name="producttype_text">供货类型</string>
     <string name="cptype_text">供货商类型</string>
+    <string name="fk_desc_tetx">付款内容:</string>
+    <string name="createdate2_text">输入日期:</string>
+    <string name="actualpaycost_text">付款金额:</string>
+    <string name="actualpaydate_text">实际付款日期:</string>
+    <string name="payapprovetype1_text">付款性质:</string>
+
+    <string name="totalcost_text">预估总价:</string>
+    <string name="mc_createdby_text">申请人:</string>
+    <string name="mc_department_text">申请部门:</string>
+    <string name="mc_createtime_text">申请时间:</string>
+    <string name="sqwzbm_text">申请物资编码</string>
+    <string name="mc_materialinfonum_text">物资编码:</string>
+    <string name="mc_materialdatatype_text">物资分类:</string>
+    <string name="mc_standardname_text">物资名称:</string>
+    <string name="mc_lottype_text">批次:</string>
+    <string name="mc_unit_text">采购单位:</string>
+    <string name="mc_price_text">估价:</string>
 </resources>

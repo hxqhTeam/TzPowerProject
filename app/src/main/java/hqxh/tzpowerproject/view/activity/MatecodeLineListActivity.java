@@ -1,21 +1,13 @@
 package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,26 +21,27 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
-import hqxh.tzpowerproject.adapter.MatecodeListAdapter;
-import hqxh.tzpowerproject.adapter.PoListAdapter;
+import hqxh.tzpowerproject.adapter.MatecodelineListAdapter;
+import hqxh.tzpowerproject.adapter.PrlineListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
-import hqxh.tzpowerproject.model.MATECODE;
-import hqxh.tzpowerproject.model.PO;
+import hqxh.tzpowerproject.model.MATECODELINE;
+import hqxh.tzpowerproject.model.PRLINE;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
 import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 物资编码Activity
+ * 物资编码行Activity
  */
-public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class MatecodeLineListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "MatecodeListActivity";
+    private static final String TAG = "MatecodeLineListActivity";
+
 
     /**
      * 返回按钮
@@ -83,7 +76,7 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
     /**
      * 适配器*
      */
-    private MatecodeListAdapter matecodeListAdapter;
+    private MatecodelineListAdapter matecodelinelistadapter;
     /**
      * 编辑框*
      */
@@ -98,14 +91,22 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
 
     private ProgressDialog mProgressDialog;
 
+    private String  mc_materialinfonum;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(MatecodeListActivity.this);
+        ButterKnife.bind(MatecodeLineListActivity.this);
+        initData();
         findViewById();
         initView();
+    }
+
+    /**获取标识**/
+    private void initData() {
+        mc_materialinfonum=getIntent().getExtras().getString("mc_materialinfonum");
     }
 
 
@@ -128,11 +129,11 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
                 finish();
             }
         });
-        titleTextView.setText(R.string.wzbm_text);
+            titleTextView.setText(R.string.sqwzbm_text);
 
-        setSearchEdit();
+        search.setVisibility(View.GONE);
 
-        layoutManager = new LinearLayoutManager(MatecodeListActivity.this);
+        layoutManager = new LinearLayoutManager(MatecodeLineListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -145,8 +146,8 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
 
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
-        initAdapter(new ArrayList<MATECODE>());
-        getData(searchText);
+        initAdapter(new ArrayList<MATECODELINE>());
+        getData();
 
     }
 
@@ -155,52 +156,24 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
     public void onLoad() {
         page++;
 
-        getData(searchText);
+        getData();
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        getData(searchText);
+        getData();
     }
 
 
-    private void setSearchEdit() {
-        SpannableString msp = new SpannableString("XX搜索");
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_search);
-        msp.setSpan(new ImageSpan(drawable), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        search.setHint(msp);
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 先隐藏键盘
-                    ((InputMethodManager) search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(
-                                    getCurrentFocus()
-                                            .getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                    searchText = search.getText().toString();
-                    matecodeListAdapter.removeAll(matecodeListAdapter.getData());
-                    nodatalayout.setVisibility(View.GONE);
-                    refresh_layout.setRefreshing(true);
-                    page = 1;
-                    getData(searchText);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
 
     /**
      * 获取数据*
      */
-    private void getData(String search) {
-        HttpManager.getDataPagingInfo(MatecodeListActivity.this, HttpManager.getMATECODE(search, AccountUtils.getPersionId(this),page, 20), new HttpRequestHandler<Results>() {
+    private void getData() {
+        String url=HttpManager.getMATECODELINE(mc_materialinfonum, AccountUtils.getPersionId(this),page, 20);
+        HttpManager.getDataPagingInfo(MatecodeLineListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -208,7 +181,7 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<MATECODE> item = JsonUtils.parsingMATECODE(results.getResultlist());
+                ArrayList<MATECODELINE> item = JsonUtils.parsingMATECODELINE(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {
@@ -217,10 +190,10 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
 
                     if (item != null || item.size() != 0) {
                         if (page == 1) {
-                            initAdapter(new ArrayList<MATECODE>());
+                            initAdapter(new ArrayList<MATECODELINE>());
                         }
                         if(page>totalPages){
-                            MessageUtils.showMiddleToast(MatecodeListActivity.this,getString(R.string.have_all_data_text));
+                            MessageUtils.showMiddleToast(MatecodeLineListActivity.this,getString(R.string.have_all_data_text));
                         }else{
                             addData(item);
                         }
@@ -242,15 +215,15 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
     /**
      * 获取数据*
      */
-    private void initAdapter(final List<MATECODE> list) {
-        matecodeListAdapter = new MatecodeListAdapter(MatecodeListActivity.this, R.layout.list_item, list);
-        recyclerView.setAdapter(matecodeListAdapter);
-        matecodeListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private void initAdapter(final List<MATECODELINE> list) {
+        matecodelinelistadapter = new MatecodelineListAdapter(MatecodeLineListActivity.this, R.layout.list_itemline, list);
+        recyclerView.setAdapter(matecodelinelistadapter);
+        matecodelinelistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(MatecodeListActivity.this, MatecodeDetailsActivity.class);
+                Intent intent = new Intent(MatecodeLineListActivity.this, MatecodelineDetailsActivity.class);
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("matecode", (Serializable) matecodeListAdapter.getData().get(position));
+                bundle.putSerializable("matecodeline", (Serializable) matecodelinelistadapter.getData().get(position));
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 0);
             }
@@ -260,8 +233,8 @@ public class MatecodeListActivity extends BaseActivity implements SwipeRefreshLa
     /**
      * 添加数据*
      */
-    private void addData(final List<MATECODE> list) {
-        matecodeListAdapter.addData(list);
+    private void addData(final List<MATECODELINE> list) {
+        matecodelinelistadapter.addData(list);
     }
 
 

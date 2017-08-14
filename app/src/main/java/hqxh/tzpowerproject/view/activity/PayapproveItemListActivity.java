@@ -219,11 +219,11 @@ public class PayapproveItemListActivity extends BaseActivity implements SwipeRef
         payapprovelistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(PayapproveItemListActivity.this, PolinedetailsActivity.class);
-//                Bundle bundle = new Bundle();
-//                bundle.putSerializable("poline", (Serializable) polineListAdapter.getData().get(position));
-//                intent.putExtras(bundle);
-//                startActivityForResult(intent, 0);
+                Intent intent = new Intent(PayapproveItemListActivity.this, PayapproveItemDetailsActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("payapprove", (Serializable) payapprovelistadapter.getData().get(position));
+                intent.putExtras(bundle);
+                startActivityForResult(intent, 0);
             }
         });
     }
