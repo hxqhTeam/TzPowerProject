@@ -2,6 +2,7 @@ package hqxh.tzpowerproject.view.activity;
 
 import android.animation.LayoutTransition;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,19 +16,32 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hqxh.tzpowerproject.R;
+import hqxh.tzpowerproject.api.HttpManager;
+import hqxh.tzpowerproject.api.HttpRequestHandler;
+import hqxh.tzpowerproject.api.JsonUtils;
+import hqxh.tzpowerproject.bean.Approve;
+import hqxh.tzpowerproject.bean.LoginResults;
+import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.constants.Constants;
 import hqxh.tzpowerproject.model.PAYAPPROVE;
 import hqxh.tzpowerproject.model.REQUIREPLAN;
+import hqxh.tzpowerproject.until.AccountUtils;
+import hqxh.tzpowerproject.until.MessageUtils;
+import hqxh.tzpowerproject.view.widght.ConfirmDialog;
 
 
 /**
@@ -109,17 +123,29 @@ public class PayapprovedetailsActivity extends BaseActivity {
     @Bind(R.id.vendor_text_id)
     TextView vendorText;//供应商描述
 
-    //物资采购采购付款
+    //物资采购付款
     @Bind(R.id.domain_description_text_id)
     TextView domain_descriptionText;//单位名称
     @Bind(R.id.payapprovetype_text_id)
     TextView payapprovetypeText;//付款性质
 
+    @Bind(R.id.scrollView_id)
+    ScrollView scrollview;
+
+    @Bind(R.id.paysp_id)
+    LinearLayout Buttonpaysp;
+    @Bind(R.id.sp_id)
+    Button sp_btn_text;//审批
+
 
     private PAYAPPROVE payapprove;
 
 
+
     private int mark;
+    private String app;
+    private String ownertable;
+    private String ownerid;
 
 
     private  TextView spjlText;//审批记录
@@ -128,7 +154,7 @@ public class PayapprovedetailsActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        geiIntentData();
+        getIntentData();
         Log.i(TAG,"mark="+mark);
         setContentView(R.layout.activity_payapprove1_details);
         ButterKnife.bind(this);
@@ -138,20 +164,94 @@ public class PayapprovedetailsActivity extends BaseActivity {
 
     }
 
-    private void geiIntentData() {
-        mark = getIntent().getExtras().getInt("mark");
+    private void getIntentData() {
+        if (getIntent().hasExtra("mark")) {
+            mark = getIntent().getExtras().getInt("mark");
+        }
+
         payapprove = (PAYAPPROVE) getIntent().getSerializableExtra("payapprove");
+
+        if (getIntent().hasExtra("app")) {
+            app = getIntent().getExtras().getString("app");
+        }
+
+        if (getIntent().hasExtra("ownertable")) {
+            ownertable = getIntent().getExtras().getString("ownertable");
+        }
+
+        if (getIntent().hasExtra("ownerid")) {
+            ownerid = getIntent().getExtras().getString("ownerid");
+        }
+
     }
 
     @Override
     protected void findViewById() {
         titleTextView.setText(R.string.xq_title);
         menuImageView.setVisibility(View.VISIBLE);
+        if (mark == Constants.TASK_CODE) {
+            Buttonpaysp.setVisibility(View.VISIBLE);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(0, 0, 0, getHeight(Buttonpaysp));//4个参数按顺序分别是左上右下
+            scrollview.setLayoutParams(layoutParams);
+
+        }
     }
+    /**获取View的高度**/
+    private int getHeight(View view){
+        int w = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0,
+                View.MeasureSpec.UNSPECIFIED);
+        view.measure(w, h);
+        int height = view.getMeasuredHeight();
+
+        return height;
+    }
+
+
 
 
     @Override
     protected void initView() {
+
+        if (null == payapprove || mark == Constants.TASK_CODE) {
+            getData(app, ownertable, ownerid);
+        } else {
+            showData();
+        }
+
+
+    }
+    private void getData(String app, String ownertable, String ownerid) {
+
+        String url = HttpManager.getPAYAPPROVE(app, ownertable, ownerid, AccountUtils.getPersionId(PayapprovedetailsActivity.this));
+
+        HttpManager.getDataPagingInfo(PayapprovedetailsActivity.this, url, new HttpRequestHandler<Results>() {
+            @Override
+            public void onSuccess(Results results) {
+
+                Log.i(TAG, "data=" + results);
+            }
+
+            @Override
+            public void onSuccess(Results results, int totalPages, int currentPage) {
+                ArrayList<PAYAPPROVE> item = JsonUtils.parsingPAYAPPROVE(results.getResultlist());
+                if (item == null || item.isEmpty()) {
+                } else {
+                    payapprove = item.get(0);
+                    showData();
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+            }
+        });
+
+
+    }
+    private void showData(){
         paynumText.setText(payapprove.getPAYNUM());
         descriptionText.setText(payapprove.getDESCRIPTION());
         ponumText.setText(payapprove.getPONUM());
@@ -187,7 +287,6 @@ public class PayapprovedetailsActivity extends BaseActivity {
 //            financialText.setText(payapprove.getFINANCIAL());
         }
 
-
     }
 
     //返回按钮
@@ -202,6 +301,15 @@ public class PayapprovedetailsActivity extends BaseActivity {
     void setMenuImageView(){
         showPopupWindow(menuImageView);
     }
+
+
+    @OnClick(R.id.sp_id)
+    void setOnClick() {
+        Log.e(TAG, "启动工作流");
+        PostStart();
+    }
+
+
 
 
     /**
@@ -238,6 +346,8 @@ public class PayapprovedetailsActivity extends BaseActivity {
 
         spjlText = (TextView) contentView.findViewById(R.id.spjl_text_id);
         spjlText.setOnClickListener(spjlTextOnClickListener);
+
+
     }
 
     private View.OnClickListener spjlTextOnClickListener=new View.OnClickListener() {
@@ -253,4 +363,91 @@ public class PayapprovedetailsActivity extends BaseActivity {
         }
     };
 
+
+
+
+    //启动工作流
+    private void PostStart() {
+
+        HttpManager.postStart(PayapprovedetailsActivity.this, ownertable, ownerid, app, AccountUtils.getUserName(PayapprovedetailsActivity.this), new HttpRequestHandler<String>() {
+            @Override
+            public void onSuccess(String data) {
+                Log.e(TAG, "data=" + data);
+                LoginResults loginResults = JsonUtils.parsingWorkFlow(data);
+                if (loginResults.getErrcode().equals(Constants.WORKFLOW_106)) {
+                    List<Approve> list = JsonUtils.parsingApprove(loginResults.getResult());
+                    showDialog(list);
+                }
+
+            }
+
+            @Override
+            public void onSuccess(String data, int totalPages, int currentPage) {
+                Log.e(TAG, "111=" + data);
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e(TAG, "error=" + error);
+
+            }
+        });
+
+    }
+
+
+    //弹出对话框
+    public void showDialog(List<Approve> results) {//
+
+        ConfirmDialog.Builder dialog = new ConfirmDialog.Builder(this);
+        dialog.setTitle("审批")
+                .setData(results)
+                .setPositiveButton("确定", new ConfirmDialog.Builder.cOnClickListener() {
+                    @Override
+                    public void cOnClickListener(DialogInterface dialogInterface, Approve result, String memo) {
+                        dialogInterface.dismiss();
+                        PostApproval(ownertable, ownerid, memo, result.getIspositive(), AccountUtils.getPersionId(PayapprovedetailsActivity.this));
+                    }
+
+
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+    }
+
+
+    //审批工作流
+    private void PostApproval(String ownertable, String ownerid, String memo, String selectWhat, String useruid) {
+
+        HttpManager.approvalFlow(PayapprovedetailsActivity.this, ownertable, ownerid, memo, selectWhat, useruid, new HttpRequestHandler<String>() {
+            @Override
+            public void onSuccess(String data) {
+                Log.e(TAG, "data=" + data);
+                LoginResults loginResults = JsonUtils.parsingWorkFlow(data);
+                MessageUtils.showMiddleToast(PayapprovedetailsActivity.this, loginResults.getErrmsg());
+                finish();
+            }
+
+            @Override
+            public void onSuccess(String data, int totalPages, int currentPage) {
+                Log.e(TAG, "111=" + data);
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e(TAG, "error=" + error);
+
+            }
+        });
+
+    }
+
 }
+
+
+

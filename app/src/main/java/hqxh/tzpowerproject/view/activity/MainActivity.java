@@ -391,6 +391,16 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 } else if (app == Constants.SERREC_APPID) {//工程验收
 
                 } else if (app == Constants.GCPAYAPP_APPID) {//工程付款
+                    intent = new Intent(MainActivity.this, PayapprovedetailsActivity.class);
+                    intent.putExtra("app", app);
+                    intent.putExtra("ownertable", wfassignment.getOWNERTABLE());
+                    intent.putExtra("ownerid", wfassignment.getOWNERID());
+                    intent.putExtra("mark", Constants.TASK_CODE);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("payapprove", null);
+                    intent.putExtras(bundle);
+
+                    startActivityForResult(intent,0);
 
                 } else {
                     MessageUtils.showMiddleToast(MainActivity.this, "暂无法审批该功能模块");

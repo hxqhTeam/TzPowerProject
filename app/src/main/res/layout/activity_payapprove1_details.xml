@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/scrollView_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="45dp"
@@ -928,14 +929,16 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/paysp_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/sp_id"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/button_selector"

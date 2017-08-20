@@ -4,8 +4,13 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
+    <include layout="@layout/title_main"></include>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <ScrollView
+        android:id="@+id/scrollView_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">
@@ -13,7 +18,7 @@
         <LinearLayout
             android:id="@+id/container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -832,6 +837,7 @@
                 android:padding="@dimen/dimen_10">
 
                 <TextView
+                    android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentLeft="true"
@@ -881,34 +887,31 @@
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dimens_line"
-                android:background="@drawable/line"></View>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:padding="@dimen/dimen_10">
 
-                <Button
-                    android:id="@+id/btn_login"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
-                    android:background="@drawable/button_selector"
-                    android:text="@string/sp_btn_text"
-                    android:textColor="@android:color/white"
-                    android:textSize="18sp" />
-
-
-            </LinearLayout>
 
 
         </LinearLayout>
     </ScrollView>
+        <LinearLayout
+            android:id="@+id/paysp_id"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_45dp"
 
-    <include layout="@layout/title_main"></include>
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/sp_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_selector"
+                android:text="@string/sp_btn_text"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
 
 
+        </LinearLayout>
+
+    </RelativeLayout>
 </LinearLayout>

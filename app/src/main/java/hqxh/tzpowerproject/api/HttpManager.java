@@ -257,6 +257,12 @@ public class HttpManager {
         }
         return "{'appid':'" + Constants.GCPAYAPP_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','sinorsearch':{'COMPANY':'" + value + "','NAME':'" + value + "'}}";
     }
+    /**
+     * 根据Id查询工程付款
+     */
+    public static String getPAYAPPROVE(String app, String ownertable, String ownerid, String userid) {
+        return "{'appid':'" + app + "','objectname':'" + ownertable + "','curpage':" + 1 + ",'showcount':" + 1 + ",'option':'read','username':'" + userid + "','condition':{'PAYAPPROVEID':'=" + ownerid + "'}}";
+    }
 
 
     /**
