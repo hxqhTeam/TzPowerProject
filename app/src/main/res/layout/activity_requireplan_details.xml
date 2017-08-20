@@ -12,6 +12,7 @@
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/scrollView_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="vertical">
@@ -494,17 +495,18 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/buttom_linearlayout_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="@dimen/dimens_45dp"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="gone">
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_workflow_id"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
+                android:layout_height="@dimen/dimens_45dp"
                 android:background="@drawable/button_selector"
                 android:text="@string/sp_btn_text"
                 android:textColor="@android:color/white"

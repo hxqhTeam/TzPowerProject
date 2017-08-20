@@ -52,6 +52,14 @@ public class HttpManager {
     }
 
 
+
+    /**
+     * 根据Id查询需求计划
+     */
+    public static String getREQUIREPLAN(String app, String ownertable, String ownerid, String userid) {
+        return "{'appid':'" + app + "','objectname':'" + ownertable + "','curpage':" + 1 + ",'showcount':" + 1 + ",'option':'read','username':'" + userid + "','condition':{'REQUIREPLANID':'=" + ownerid + "'}}";
+    }
+
     /**
      * 设置采购申请的接口
      */

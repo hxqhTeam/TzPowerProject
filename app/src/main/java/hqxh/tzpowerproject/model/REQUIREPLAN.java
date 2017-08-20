@@ -5,6 +5,7 @@ package hqxh.tzpowerproject.model;
  *需求计划
  */
 public class REQUIREPLAN extends Entity{
+    public String REQUIREPLANID;//REQUIREPLANID
     public String REQUIREPLANNUM;//需求申请单编号
     public String DEPARTMENT;//部门专业
     public String PLANCOST;//项目预算
@@ -19,6 +20,16 @@ public class REQUIREPLAN extends Entity{
     public String REMAINCOST;//预算剩余
     public String ZHANGTAO;//帐套信息
     public String REQUIRETIME;//需求日期
+
+
+    public String getREQUIREPLANID() {
+        return REQUIREPLANID;
+    }
+
+    public void setREQUIREPLANID(String REQUIREPLANID) {
+        this.REQUIREPLANID = REQUIREPLANID;
+    }
+
     public String getREQUIREPLANNUM() {
         return REQUIREPLANNUM;
     }

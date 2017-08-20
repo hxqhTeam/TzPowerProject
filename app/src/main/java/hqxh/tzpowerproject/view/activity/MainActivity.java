@@ -347,7 +347,17 @@ public class MainActivity extends BaseActivity implements SwipeRefreshLayout.OnR
                 String app = wfassignment.getAPP();
 
                 Log.e("app","app"+app);
-                if (app == Constants.RP_APPID) { //需款计划
+                if (app.equals(Constants.RP_APPID)) { //需款计划
+                    intent = new Intent(MainActivity.this, RequireplandetailsActivity.class);
+                    intent.putExtra("app", app);
+                    intent.putExtra("ownertable", wfassignment.getOWNERTABLE());
+                    intent.putExtra("ownerid", wfassignment.getOWNERID());
+                    intent.putExtra("mark", Constants.TASK_CODE);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("requireplan", null);
+                    intent.putExtras(bundle);
+
+                    startActivityForResult(intent,0);
 
                 } else if (app == Constants.PR_APPID) {//采购申请
 
