@@ -50,8 +50,8 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     private static final String TAG = "PrListActivity";
 
-    public static final int PR_CG=1000; //采购申请
-    public static final int PR_GC=1001; //工程采购
+    public static final int PR_CG = 1000; //采购申请
+    public static final int PR_GC = 1001; //工程采购
 
     /**
      * 返回按钮
@@ -114,7 +114,9 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
         initView();
     }
 
-    /**获取标识**/
+    /**
+     * 获取标识
+     **/
     private void initData() {
 
     }
@@ -126,7 +128,7 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
 
     @Override
     protected void findViewById() {
-        mark=getIntent().getExtras().getInt("mark");
+        mark = getIntent().getExtras().getInt("mark");
     }
 
 
@@ -140,9 +142,9 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
                 finish();
             }
         });
-        if(mark==PR_CG){
+        if (mark == PR_CG) {
             titleTextView.setText(R.string.cgsq_text);
-        }else if(mark==PR_GC){
+        } else if (mark == PR_GC) {
             titleTextView.setText(R.string.gccg_text);
         }
 
@@ -217,11 +219,11 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
      * 获取数据*
      */
     private void getData(String search) {
-        String url=null;
-        if(mark==PR_CG){
-            url=HttpManager.getPR(search, AccountUtils.getPersionId(this),page, 20);
-        }else if(mark==PR_GC){
-            url=HttpManager.getPRSER(search, AccountUtils.getPersionId(this),page, 20);
+        String url = null;
+        if (mark == PR_CG) {
+            url = HttpManager.getPR(search, AccountUtils.getPersionId(this), page, 20);
+        } else if (mark == PR_GC) {
+            url = HttpManager.getPRSER(search, AccountUtils.getPersionId(this), page, 20);
         }
         HttpManager.getDataPagingInfo(PrListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
@@ -242,9 +244,9 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
                         if (page == 1) {
                             initAdapter(new ArrayList<PR>());
                         }
-                        if(page>totalPages){
-                            MessageUtils.showMiddleToast(PrListActivity.this,getString(R.string.have_all_data_text));
-                        }else{
+                        if (page > totalPages) {
+                            MessageUtils.showMiddleToast(PrListActivity.this, getString(R.string.have_all_data_text));
+                        } else {
                             addData(item);
                         }
 
@@ -271,11 +273,17 @@ public class PrListActivity extends BaseActivity implements SwipeRefreshLayout.O
         prlistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(PrListActivity.this, PrdetailsActivity.class);
+                Intent intent = null;
+                if (mark == PR_CG) {
+                    intent = new Intent(PrListActivity.this, PrdetailsActivity.class);
+                } else if (mark == PR_GC) {
+                    intent = new Intent(PrListActivity.this, GcprdetailsActivity.class);
+                }
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("pr", (Serializable) prlistadapter.getData().get(position));
                 intent.putExtras(bundle);
                 startActivityForResult(intent, 0);
+
             }
         });
     }

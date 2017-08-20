@@ -5,12 +5,21 @@ package hqxh.tzpowerproject.model;
  *供应商
  */
 public class COMPANIES extends Entity{
+    public String COMPANIESID;//COMPANIESID
     public String COMPANY;//供应商
     public String NAME;//供应商描述
     public String PRODUCTTYPE;//供货类型
     public String TYPE;//公司类型
     public String STATUS;//状态
     public String REMARK;//备注
+
+    public String getCOMPANIESID() {
+        return COMPANIESID;
+    }
+
+    public void setCOMPANIESID(String COMPANIESID) {
+        this.COMPANIESID = COMPANIESID;
+    }
 
     public String getCOMPANY() {
         return COMPANY;

@@ -2,6 +2,8 @@ package hqxh.tzpowerproject;
 
 import android.app.Application;
 
+import com.pgyersdk.crash.PgyCrashManager;
+
 
 /**
  * Created by think on 2015/12/11.
@@ -27,7 +29,7 @@ public class BaseApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        PgyCrashManager.register(getApplicationContext());
         mContext = this;
     }
 

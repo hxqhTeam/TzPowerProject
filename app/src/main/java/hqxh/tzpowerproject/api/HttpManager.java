@@ -103,13 +103,14 @@ public class HttpManager {
      * 设置询价单行的接口
      */
     public static String getRFQLINE(String appid, String rfqnum, String persionid, int curpage, int showcount) {
-        return "{'appid':'" + appid + "','objectname':'" + Constants.RFQLINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +  "','condition':{'RFQNUM':'=" + rfqnum + "'}}";
+        return "{'appid':'" + appid + "','objectname':'" + Constants.RFQLINE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'RFQNUM':'=" + rfqnum + "'}}";
     }
+
     /**
      * 设置供应商的接口
      */
     public static String getRFQVENDOR(String appid, String rfqnum, String persionid, int curpage, int showcount) {
-        return "{'appid':'" + appid + "','objectname':'" + Constants.RFQVENDOR_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid +  "','condition':{'RFQNUM':'=" + rfqnum + "'}}";
+        return "{'appid':'" + appid + "','objectname':'" + Constants.RFQVENDOR_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'RFQNUM':'=" + rfqnum + "'}}";
     }
 
 
@@ -135,6 +136,13 @@ public class HttpManager {
 
 
     /**
+     * 根据Id查询采购订单
+     */
+    public static String getPO(String app, String ownertable, String ownerid, String userid) {
+        return "{'appid':'" + app + "','objectname':'" + ownertable + "','curpage':" + 1 + ",'showcount':" + 1 + ",'option':'read','username':'" + userid + "','condition':{'POID':'=" + ownerid + "'}}";
+    }
+
+    /**
      * 设置采购申请行的接口
      */
     public static String getPOLINE(String ponum, String persionid, int curpage, int showcount) {
@@ -144,22 +152,22 @@ public class HttpManager {
     /**
      * 设置附件的接口
      */
-    public static String getDOCLINKS(String ownertable,String ownerid,String persionid, int curpage, int showcount) {
-        return "{'appid':'" + Constants.CYDOCLI_NAME + "','objectname':'" + Constants.DOCLINKS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'OWNERTABLE':'=" + ownertable + "','OWNERID':'="+ownerid+"'}}";
+    public static String getDOCLINKS(String ownertable, String ownerid, String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.CYDOCLI_NAME + "','objectname':'" + Constants.DOCLINKS_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'OWNERTABLE':'=" + ownertable + "','OWNERID':'=" + ownerid + "'}}";
     }
 
     /**
      * 设置付款计划的接口
      */
-    public static String getPAYMENTPLAN(String ponum,String persionid, int curpage, int showcount) {
-        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYMENTPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum +"'}}";
+    public static String getPAYMENTPLAN(String ponum, String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYMENTPLAN_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum + "'}}";
     }
 
     /**
      * 设置付款执行情况的接口
      */
-    public static String getPAYAPPROVE1(String ponum,String persionid, int curpage, int showcount) {
-        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum +"'}}";
+    public static String getPAYAPPROVE1(String ponum, String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'PONUM':'=" + ponum + "'}}";
 //        return "{'appid':'" + Constants.PO_APPID + "','objectname':'" + Constants.PAYAPPROVE_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "'}";
     }
 
@@ -223,6 +231,15 @@ public class HttpManager {
         return "{'appid':'" + Constants.COMPANY_APPID + "','objectname':'" + Constants.COMPANIES_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','sinorsearch':{'COMPANY':'" + value + "','NAME':'" + value + "'}}";
     }
 
+
+    /**
+     * 设置评分记录
+     */
+    public static String getCOMPSHISTORY(String companies, String persionid, int curpage, int showcount) {
+        return "{'appid':'" + Constants.COMPANY_APPID + "','objectname':'" + Constants.COMPSHISTORY_NAME + "','curpage':" + curpage + ",'showcount':" + showcount + ",'option':'read','username':'" + persionid + "','condition':{'COMPANIES':'=" + companies + "'}}";
+    }
+
+
     /**
      * 设置工程付款的接口
      */
@@ -265,7 +282,7 @@ public class HttpManager {
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
                 Log.i(TAG, "SstatusCode=" + statusCode + "responseString=" + responseString);
                 if (statusCode == 200) {
-                    LoginResults loginResults = JsonUtils.parsingAuthStr(cxt, responseString);
+                    LoginResults loginResults = JsonUtils.parsingAuthStr(responseString);
                     if (loginResults != null) {
                         if (loginResults.getErrcode().equals(Constants.LOGINSUCCESS) || loginResults.getErrcode().equals(Constants.CHANGEIMEI)) {
                             SafeHandler.onSuccess(handler, loginResults.getResult());
@@ -354,19 +371,20 @@ public class HttpManager {
      * @cxt 上下文
      * @ownertable 工作流对应的主表名称
      * @ownerid 工作流对应的主表主键
-     * @processname 工作流名称
+     * @appid 工作流名称
      * @useruid 当前登录人的唯一标识
      */
-    public static void startFlow(final Context cxt, final String ownertable, final String ownerid, final String processname, final String useruid,
+    public static void postStart(final Context cxt, final String ownertable, final String ownerid, final String appid, final String useruid,
                                  final HttpRequestHandler<String> handler) {
 
-
+        Log.e(TAG, "ownertable=" + ownertable + ",ownerid=" + ownerid + ",appid=" + appid + ",useruid=" + useruid);
+        Log.e(TAG, "url=" + Constants.START_FLOW_URL);
         AsyncHttpClient client = new AsyncHttpClient();
         RequestParams params = new RequestParams();
         params.put("ownertable", ownertable);
         params.put("ownerid", ownerid);
-        params.put("processname", processname);
-        params.put("useruid", useruid);
+        params.put("appid", appid);
+        params.put("userid", useruid);
         client.post(Constants.START_FLOW_URL, params, new TextHttpResponseHandler() {
 
 
@@ -378,6 +396,7 @@ public class HttpManager {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
                 Log.i(TAG, "SstatusCode=" + statusCode + "responseString=" + responseString);
+                SafeHandler.onSuccess(handler, responseString);
 
             }
 
@@ -405,7 +424,7 @@ public class HttpManager {
         params.put("ownerid", ownerid);
         params.put("memo", memo);
         params.put("selectWhat", selectWhat);
-        params.put("useruid", useruid);
+        params.put("userid", useruid);
         client.post(Constants.APPROVAL_FLOW_URL, params, new TextHttpResponseHandler() {
 
 
@@ -417,6 +436,7 @@ public class HttpManager {
             @Override
             public void onSuccess(int statusCode, cz.msebera.android.httpclient.Header[] headers, String responseString) {
                 Log.i(TAG, "SstatusCode=" + statusCode + "responseString=" + responseString);
+                SafeHandler.onSuccess(handler, responseString);
             }
 
         });

@@ -159,46 +159,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/materialsec_text"
+                        android:text="@string/zt_text"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/materialsec_text_id"
+                        android:id="@+id/status_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@color/sb__transparent"
-                        android:gravity="right"
-                        android:hint="@string/have_not_data"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/dimens_16sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimens_line"
-                    android:background="@drawable/line"></View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/dimen_10">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="@string/materialssc_text"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/dimens_16sp" />
-
-                    <TextView
-                        android:id="@+id/materialssc_text_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:gravity="right"
                         android:hint="@string/have_not_data"
                         android:textColor="@color/light_black"
@@ -228,68 +197,6 @@
 
                     <TextView
                         android:id="@+id/totalcost_text_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:hint="@string/have_not_data"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/dimens_16sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimens_line"
-                    android:background="@drawable/line"></View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/dimen_10">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="@string/zt_text"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/dimens_16sp" />
-
-                    <TextView
-                        android:id="@+id/status_text_id"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:hint="@string/have_not_data"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/dimens_16sp" />
-
-                </LinearLayout>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/dimens_line"
-                    android:background="@drawable/line"></View>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="@dimen/dimen_10">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:text="@string/plantype_text"
-                        android:textColor="@color/light_black"
-                        android:textSize="@dimen/dimens_16sp" />
-
-                    <TextView
-                        android:id="@+id/plantype_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -346,12 +253,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="@string/projectname_text"
+                        android:text="@string/projectdesc_text"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/projectname_text_id"
+                        android:id="@+id/projectdesc_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -377,12 +284,43 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="@string/requireplannum1_text_"
+                        android:text="@string/projectec_text"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/requireplannum_text_id"
+                        android:id="@+id/projectec_text_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:hint="@string/have_not_data"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/dimens_16sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dimens_line"
+                    android:background="@drawable/line"></View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/dimen_10">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:text="@string/projectsc_text"
+                        android:textColor="@color/light_black"
+                        android:textSize="@dimen/dimens_16sp" />
+
+                    <TextView
+                        android:id="@+id/projectsc_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -413,7 +351,7 @@
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/requestedbyname_text_id"
+                        android:id="@+id/requireperson_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -439,12 +377,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="@string/department1_text"
+                        android:text="@string/mc_department_text"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/department1_text_id"
+                        android:id="@+id/mc_department_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -470,12 +408,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="@string/issuedate_text"
+                        android:text="@string/prgqyq_text"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/issuedate_text_id"
+                        android:id="@+id/prgqyq_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
@@ -501,12 +439,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
-                        android:text="@string/requireddate_text"
+                        android:text="@string/sm_text"
                         android:textColor="@color/light_black"
                         android:textSize="@dimen/dimens_16sp" />
 
                     <TextView
-                        android:id="@+id/requireddate_text_id"
+                        android:id="@+id/remark_text_id"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"

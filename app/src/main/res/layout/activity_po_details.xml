@@ -766,15 +766,17 @@
         </ScrollView>
 
         <LinearLayout
+            android:id="@+id/buttom_linearlayout_id"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:visibility="gone"
             >
 
             <Button
-                android:id="@+id/btn_login"
+                android:id="@+id/btn_workflow_id"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:background="@drawable/button_selector"

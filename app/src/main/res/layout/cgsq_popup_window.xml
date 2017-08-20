@@ -16,10 +16,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dimen_5"
-            android:text="@string/cgsqh_text"
             android:padding="@dimen/dimen_5"
-            android:visibility="gone"
-            android:textSize="@dimen/dimens_16sp" />
+            android:text="@string/cgsqh_text"
+            android:textSize="@dimen/dimens_16sp"
+            android:visibility="gone" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_line"
+            android:background="@drawable/line"></View>
+
+        <TextView
+            android:id="@+id/xgwj_text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dimen_5"
+            android:padding="@dimen/dimen_5"
+            android:text="@string/xgwj_text"
+            android:textSize="@dimen/dimens_16sp"
+            android:visibility="gone" />
 
 
         <View

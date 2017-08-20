@@ -147,7 +147,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/status_text"
+                android:text="@string/zt_text"
                 android:textColor="@color/light_black"
                 android:textSize="@dimen/dimens_16sp" />
 
@@ -177,7 +177,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/remark_text"
+                android:text="@string/jj_text"
                 android:textColor="@color/light_black"
                 android:textSize="@dimen/dimens_16sp" />
 

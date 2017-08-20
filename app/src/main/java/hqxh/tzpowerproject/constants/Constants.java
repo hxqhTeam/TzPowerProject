@@ -32,9 +32,10 @@ public class Constants {
 
     //发送工作流接口
 
-    public static final String START_FLOW_URL = "/maximo/mobile/wf/start";
+
+    public static final String START_FLOW_URL = HTTP_API_IP+"/maximo/mobile/wf/start";
     //审批工作流接口
-    public static final String APPROVAL_FLOW_URL ="/maximo/mobile/wf/approve";
+    public static final String APPROVAL_FLOW_URL =HTTP_API_IP+"/maximo/mobile/wf/approve";
 
 
     /**
@@ -124,6 +125,8 @@ public class Constants {
     public static final String COMPANY_APPID = "COMPANY";
     //供应商的表名
     public static final String COMPANIES_NAME = "COMPANIES";
+    //评分记录
+    public static final String COMPSHISTORY_NAME = "COMPSHISTORY";
     //工程验收的appid
     public static final String SERREC_APPID = "SERREC";
     //工程付款的appid
@@ -142,6 +145,11 @@ public class Constants {
     public static final String USERNAMEERROR = "USER-E-100";//用户名密码错误
 
     public static final String GETDATASUCCESS = "GLOBAL-S-0";//获取数据成功
+    /**工作流标示**/
+    public static final String WORKFLOW_106 = "WF-S-106";//返回可执行操作
+
+
+    public static final int TASK_CODE = 10000;//待办任务
 
 
 

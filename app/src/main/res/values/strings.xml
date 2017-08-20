@@ -6,7 +6,7 @@
     <string name="help">帮助</string>
     <string name="string_help_text">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。\n\n最后点击两次后退按钮，即可返回。</string>
     <string name="quit">退出</string>
-
+    <string name="file_provider">com.pgyersdk.provider</string>
     <string name="prompt_user">请输入用户名</string>
     <string name="prompt_password">请输入密码</string>
     <string name="rember_password">记住账号</string>
@@ -57,6 +57,7 @@
     <string name="hint_item_desc_title">暂无描述</string>
     <string name="hint_item_date_title">暂无日期</string>
     <string name="have_not_data">暂无数据</string>
+    <string name="memo_hint_text">请输入审核意见</string>
 
 
     <!--模块名称-->
@@ -232,4 +233,16 @@
     <string name="mc_lottype_text">批次:</string>
     <string name="mc_unit_text">采购单位:</string>
     <string name="mc_price_text">估价:</string>
+    <string name="projectdesc_text">项目描述:</string>
+    <string name="projectec_text">预算额度:</string>
+    <string name="projectsc_text">预算剩余:</string>
+    <string name="prgqyq_text">工期要求:</string>
+    <string name="sm_text">说明:</string>
+    <string name="xgwj_text">相关文件</string>
+    <string name="jj_text">简介:</string>
+    <string name="createdate_text_1">创建时间:</string>
+    <string name="mc_text">名称:</string>
+    <string name="thisscore_text">本次加减分值:</string>
+    <string name="cause_text">事件原因:</string>
+    <string name="pfjl_text">评分记录</string>
 </resources>

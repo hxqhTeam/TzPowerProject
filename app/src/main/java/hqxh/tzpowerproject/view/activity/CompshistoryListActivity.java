@@ -1,21 +1,13 @@
 package hqxh.tzpowerproject.view.activity;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.ImageSpan;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,26 +21,26 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import hqxh.tzpowerproject.R;
 import hqxh.tzpowerproject.adapter.BaseQuickAdapter;
-import hqxh.tzpowerproject.adapter.CompaniesListAdapter;
-import hqxh.tzpowerproject.adapter.PoListAdapter;
+import hqxh.tzpowerproject.adapter.CompshistoryListAdapter;
+import hqxh.tzpowerproject.adapter.PolineListAdapter;
 import hqxh.tzpowerproject.api.HttpManager;
 import hqxh.tzpowerproject.api.HttpRequestHandler;
 import hqxh.tzpowerproject.api.JsonUtils;
 import hqxh.tzpowerproject.bean.Results;
-import hqxh.tzpowerproject.model.COMPANIES;
-import hqxh.tzpowerproject.model.PO;
+import hqxh.tzpowerproject.model.COMPSHISTORY;
+import hqxh.tzpowerproject.model.POLINE;
 import hqxh.tzpowerproject.until.AccountUtils;
 import hqxh.tzpowerproject.until.MessageUtils;
 import hqxh.tzpowerproject.view.widght.SwipeRefreshLayout;
 
 
 /**
- * 供应商Activity
+ * 评分记录Activity
  */
-public class CompaniesListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
+public class CompshistoryListActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener, SwipeRefreshLayout.OnLoadListener {
 
 
-    private static final String TAG = "CompaniesListActivity";
+    private static final String TAG = "CompshistoryListActivity";
 
 
     /**
@@ -84,7 +76,7 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
     /**
      * 适配器*
      */
-    private CompaniesListAdapter companiesListAdapter;
+    private CompshistoryListAdapter compshistorylistadapter;
     /**
      * 编辑框*
      */
@@ -93,22 +85,29 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
     /**
      * 查询条件*
      */
-    private String searchText = "";
     private int page = 1;
 
 
     private ProgressDialog mProgressDialog;
 
+    private String  companies;
 
-    private int mark;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        ButterKnife.bind(CompaniesListActivity.this);
+        ButterKnife.bind(CompshistoryListActivity.this);
+        initData();
         findViewById();
         initView();
+    }
+
+    /**获取标识**/
+    private void initData() {
+        companies=getIntent().getExtras().getString("companies");
     }
 
 
@@ -131,11 +130,10 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
                 finish();
             }
         });
-        titleTextView.setText(R.string.gys_text);
+            titleTextView.setText(R.string.pfjl_text);
+        search.setVisibility(View.GONE);
 
-        setSearchEdit();
-
-        layoutManager = new LinearLayoutManager(CompaniesListActivity.this);
+        layoutManager = new LinearLayoutManager(CompshistoryListActivity.this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         layoutManager.scrollToPosition(0);
         recyclerView.setLayoutManager(layoutManager);
@@ -148,8 +146,8 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
 
         refresh_layout.setOnRefreshListener(this);
         refresh_layout.setOnLoadListener(this);
-        initAdapter(new ArrayList<COMPANIES>());
-        getData(searchText);
+        initAdapter(new ArrayList<COMPSHISTORY>());
+        getData();
 
     }
 
@@ -158,54 +156,24 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
     public void onLoad() {
         page++;
 
-        getData(searchText);
+        getData();
     }
 
     @Override
     public void onRefresh() {
         page = 1;
-        getData(searchText);
+        getData();
     }
 
 
-    private void setSearchEdit() {
-        SpannableString msp = new SpannableString("XX搜索");
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_search);
-        msp.setSpan(new ImageSpan(drawable), 0, 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        search.setHint(msp);
-        search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    // 先隐藏键盘
-                    ((InputMethodManager) search.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                            .hideSoftInputFromWindow(
-                                    getCurrentFocus()
-                                            .getWindowToken(),
-                                    InputMethodManager.HIDE_NOT_ALWAYS);
-                    searchText = search.getText().toString();
-                    companiesListAdapter.removeAll(companiesListAdapter.getData());
-                    nodatalayout.setVisibility(View.GONE);
-                    refresh_layout.setRefreshing(true);
-                    page = 1;
-                    getData(searchText);
-                    return true;
-                }
-                return false;
-            }
-        });
-    }
 
 
     /**
      * 获取数据*
      */
-    private void getData(String search) {
-        String url = HttpManager.getCOMPANY(search, AccountUtils.getPersionId(this), page, 20);
-
-        HttpManager.getDataPagingInfo(CompaniesListActivity.this, url, new HttpRequestHandler<Results>() {
+    private void getData() {
+        String url=HttpManager.getCOMPSHISTORY(companies, AccountUtils.getPersionId(this),page, 20);
+        HttpManager.getDataPagingInfo(CompshistoryListActivity.this, url, new HttpRequestHandler<Results>() {
             @Override
             public void onSuccess(Results results) {
                 Log.i(TAG, "data=" + results);
@@ -213,7 +181,7 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
 
             @Override
             public void onSuccess(Results results, int totalPages, int currentPage) {
-                ArrayList<COMPANIES> item = JsonUtils.parsingCOMPANIES(results.getResultlist());
+                ArrayList<COMPSHISTORY> item = JsonUtils.parsingCOMPSHISTORY(results.getResultlist());
                 refresh_layout.setRefreshing(false);
                 refresh_layout.setLoading(false);
                 if (item == null || item.isEmpty()) {
@@ -222,11 +190,11 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
 
                     if (item != null || item.size() != 0) {
                         if (page == 1) {
-                            initAdapter(new ArrayList<COMPANIES>());
+                            initAdapter(new ArrayList<COMPSHISTORY>());
                         }
-                        if (page > totalPages) {
-                            MessageUtils.showMiddleToast(CompaniesListActivity.this, getString(R.string.have_all_data_text));
-                        } else {
+                        if(page>totalPages){
+                            MessageUtils.showMiddleToast(CompshistoryListActivity.this,getString(R.string.have_all_data_text));
+                        }else{
                             addData(item);
                         }
 
@@ -247,19 +215,12 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
     /**
      * 获取数据*
      */
-    private void initAdapter(final List<COMPANIES> list) {
-        companiesListAdapter = new CompaniesListAdapter(CompaniesListActivity.this, R.layout.list_item_2, list);
-        recyclerView.setAdapter(companiesListAdapter);
-        companiesListAdapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
+    private void initAdapter(final List<COMPSHISTORY> list) {
+        compshistorylistadapter = new CompshistoryListAdapter(CompshistoryListActivity.this, R.layout.list_itemcompshistory, list);
+        recyclerView.setAdapter(compshistorylistadapter);
+        compshistorylistadapter.setOnRecyclerViewItemClickListener(new BaseQuickAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(CompaniesListActivity.this, CompaniesdetailsActivity.class);
-                Bundle bundle = new Bundle();
-                //      bundle.putString("worktype", worktype);
-                //      bundle.putSerializable("n_grainjc", items.get(position));
-                bundle.putSerializable("companies", (Serializable) companiesListAdapter.getData().get(position));
-                intent.putExtras(bundle);
-                startActivityForResult(intent, 0);
             }
         });
     }
@@ -267,8 +228,8 @@ public class CompaniesListActivity extends BaseActivity implements SwipeRefreshL
     /**
      * 添加数据*
      */
-    private void addData(final List<COMPANIES> list) {
-        companiesListAdapter.addData(list);
+    private void addData(final List<COMPSHISTORY> list) {
+        compshistorylistadapter.addData(list);
     }
 
 

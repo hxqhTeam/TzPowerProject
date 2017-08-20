@@ -14,10 +14,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
+import hqxh.tzpowerproject.bean.Approve;
 import hqxh.tzpowerproject.bean.LoginResults;
 import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.constants.Constants;
 import hqxh.tzpowerproject.model.COMPANIES;
+import hqxh.tzpowerproject.model.COMPSHISTORY;
 import hqxh.tzpowerproject.model.DOCLINKS;
 import hqxh.tzpowerproject.model.MATECODE;
 import hqxh.tzpowerproject.model.MATECODELINE;
@@ -45,14 +47,13 @@ public class JsonUtils {
     /**
      * 解析登录信息*
      * {"errcode":"USER-S-101","errmsg":"登录成功","result":"{\"DEFSITE\":\"TZDC\",\"DISPLAYNAME\":\"MAXADMIN\",\"EMAILADDRESS\":\"\",
-     *
+     * <p>
      * \"MYAPPS\":\"COMPANY,GCPAYAPP,MATECODE,PAYAPPROVE,PO,POSER,PR,PRSER,RFQ,RFQSER,RP,SERREC,USER,WFADMIN,WFDESIGN\",
-     *
-     *
+     * <p>
+     * <p>
      * \"PERSONID\":\"MAXADMIN\"}","userid":"maxadmin"}
-
      */
-    public static LoginResults parsingAuthStr(final Context cxt, String data) {
+    public static LoginResults parsingAuthStr(String data) {
         Log.i(TAG, "data=" + data);
         LoginResults loginResults = new LoginResults();
         try {
@@ -61,7 +62,7 @@ public class JsonUtils {
             String errmsg = json.getString("errmsg");
             loginResults.setErrcode(errcode);
             loginResults.setErrmsg(errmsg);
-            if (errcode.equals(Constants.LOGINSUCCESS) || errcode.equals(Constants.CHANGEIMEI)) {
+            if (errcode.equals(Constants.LOGINSUCCESS) || errcode.equals(Constants.CHANGEIMEI)||errcode.equals(Constants.WORKFLOW_106)) {
                 loginResults.setResult(json.getString("result"));
             }
 
@@ -71,6 +72,52 @@ public class JsonUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public static LoginResults parsingWorkFlow(String data) {
+        Log.i(TAG, "data=" + data);
+        LoginResults loginResults = new LoginResults();
+        try {
+            JSONObject json = new JSONObject(data);
+            String errcode = json.getString("errcode");
+            String errmsg = json.getString("errmsg");
+            loginResults.setErrcode(errcode);
+            loginResults.setErrmsg(errmsg);
+            if (errcode.equals(Constants.WORKFLOW_106)) {
+                loginResults.setResult(json.getString("result"));
+            }
+
+
+            return loginResults;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    // {"errcode":"WF-S-106","errmsg":"返回可执行操作","result":[{"instruction":"确认，等待物资到货和入库","ispositive":1}]}
+    public static List<Approve> parsingApprove(String result) {
+        Log.e(TAG,"result="+result);
+        List<Approve> approves = new ArrayList<Approve>();
+        try {
+            JSONArray jsonArray = new JSONArray(result);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                Approve approve = new Approve();
+                JSONObject json = jsonArray.getJSONObject(i);
+                String instruction = json.getString("instruction");
+                String ispositive = json.getString("ispositive");
+                approve.setInstruction(instruction);
+                approve.setIspositive(ispositive);
+                approves.add(approve);
+            }
+
+            return approves;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+
     }
 
 
@@ -186,7 +233,6 @@ public class JsonUtils {
     }
 
 
-
     /**
      * 需求计划主表
      */
@@ -234,7 +280,6 @@ public class JsonUtils {
     }
 
 
-
     /**
      * 需求计划行表
      */
@@ -280,7 +325,6 @@ public class JsonUtils {
         }
 
     }
-
 
 
     /**
@@ -705,7 +749,6 @@ public class JsonUtils {
     }
 
 
-
     /**
      * PAYMENTPLAN
      */
@@ -939,14 +982,63 @@ public class JsonUtils {
     }
 
 
-    /**解析获取的权限**/
-    public static  List<String> getApp(String myApp){
-        Log.i(TAG,"myApp="+myApp);
-        List<String> list=new ArrayList<String>();
-        if(null!=myApp){
-            String[] strs=myApp.split(",");
-            for (int i=0;i<strs.length;i++){
-                Log.e(TAG,"strs[i]="+strs[i]);
+    /**
+     * 评分记录
+     */
+    public static ArrayList<COMPSHISTORY> parsingCOMPSHISTORY(String data) {
+        ArrayList<COMPSHISTORY> list = null;
+        COMPSHISTORY compshistory = null;
+        try {
+            JSONArray jsonArray = new JSONArray(data);
+            JSONObject jsonObject;
+            list = new ArrayList<COMPSHISTORY>();
+            for (int i = 0; i < jsonArray.length(); i++) {
+                compshistory = new COMPSHISTORY();
+                jsonObject = jsonArray.getJSONObject(i);
+                Field[] field = compshistory.getClass().getDeclaredFields();        //获取实体类的所有属性，返回Field数组
+                for (int j = 0; j < field.length; j++) {     //遍历所有属性
+                    field[j].setAccessible(true);
+                    String name = field[j].getName();    //获取属性的名字
+                    if (jsonObject.has(name) && jsonObject.getString(name) != null && !jsonObject.getString(name).equals("")) {
+                        try {
+                            // 调用getter方法获取属性值
+                            Method getOrSet = compshistory.getClass().getMethod("get" + name);
+                            Object value = getOrSet.invoke(compshistory);
+                            if (value == null) {
+                                //调用setter方法设属性值
+                                Class[] parameterTypes = new Class[1];
+                                parameterTypes[0] = field[j].getType();
+                                getOrSet = compshistory.getClass().getDeclaredMethod("set" + name, parameterTypes);
+                                getOrSet.invoke(compshistory, jsonObject.getString(name));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                }
+                list.add(compshistory);
+            }
+            return list;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
+
+    /**
+     * 解析获取的权限
+     **/
+    public static List<String> getApp(String myApp) {
+        Log.i(TAG, "myApp=" + myApp);
+        List<String> list = new ArrayList<String>();
+        if (null != myApp) {
+            String[] strs = myApp.split(",");
+            for (int i = 0; i < strs.length; i++) {
+                Log.e(TAG, "strs[i]=" + strs[i]);
                 list.add(strs[i]);
             }
         }

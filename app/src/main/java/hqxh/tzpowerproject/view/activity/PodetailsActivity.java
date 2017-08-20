@@ -1,24 +1,40 @@
 package hqxh.tzpowerproject.view.activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import hqxh.tzpowerproject.R;
+import hqxh.tzpowerproject.api.HttpManager;
+import hqxh.tzpowerproject.api.HttpRequestHandler;
+import hqxh.tzpowerproject.api.JsonUtils;
+import hqxh.tzpowerproject.bean.Approve;
+import hqxh.tzpowerproject.bean.LoginResults;
+import hqxh.tzpowerproject.bean.Results;
 import hqxh.tzpowerproject.constants.Constants;
 import hqxh.tzpowerproject.model.PO;
 import hqxh.tzpowerproject.model.RFQ;
+import hqxh.tzpowerproject.model.WFASSIGNMENT;
+import hqxh.tzpowerproject.until.AccountUtils;
+import hqxh.tzpowerproject.until.MessageUtils;
+import hqxh.tzpowerproject.view.widght.ConfirmDialog;
 
 
 /**
@@ -35,7 +51,9 @@ public class PodetailsActivity extends BaseActivity {
     @Bind(R.id.title_name)
     TextView titleTextView;
 
-    /**菜单按钮**/
+    /**
+     * 菜单按钮
+     **/
     @Bind(R.id.title_add)
     ImageView menuImageView;
 
@@ -89,6 +107,10 @@ public class PodetailsActivity extends BaseActivity {
     TextView emailText;//邮箱地址
     @Bind(R.id.memo_text_id)
     TextView memoText;//询比价情况
+    @Bind(R.id.buttom_linearlayout_id)
+    LinearLayout buttonLinearLayout;
+    @Bind(R.id.btn_workflow_id)
+    Button workflowBtn; //工作流审批
 
 
     private PO po;
@@ -99,10 +121,11 @@ public class PodetailsActivity extends BaseActivity {
     private TextView fkzxqkText; //付款执行情况
     private TextView spjlText; //审批历史
 
+    private int mark;
+    private String app;
+    private String ownertable;
+    private String ownerid;
 
-    /**
-     * 界面信息
-     **/
 
 
     @Override
@@ -117,24 +140,87 @@ public class PodetailsActivity extends BaseActivity {
     }
 
     private void geiIntentData() {
+        if(getIntent().hasExtra("mark")) {
+            mark = getIntent().getExtras().getInt("mark");
+        }
         po = (PO) getIntent().getSerializableExtra("po");
+        if (getIntent().hasExtra("app")) {
+            app = getIntent().getExtras().getString("app");
+        }
+
+        if (getIntent().hasExtra("ownertable")) {
+            ownertable = getIntent().getExtras().getString("ownertable");
+        }
+
+        if (getIntent().hasExtra("ownerid")) {
+            ownerid = getIntent().getExtras().getString("ownerid");
+        }
+
+
     }
 
     @Override
     protected void findViewById() {
         titleTextView.setText(R.string.xq_title);
         menuImageView.setVisibility(View.VISIBLE);
+        if(mark==Constants.TASK_CODE){
+            buttonLinearLayout.setVisibility(View.VISIBLE);
+        }
     }
 
 
     @Override
     protected void initView() {
+
+        if (null == po) {
+            getData(app, ownertable, ownerid);
+        } else {
+            showData();
+        }
+
+
+    }
+
+
+
+
+    private void getData(String app, String ownertable, String ownerid) {
+
+        String url = HttpManager.getPO(app, ownertable, ownerid, AccountUtils.getPersionId(PodetailsActivity.this));
+
+        HttpManager.getDataPagingInfo(PodetailsActivity.this, url, new HttpRequestHandler<Results>() {
+            @Override
+            public void onSuccess(Results results) {
+                Log.i(TAG, "data=" + results);
+            }
+
+            @Override
+            public void onSuccess(Results results, int totalPages, int currentPage) {
+                ArrayList<PO> item = JsonUtils.parsingPO(results.getResultlist());
+                if (item == null || item.isEmpty()) {
+                } else {
+                    po = item.get(0);
+                    showData();
+                }
+            }
+
+            @Override
+            public void onFailure(String error) {
+            }
+        });
+
+
+    }
+
+
+    //显示数据
+    private void showData() {
         ponumText.setText(po.getPONUM());
         podescriptionText.setText(po.getDESCRIPTION());
         pogenreText.setText(po.getPOGENRE());
-        if(po.getISHTBH().equals("0")){
+        if (null == po.getISHTBH() || po.getISHTBH().equals("0")) {
             ishtbhText.setChecked(false);
-        }else{
+        } else {
             ishtbhText.setChecked(true);
         }
         connumText.setText(po.getCONNUM());
@@ -157,8 +243,8 @@ public class PodetailsActivity extends BaseActivity {
         cellphoneText.setText(po.getVENDOR_CONTACT_CELLPHONE());
         emailText.setText(po.getVENDOR_CONTACT_EMAIL());
         memoText.setText(po.getMEMO());
-
     }
+
 
     //返回按钮
     @OnClick(R.id.title_back_id)
@@ -168,11 +254,16 @@ public class PodetailsActivity extends BaseActivity {
 
     //菜单按钮
     @OnClick(R.id.title_add)
-    void setMenuImageView(){
+    void setMenuImageView() {
         showPopupWindow(menuImageView);
     }
 
-
+    //审批按钮
+    @OnClick(R.id.btn_workflow_id)
+    void setOnClick() {
+        Log.e(TAG,"启动工作流");
+        PostStart();
+    }
     /**
      * 初始化showPopupWindow*
      */
@@ -191,8 +282,6 @@ public class PodetailsActivity extends BaseActivity {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-
-
                 return false;
             }
         });
@@ -217,54 +306,141 @@ public class PodetailsActivity extends BaseActivity {
         spjlText.setOnClickListener(spjlTextOnClickListener);
     }
 
-    private View.OnClickListener cgdTextOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener cgdTextOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-            Intent intent =new Intent(PodetailsActivity.this,PoLineListActivity.class);
-            intent.putExtra("ponum",po.getPONUM());
-            startActivityForResult(intent,0);
-        }
-    };
-    private View.OnClickListener htwbTextOnClickListener=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            popupWindow.dismiss();
-            Intent intent =new Intent(PodetailsActivity.this,DoclinksListActivity.class);
-            intent.putExtra("title",getResources().getString(R.string.htwb_text));
-            intent.putExtra("ownertable",Constants.PO_NAME);
-            intent.putExtra("ownerid",po.getPOID());
-            startActivityForResult(intent,0);
-        }
-    };
-    private View.OnClickListener fkjhTextOnClickListener=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            popupWindow.dismiss();
-            Intent intent =new Intent(PodetailsActivity.this,PaymentplanListActivity.class);
+            Intent intent = new Intent(PodetailsActivity.this, PoLineListActivity.class);
             intent.putExtra("ponum", po.getPONUM());
-            startActivityForResult(intent,0);
+            startActivityForResult(intent, 0);
         }
     };
-    private View.OnClickListener fkzxqkTextOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener htwbTextOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-            Intent intent =new Intent(PodetailsActivity.this,PayapproveItemListActivity.class);
+            Intent intent = new Intent(PodetailsActivity.this, DoclinksListActivity.class);
+            intent.putExtra("title", getResources().getString(R.string.htwb_text));
+            intent.putExtra("ownertable", Constants.PO_NAME);
+            intent.putExtra("ownerid", po.getPOID());
+            startActivityForResult(intent, 0);
+        }
+    };
+    private View.OnClickListener fkjhTextOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            popupWindow.dismiss();
+            Intent intent = new Intent(PodetailsActivity.this, PaymentplanListActivity.class);
             intent.putExtra("ponum", po.getPONUM());
-            startActivityForResult(intent,0);
+            startActivityForResult(intent, 0);
+        }
+    };
+    private View.OnClickListener fkzxqkTextOnClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            popupWindow.dismiss();
+            Intent intent = new Intent(PodetailsActivity.this, PayapproveItemListActivity.class);
+            intent.putExtra("ponum", po.getPONUM());
+            startActivityForResult(intent, 0);
         }
     };
 
-    private View.OnClickListener spjlTextOnClickListener=new View.OnClickListener() {
+    private View.OnClickListener spjlTextOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             popupWindow.dismiss();
-            Intent intent =new Intent(PodetailsActivity.this,WftransactionListActivity.class);
-            intent.putExtra("ownertable",Constants.PO_NAME);
-            intent.putExtra("ownerid",po.getPOID());
-            startActivityForResult(intent,0);
+            Intent intent = new Intent(PodetailsActivity.this, WftransactionListActivity.class);
+            intent.putExtra("ownertable", Constants.PO_NAME);
+            intent.putExtra("ownerid", po.getPOID());
+            startActivityForResult(intent, 0);
         }
     };
+
+
+    //启动工作流
+    private void PostStart()
+    {
+
+        HttpManager.postStart(PodetailsActivity.this, Constants.PO_NAME, po.getPOID(), Constants.PO_APPID, AccountUtils.getUserName(PodetailsActivity.this), new HttpRequestHandler<String>() {
+            @Override
+            public void onSuccess(String data) {
+                Log.e(TAG,"data="+data);
+                LoginResults loginResults=JsonUtils.parsingWorkFlow(data);
+                if(loginResults.getErrcode().equals(Constants.WORKFLOW_106)){
+                    List<Approve> list=JsonUtils.parsingApprove(loginResults.getResult());
+                    showDialog(list);
+                }
+
+            }
+
+            @Override
+            public void onSuccess(String data, int totalPages, int currentPage) {
+                Log.e(TAG,"111="+data);
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e(TAG,"error="+error);
+
+            }
+        });
+
+    }
+
+
+
+
+    //弹出对话框
+    public void showDialog(List<Approve> results) {//
+
+        ConfirmDialog.Builder dialog = new ConfirmDialog.Builder(this);
+        dialog.setTitle("审批")
+                .setData(results)
+                .setPositiveButton("确定", new ConfirmDialog.Builder.cOnClickListener() {
+                    @Override
+                    public void cOnClickListener(DialogInterface dialogInterface, Approve result, String memo) {
+                        dialogInterface.dismiss();
+                        PostApproval(Constants.PO_NAME, po.getPOID(), memo, result.getIspositive(), AccountUtils.getPersionId(PodetailsActivity.this));
+                    }
+
+
+                }).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        }).create().show();
+    }
+
+
+
+    //审批工作流
+    private void PostApproval( String ownertable,  String ownerid,  String memo,  String selectWhat,  String useruid)
+    {
+
+        HttpManager.approvalFlow(PodetailsActivity.this,ownertable, ownerid, memo, selectWhat, useruid, new HttpRequestHandler<String>() {
+            @Override
+            public void onSuccess(String data) {
+                Log.e(TAG,"data="+data);
+                LoginResults loginResults=JsonUtils.parsingWorkFlow(data);
+                MessageUtils.showMiddleToast(PodetailsActivity.this,loginResults.getErrmsg());
+                finish();
+            }
+
+            @Override
+            public void onSuccess(String data, int totalPages, int currentPage) {
+                Log.e(TAG,"111="+data);
+
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Log.e(TAG,"error="+error);
+
+            }
+        });
+
+    }
 
 }
